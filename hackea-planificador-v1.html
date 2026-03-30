@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hackea — Planificador de Proyectos</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#0090F8;--blue-light:#e6f4ff;--blue-mid:#b3deff;
+  --text:#2A2A2A;--body:#404040;--bg:#EBECF0;--surface:#F3F3F3;
+  --white:#FFFFFF;--muted:#888;--border:#d4d6db;
+  --red:#e74c3c;--green:#27ae60;--orange:#f39c12;--purple:#8e44ad;
+  --stage-di:#3498db;--stage-guion:#9b59b6;--stage-digital:#27ae60;
+  --stage-qa:#e67e22;--stage-rev:#e74c3c;--stage-cliente:#1abc9c;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+header{background:var(--white);border-bottom:2px solid var(--blue);padding:13px 26px;display:flex;align-items:center;gap:13px;position:sticky;top:0;z-index:300;box-shadow:0 2px 12px rgba(0,144,248,.08);}
+.logo-text{font-weight:900;font-size:20px;letter-spacing:-.5px;} .logo-text span{color:var(--blue);}
+.hdiv{width:2px;height:28px;background:var(--blue);margin:0 5px;}
+.htitle{font-size:12px;font-weight:600;color:var(--body);}
+.hbadge{margin-left:auto;background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;}
+
+.tabs{display:flex;gap:2px;padding:18px 26px 0;background:var(--white);border-bottom:1px solid var(--border);}
+.tab{padding:9px 16px;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;border:none;background:none;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;margin-bottom:-1px;}
+.tab:hover{color:var(--blue);} .tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+
+.main{max-width:1320px;margin:0 auto;padding:26px;}
+.panel{display:none;} .panel.active{display:block;}
+
+.stitle{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:13px;display:flex;align-items:center;gap:8px;}
+.stitle::after{content:'';flex:1;height:1px;background:var(--blue-mid);}
+
+.card{background:var(--white);border-radius:12px;padding:20px;margin-bottom:18px;border:1px solid var(--border);position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--blue);border-radius:12px 0 0 12px;}
+
+label{display:block;font-size:10px;font-weight:700;color:var(--body);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px;}
+input[type=number],input[type=text],input[type=date],select{width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:7px;font-family:'Poppins',sans-serif;font-size:12px;color:var(--text);background:var(--surface);transition:border-color .2s;outline:none;}
+input:focus,select:focus{border-color:var(--blue);background:var(--white);}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12px;}
+.tbl th{text-align:left;padding:7px 10px;font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.7px;border-bottom:2px solid var(--blue-mid);background:var(--blue-light);}
+.tbl td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.tbl tr:hover td{background:var(--surface);}
+.tbl .tfoot td{font-weight:700;border-top:2px solid var(--blue-mid);border-bottom:none;color:var(--blue);background:var(--blue-light);}
+.tbl input,.tbl select{padding:4px 7px;font-size:11px;}
+
+.badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700;}
+.badge-cl{background:#e3f2fd;color:#1565c0;} .badge-mx{background:#fff3e0;color:#e65100;}
+.badge-es{background:#fce4ec;color:#c62828;} .badge-ve{background:#f3e5f5;color:#6a1b9a;}
+.badge-co{background:#e8f5e9;color:#2e7d32;} .badge-ar{background:#e0f7fa;color:#00695c;}
+
+.alert{padding:9px 13px;border-radius:7px;font-size:11px;margin-bottom:13px;display:flex;align-items:flex-start;gap:7px;}
+.alert-blue{background:var(--blue-light);color:var(--blue);border:1px solid var(--blue-mid);}
+.alert-green{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;}
+.alert-orange{background:#fff8e1;color:#e65100;border:1px solid #ffe082;}
+
+.btn{padding:8px 16px;border-radius:7px;font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;border:none;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:5px;}
+.btn-primary{background:var(--blue);color:#fff;}
+.btn-primary:hover{background:#007ad6;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,144,248,.3);}
+.btn-outline{background:transparent;color:var(--blue);border:2px solid var(--blue);}
+.btn-outline:hover{background:var(--blue-light);}
+.btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--border);font-size:10px;padding:4px 9px;}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
+.btn-danger{background:transparent;color:var(--red);border:1.5px solid var(--red);font-size:10px;padding:3px 8px;border-radius:6px;}
+.btn-danger:hover{background:#fde8e8;}
+.btn-big{padding:14px 28px;font-size:14px;border-radius:10px;}
+
+.flex{display:flex;} .ic{align-items:center;} .jb{justify-content:space-between;}
+.gap8{gap:8px;} .gap12{gap:12px;} .gap16{gap:16px;}
+.mb8{margin-bottom:8px;} .mb14{margin-bottom:14px;} .mb18{margin-bottom:18px;}
+.text-blue{color:var(--blue);font-weight:700;} .text-muted{font-size:10px;color:var(--muted);}
+.fw7{font-weight:700;}
+
+/* TIMEZONE PANEL */
+.tz-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:18px;}
+.tz-card{background:var(--surface);border:1.5px solid var(--border);border-radius:9px;padding:12px;text-align:center;}
+.tz-flag{font-size:22px;margin-bottom:4px;}
+.tz-city{font-size:11px;font-weight:700;color:var(--text);}
+.tz-offset{font-size:10px;color:var(--muted);}
+.tz-time{font-size:18px;font-weight:900;color:var(--blue);margin:4px 0;}
+.tz-overlap{font-size:9px;background:#e8f5e9;color:#2e7d32;padding:2px 6px;border-radius:10px;font-weight:700;}
+
+/* GANTT */
+.gantt-wrap{overflow-x:auto;margin-top:8px;}
+.gantt-container{min-width:900px;}
+.gantt-header{display:flex;background:var(--blue-light);border-radius:8px 8px 0 0;overflow:hidden;}
+.gantt-person-col{width:180px;flex-shrink:0;padding:8px 12px;font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;border-right:2px solid var(--blue-mid);}
+.gantt-days-header{flex:1;display:flex;}
+.gantt-day-h{flex:1;min-width:22px;text-align:center;font-size:9px;font-weight:700;color:var(--body);padding:4px 0;border-right:1px solid var(--blue-mid);}
+.gantt-day-h.weekend{background:#f5f5f5;color:var(--muted);}
+.gantt-day-h.holiday{background:#fde8e8;color:var(--red);}
+.gantt-day-h.today{background:var(--blue);color:#fff;}
+
+.gantt-row{display:flex;border-bottom:1px solid var(--border);min-height:36px;}
+.gantt-row:hover{background:rgba(0,144,248,.02);}
+.gantt-person{width:180px;flex-shrink:0;padding:8px 12px;border-right:2px solid var(--blue-mid);display:flex;flex-direction:column;justify-content:center;}
+.gantt-person-name{font-size:11px;font-weight:700;color:var(--text);}
+.gantt-person-role{font-size:9px;color:var(--muted);}
+.gantt-cells{flex:1;display:flex;position:relative;}
+.gantt-cell{flex:1;min-width:22px;border-right:1px solid var(--border);position:relative;}
+.gantt-cell.weekend{background:#fafafa;}
+.gantt-cell.holiday{background:#fff5f5;}
+.gantt-cell.today-col{background:rgba(0,144,248,.06);}
+
+.gantt-bar{position:absolute;top:6px;height:22px;border-radius:5px;display:flex;align-items:center;padding:0 6px;font-size:9px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:2;cursor:pointer;transition:opacity .2s;}
+.gantt-bar:hover{opacity:.85;}
+.bar-di{background:var(--stage-di);}
+.bar-guion{background:var(--stage-guion);}
+.bar-digital{background:var(--stage-digital);}
+.bar-qa{background:var(--stage-qa);}
+.bar-rev-interna{background:#e67e22;}
+.bar-rev-cliente{background:var(--stage-cliente);}
+
+/* ETAPAS LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;color:var(--body);}
+.legend-dot{width:12px;height:12px;border-radius:3px;}
+
+/* RESULTADO CARDS */
+.res-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px;}
+.res-card{background:var(--white);border:1.5px solid var(--border);border-radius:11px;padding:16px;text-align:center;}
+.res-card.hl{background:var(--blue);border-color:var(--blue);}
+.res-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:5px;}
+.res-val{font-size:20px;font-weight:900;color:var(--text);line-height:1;margin-bottom:2px;}
+.res-card.hl .res-label,.res-card.hl .res-sub{color:rgba(255,255,255,.75);}
+.res-card.hl .res-val{color:#fff;}
+.res-sub{font-size:9px;color:var(--muted);}
+
+/* ETAPAS CONFIG */
+.etapa-row{display:grid;grid-template-columns:24px 180px 1fr 100px 120px 140px 100px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);}
+.etapa-row:last-child{border-bottom:none;}
+.etapa-dot-big{width:14px;height:14px;border-radius:4px;flex-shrink:0;}
+
+/* COPY BOX */
+.copy-box{background:var(--surface);border:1.5px solid var(--border);border-radius:9px;padding:16px;font-size:12px;line-height:1.7;color:var(--body);white-space:pre-wrap;font-family:'Poppins',sans-serif;}
+
+/* MONTH HEADER */
+.gantt-month-row{display:flex;background:#f0f7ff;}
+.gantt-month-spacer{width:180px;flex-shrink:0;border-right:2px solid var(--blue-mid);}
+.gantt-month-cell{text-align:center;font-size:9px;font-weight:700;color:var(--blue);padding:3px 0;border-right:1px solid var(--blue-mid);background:#dbeeff;}
+
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--surface);}
+::-webkit-scrollbar-thumb{background:var(--blue-mid);border-radius:3px;}
+
+@media(max-width:768px){.main{padding:12px;}.grid2,.grid3,.grid4{grid-template-columns:1fr;}.tz-grid{grid-template-columns:repeat(3,1fr);}.res-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+
+<header>
+  <svg width="32" height="32" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="17" stroke="#0090F8" stroke-width="2"/><circle cx="19" cy="19" r="11" stroke="#0090F8" stroke-width="1.5"/><circle cx="19" cy="19" r="5" stroke="#0090F8" stroke-width="1.5"/><circle cx="19" cy="19" r="2" fill="#0090F8"/><line x1="19" y1="2" x2="19" y2="8" stroke="#0090F8" stroke-width="1.5"/><line x1="19" y1="30" x2="19" y2="36" stroke="#0090F8" stroke-width="1.5"/><line x1="2" y1="19" x2="8" y2="19" stroke="#0090F8" stroke-width="1.5"/><line x1="30" y1="19" x2="36" y2="19" stroke="#0090F8" stroke-width="1.5"/></svg>
+  <div class="logo-text">HACK<span>EA</span></div>
+  <div class="hdiv"></div>
+  <div class="htitle">Planificador de Proyectos — Equipo Distribuido</div>
+  <div class="hbadge">v1.0</div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="showPanel('equipo',this)">① Equipo Global</button>
+  <button class="tab" onclick="showPanel('proyecto',this)">② Proyecto &amp; Etapas</button>
+  <button class="tab" onclick="showPanel('planificacion',this)">③ Planificación</button>
+  <button class="tab" onclick="showPanel('entrega',this)">④ Resumen para Cliente</button>
+</div>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════
+     PANEL 1: EQUIPO GLOBAL
+══════════════════════════════════════════ -->
+<div id="panel-equipo" class="panel active">
+
+  <!-- Zonas horarias live -->
+  <div class="stitle">Zonas Horarias del Equipo</div>
+  <div class="tz-grid" id="tz-grid"></div>
+
+  <!-- Equipo -->
+  <div class="flex ic jb mb14">
+    <div class="stitle" style="margin:0;flex:1">Integrantes del Equipo</div>
+    <button class="btn btn-outline" style="font-size:10px;padding:6px 12px" onclick="addPersona()">+ Agregar persona</button>
+  </div>
+  <div class="card">
+    <table class="tbl">
+      <thead><tr>
+        <th>Nombre</th><th>País</th><th>Roles asignados</th>
+        <th>Disponibilidad %</th><th>Hrs/día efectivas</th><th>Feriados 2026</th><th></th>
+      </tr></thead>
+      <tbody id="equipo-body"></tbody>
+    </table>
+  </div>
+
+  <!-- Feriados resumen -->
+  <div class="stitle">Feriados por País — 2026</div>
+  <div class="grid3" id="feriados-resumen"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PANEL 2: PROYECTO & ETAPAS
+══════════════════════════════════════════ -->
+<div id="panel-proyecto" class="panel">
+
+  <div class="stitle">Datos del Proyecto</div>
+  <div class="card mb18">
+    <div class="grid4" style="margin-bottom:14px">
+      <div><label>Nombre del proyecto</label><input type="text" id="p-nombre" placeholder="ej. MBA Universidad Mayor"></div>
+      <div><label>Cliente</label><input type="text" id="p-cliente" placeholder="ej. Universidad Mayor"></div>
+      <div><label>Fecha de inicio</label><input type="date" id="p-inicio" onchange="recalcFechas()"></div>
+      <div><label>Total horas de producción estimadas</label><input type="number" id="p-horas-total" value="200" min="1" onchange="recalcFechas()"></div>
+    </div>
+    <div class="grid4">
+      <div><label>N° de módulos</label><input type="number" id="p-modulos" value="4" min="1" onchange="recalcFechas()"></div>
+      <div><label>¿Revisión de cliente activa?</label>
+        <select id="p-rev-cliente" onchange="toggleRevCliente()">
+          <option value="0">No — cliente confía en Hackea</option>
+          <option value="1">Sí — cliente revisa cada etapa</option>
+          <option value="2">Sí — solo revisa entrega final</option>
+        </select>
+      </div>
+      <div><label>Días hábiles revisión cliente</label><input type="number" id="p-dias-rev" value="3" min="1" max="10" onchange="recalcFechas()"></div>
+      <div><label>Buffer imprevistos (días hábiles)</label><input type="number" id="p-buffer" value="2" min="0" onchange="recalcFechas()"></div>
+    </div>
+  </div>
+
+  <!-- Etapas del flujo -->
+  <div class="stitle">Flujo de Producción &amp; Etapas</div>
+  <div class="card">
+    <div class="alert alert-blue mb14">
+      💡 Define qué % del total de horas corresponde a cada etapa, quién la ejecuta y si requiere aprobación antes de continuar. Las etapas son <strong>secuenciales</strong> — cada una empieza cuando la anterior está aprobada.
+    </div>
+
+    <div class="etapa-row" style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.7px;border-bottom:2px solid var(--blue-mid);">
+      <div></div><div>Etapa</div><div>Responsable principal</div><div>% horas</div><div>Horas calc.</div><div>¿Requiere aprobación?</div><div>Días aprob.</div>
+    </div>
+    <div id="etapas-body"></div>
+
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:20px;flex-wrap:wrap">
+      <span class="text-muted">Total % asignado: <strong id="pct-total" style="color:var(--text)">0%</strong></span>
+      <span class="text-muted">Total horas: <strong id="horas-total-check" style="color:var(--blue)">0 h</strong></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PANEL 3: PLANIFICACIÓN (GANTT)
+══════════════════════════════════════════ -->
+<div id="panel-planificacion" class="panel">
+
+  <div class="res-grid" id="res-kpis"></div>
+
+  <div class="legend" id="gantt-legend"></div>
+
+  <div class="stitle">Gantt de Producción</div>
+  <div class="card" style="padding:16px">
+    <div class="gantt-wrap">
+      <div class="gantt-container" id="gantt-container"></div>
+    </div>
+  </div>
+
+  <!-- Advertencias feriados -->
+  <div id="feriados-alert"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PANEL 4: RESUMEN PARA CLIENTE
+══════════════════════════════════════════ -->
+<div id="panel-entrega" class="panel">
+  <div class="stitle">Resumen Ejecutivo del Proyecto</div>
+  <div class="card mb18">
+    <div class="grid2">
+      <div>
+        <div class="grid2" style="margin-bottom:14px">
+          <div><label>Nombre contacto cliente</label><input type="text" id="c-nombre" placeholder="ej. Dr. Rodrigo Vera"></div>
+          <div><label>Institución</label><input type="text" id="c-institucion" value="" placeholder="ej. Universidad Mayor"></div>
+        </div>
+        <div class="grid2">
+          <div><label>Tono del mensaje</label>
+            <select id="c-tono">
+              <option value="formal">Formal</option>
+              <option value="cercano">Cercano y profesional</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn btn-primary" style="width:100%" onclick="generarTexto()">✨ Generar texto</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="res-grid" style="grid-template-columns:1fr 1fr;gap:10px;margin-bottom:0" id="res-kpis-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stitle">Texto para el Cliente</div>
+  <div class="card">
+    <div id="texto-cliente" class="copy-box">Completa los datos del proyecto y haz clic en "Generar texto".</div>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button class="btn btn-outline" onclick="copiarTexto()">📋 Copiar al portapapeles</button>
+    </div>
+  </div>
+
+  <!-- Hitos -->
+  <div class="stitle">Hitos del Proyecto</div>
+  <div class="card">
+    <table class="tbl" id="tabla-hitos">
+      <thead><tr><th>#</th><th>Hito</th><th>Responsable</th><th>Fecha estimada</th><th>Estado</th></tr></thead>
+      <tbody id="hitos-body"></tbody>
+    </table>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ══════════════════════════════════ FERIADOS 2025-2026 ══════════════════════════════════
+const FERIADOS = {
+  CL: {
+    nombre:'Chile', flag:'🇨🇱', ciudad:'Santiago', tz:'America/Santiago', offset:-3,
+    dias:['2026-01-01','2026-04-03','2026-04-04','2026-05-01','2026-05-21','2026-06-08',
+          '2026-06-29','2026-07-16','2026-08-15','2026-09-18','2026-09-19','2026-10-12',
+          '2026-10-27','2026-11-01','2026-11-02','2026-12-08','2026-12-25']
+  },
+  MX: {
+    nombre:'México', flag:'🇲🇽', ciudad:'Ciudad de México', tz:'America/Mexico_City', offset:-6,
+    dias:['2026-01-01','2026-02-02','2026-03-16','2026-04-02','2026-04-03','2026-05-01',
+          '2026-09-16','2026-11-02','2026-11-16','2026-12-25']
+  },
+  ES: {
+    nombre:'España', flag:'🇪🇸', ciudad:'Madrid', tz:'Europe/Madrid', offset:1,
+    dias:['2026-01-01','2026-01-06','2026-04-02','2026-04-03','2026-05-01','2026-05-15',
+          '2026-07-25','2026-08-15','2026-10-12','2026-11-01','2026-11-09','2026-12-06',
+          '2026-12-08','2026-12-25']
+  },
+  VE: {
+    nombre:'Venezuela', flag:'🇻🇪', ciudad:'Caracas', tz:'America/Caracas', offset:-4,
+    dias:['2026-01-01','2026-02-16','2026-02-17','2026-04-02','2026-04-03','2026-04-19',
+          '2026-05-01','2026-06-24','2026-07-05','2026-07-24','2026-10-12','2026-12-25']
+  },
+  CO: {
+    nombre:'Colombia', flag:'🇨🇴', ciudad:'Bogotá', tz:'America/Bogota', offset:-5,
+    dias:['2026-01-01','2026-01-12','2026-03-23','2026-04-02','2026-04-03','2026-05-01',
+          '2026-05-18','2026-06-08','2026-06-15','2026-07-04','2026-07-20','2026-08-07',
+          '2026-08-17','2026-10-12','2026-11-02','2026-11-16','2026-12-08','2026-12-25']
+  },
+  AR: {
+    nombre:'Argentina', flag:'🇦🇷', ciudad:'Buenos Aires', tz:'America/Argentina/Buenos_Aires', offset:-3,
+    dias:['2026-01-01','2026-02-16','2026-02-17','2026-03-24','2026-04-02','2026-04-03',
+          '2026-05-01','2026-05-25','2026-06-15','2026-07-09','2026-08-17','2026-10-12',
+          '2026-11-23','2026-12-08','2026-12-25']
+  }
+};
+
+const ROLES_DISP = ['Diseñadora Instruccional IA','Líder Producción / DI Senior','Revisión de Contenidos',
+  'Diseñador/a E-Learning','QA / Revisión técnica','Narrador/a','Gestión / Coordinación'];
+
+const ETAPAS_DEF = [
+  {id:'di',   nombre:'Diseño Instruccional',  color:'#3498db', pct:20, rol:'Diseñadora Instruccional IA', aprobacion:true,  diasAprobacion:2},
+  {id:'guion',nombre:'Guionización',           color:'#9b59b6', pct:15, rol:'Líder Producción / DI Senior',aprobacion:true,  diasAprobacion:2},
+  {id:'digital',nombre:'Digitalización',       color:'#27ae60', pct:50, rol:'Diseñador/a E-Learning',      aprobacion:false, diasAprobacion:0},
+  {id:'qa',   nombre:'QA / Revisión interna',  color:'#e67e22', pct:10, rol:'QA / Revisión técnica',       aprobacion:false, diasAprobacion:0},
+  {id:'cierre',nombre:'Cierre y entrega',      color:'#1abc9c', pct:5,  rol:'Gestión / Coordinación',      aprobacion:false, diasAprobacion:0},
+];
+
+let personas = [
+  {id:1, nombre:'Naty',   pais:'CL', roles:['Gestión / Coordinación','Revisión de Contenidos'], disp:100, hpd:8},
+  {id:2, nombre:'Maibe',  pais:'CL', roles:['Líder Producción / DI Senior','QA / Revisión técnica'], disp:100, hpd:8},
+  {id:3, nombre:'Liss',   pais:'CL', roles:['Revisión de Contenidos'], disp:33, hpd:2.6},
+  {id:4, nombre:'Merlym', pais:'MX', roles:['Diseñadora Instruccional IA'], disp:100, hpd:8},
+  {id:5, nombre:'Dev 1',  pais:'VE', roles:['Diseñador/a E-Learning'], disp:100, hpd:8},
+  {id:6, nombre:'Dev 2',  pais:'CO', roles:['Diseñador/a E-Learning'], disp:100, hpd:8},
+];
+let nextPid = 20;
+let etapas = JSON.parse(JSON.stringify(ETAPAS_DEF));
+let planResult = null;
+
+// ══════════════════════════════════ HELPERS FECHA ══════════════════════════════════
+function parseDate(s){ const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
+function formatDate(d){ return d.toISOString().slice(0,10); }
+function formatDateHuman(s){
+  if(!s) return '—';
+  const d=parseDate(s);
+  const meses=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return `${d.getDate()} ${meses[d.getMonth()]} ${d.getFullYear()}`;
+}
+function formatDateFull(s){
+  if(!s) return '—';
+  const d=parseDate(s);
+  const meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const dias=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  return `${dias[d.getDay()]} ${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
+}
+
+function isWeekend(d){ const day=d.getDay(); return day===0||day===6; }
+function isHolidayPais(dateStr, pais){ return (FERIADOS[pais]?.dias||[]).includes(dateStr); }
+function isHolidayPersona(dateStr, persona){ return isHolidayPais(dateStr, persona.pais); }
+
+function isWorkday(dateStr, persona){
+  const d = parseDate(dateStr);
+  return !isWeekend(d) && !isHolidayPersona(dateStr, persona);
+}
+
+// Avanzar N días hábiles desde fecha (para una persona específica)
+function addWorkdays(startStr, n, persona){
+  let d = parseDate(startStr);
+  let count = 0;
+  while(count < n){
+    d.setDate(d.getDate()+1);
+    const ds = formatDate(d);
+    if(isWorkday(ds, persona)) count++;
+  }
+  return formatDate(d);
+}
+
+// Calcular fecha fin dado fecha inicio, horas, y persona
+function calcEndDate(startStr, horas, persona){
+  let d = parseDate(startStr);
+  let remaining = horas;
+  let iter = 0;
+  while(remaining > 0 && iter < 500){
+    const ds = formatDate(d);
+    if(isWorkday(ds, persona)){
+      remaining -= Math.min(persona.hpd*(persona.disp/100), remaining);
+    }
+    if(remaining > 0) d.setDate(d.getDate()+1);
+    iter++;
+  }
+  return formatDate(d);
+}
+
+function diffWorkdays(startStr, endStr, persona){
+  let d = parseDate(startStr);
+  const end = parseDate(endStr);
+  let count = 0;
+  while(d <= end){
+    if(isWorkday(formatDate(d), persona)) count++;
+    d.setDate(d.getDate()+1);
+  }
+  return count;
+}
+
+function diffCalDays(startStr, endStr){
+  const a=parseDate(startStr), b=parseDate(endStr);
+  return Math.round((b-a)/(1000*60*60*24));
+}
+
+// ══════════════════════════════════ ZONAS HORARIAS ══════════════════════════════════
+function renderTZ(){
+  const grid = document.getElementById('tz-grid');
+  const now = new Date();
+  grid.innerHTML = '';
+  const paisesActivos = [...new Set(personas.map(p=>p.pais))];
+  paisesActivos.forEach(pais=>{
+    const tz = FERIADOS[pais];
+    if(!tz) return;
+    let timeStr = '—';
+    try{ timeStr = now.toLocaleTimeString('es-CL',{timeZone:tz.tz,hour:'2-digit',minute:'2-digit'}); }catch(e){}
+    grid.innerHTML += `<div class="tz-card">
+      <div class="tz-flag">${tz.flag}</div>
+      <div class="tz-city">${tz.ciudad}</div>
+      <div class="tz-offset">UTC${tz.offset>=0?'+':''}${tz.offset}</div>
+      <div class="tz-time" id="tz-${pais}">${timeStr}</div>
+      <div class="tz-overlap">Overlap CL: ${calcOverlap(pais)}</div>
+    </div>`;
+  });
+}
+
+function calcOverlap(pais){
+  const cl = FERIADOS['CL'].offset;
+  const target = FERIADOS[pais]?.offset || cl;
+  const diff = target - cl;
+  // Jornada CL: 9-18. Overlap con target
+  const startCL=9, endCL=18;
+  const startT=startCL+diff, endT=endCL+diff;
+  const overlapStart=Math.max(9,startT), overlapEnd=Math.min(18,endT);
+  if(overlapEnd<=overlapStart) return 'Sin overlap';
+  return `${overlapStart}:00–${overlapEnd}:00 (${overlapEnd-overlapStart}h)`;
+}
+
+setInterval(renderTZ, 60000);
+
+// ══════════════════════════════════ RENDER EQUIPO ══════════════════════════════════
+function renderEquipo(){
+  const tbody = document.getElementById('equipo-body');
+  tbody.innerHTML = '';
+  personas.forEach(p=>{
+    const tz = FERIADOS[p.pais];
+    const feriadosN = (FERIADOS[p.pais]?.dias||[]).length;
+    const rolesOpts = ROLES_DISP.map(r=>`<option value="${r}" ${p.roles.includes(r)?'selected':''}>${r}</option>`).join('');
+    const paisOpts = Object.entries(FERIADOS).map(([k,v])=>`<option value="${k}" ${p.pais===k?'selected':''}>${v.flag} ${v.nombre}</option>`).join('');
+    const hpd = (8*(p.disp/100)).toFixed(1);
+    tbody.innerHTML+=`<tr>
+      <td><input type="text" value="${p.nombre}" style="width:90px" onchange="personas.find(x=>x.id==${p.id}).nombre=this.value;renderEquipo()"></td>
+      <td>
+        <select style="width:130px" onchange="personas.find(x=>x.id==${p.id}).pais=this.value;renderEquipo();renderTZ();renderFeriados()">${paisOpts}</select>
+      </td>
+      <td>
+        <select multiple style="width:220px;height:54px;font-size:10px" onchange="personas.find(x=>x.id==${p.id}).roles=Array.from(this.selectedOptions).map(o=>o.value);renderEtapas()">${rolesOpts}</select>
+        <div class="text-muted">Ctrl+clic para múltiples</div>
+      </td>
+      <td>
+        <input type="number" value="${p.disp}" min="10" max="100" step="5" style="width:65px"
+          onchange="personas.find(x=>x.id==${p.id}).disp=parseInt(this.value)||100;personas.find(x=>x.id==${p.id}).hpd=parseFloat((8*parseInt(this.value)/100).toFixed(1));renderEquipo()"> %
+      </td>
+      <td><strong class="text-blue">${(8*p.disp/100).toFixed(1)} h</strong></td>
+      <td><span class="badge badge-${p.pais.toLowerCase()}">${tz?.flag||''} ${feriadosN} días</span></td>
+      <td><button class="btn btn-danger" onclick="delPersona(${p.id})">✕</button></td>
+    </tr>`;
+  });
+  renderEtapas();
+}
+
+function addPersona(){
+  const id=nextPid++;
+  personas.push({id,nombre:'Nuevo',pais:'CL',roles:[],disp:100,hpd:8});
+  renderEquipo();
+}
+function delPersona(id){ personas=personas.filter(p=>p.id!==id); renderEquipo(); renderTZ(); }
+
+// ══════════════════════════════════ FERIADOS RESUMEN ══════════════════════════════════
+function renderFeriados(){
+  const cont = document.getElementById('feriados-resumen');
+  cont.innerHTML = '';
+  Object.entries(FERIADOS).forEach(([pais,data])=>{
+    const meses=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const porMes = Array(12).fill(0);
+    data.dias.forEach(d=>{ const m=parseInt(d.split('-')[1])-1; porMes[m]++; });
+    const bars = porMes.map((n,i)=>n>0?`<span style="display:inline-block;width:22px;text-align:center;font-size:9px;background:var(--blue-light);color:var(--blue);border-radius:3px;padding:1px 0;margin:1px">${meses[i]}<br><strong>${n}</strong></span>`:'').join('');
+    cont.innerHTML+=`<div class="card" style="padding:14px">
+      <div class="flex ic gap8 mb8"><span style="font-size:18px">${data.flag}</span><strong>${data.nombre}</strong><span class="badge badge-${pais.toLowerCase()}">${data.dias.length} feriados</span></div>
+      <div style="flex-wrap:wrap;display:flex;gap:2px">${bars}</div>
+    </div>`;
+  });
+}
+
+// ══════════════════════════════════ RENDER ETAPAS ══════════════════════════════════
+function renderEtapas(){
+  const cont = document.getElementById('etapas-body');
+  cont.innerHTML='';
+  let totalPct=0, totalH=0;
+  const horasTotal = parseFloat(document.getElementById('p-horas-total')?.value)||200;
+
+  etapas.forEach((et,i)=>{
+    const h = Math.round(horasTotal*et.pct/100);
+    totalPct+=et.pct; totalH+=h;
+    // Responsables disponibles
+    const resps = personas.filter(p=>p.roles.includes(et.rol));
+    const respOpts = resps.map(p=>`<option value="${p.id}" selected>${p.nombre} (${FERIADOS[p.pais]?.flag||''})</option>`).join('') ||
+      `<option value="">— Sin asignar —</option>`;
+    // Todos para select
+    const allOpts = personas.map(p=>`<option value="${p.id}" ${p.roles.includes(et.rol)?'selected':''}>${p.nombre}</option>`).join('');
+
+    cont.innerHTML+=`<div class="etapa-row">
+      <div class="etapa-dot-big" style="background:${et.color}"></div>
+      <div><strong style="font-size:12px">${et.nombre}</strong><br><span class="text-muted">${et.rol}</span></div>
+      <div>
+        <select style="width:160px;font-size:11px" id="et-resp-${et.id}">${allOpts}</select>
+      </div>
+      <div>
+        <input type="number" value="${et.pct}" min="1" max="100" style="width:55px"
+          onchange="etapas[${i}].pct=parseInt(this.value)||0;renderEtapas()"> %
+        <div class="text-muted">${h} h</div>
+      </div>
+      <div><strong class="text-blue">${h} h</strong></div>
+      <div>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:11px;font-weight:600">
+          <input type="checkbox" ${et.aprobacion?'checked':''} style="accent-color:var(--blue);width:14px;height:14px"
+            onchange="etapas[${i}].aprobacion=this.checked;renderEtapas()">
+          Requiere aprobación
+        </label>
+      </div>
+      <div>
+        <input type="number" value="${et.diasAprobacion}" min="0" max="15" style="width:55px" ${!et.aprobacion?'disabled':''}
+          onchange="etapas[${i}].diasAprobacion=parseInt(this.value)||0"> días
+      </div>
+    </div>`;
+  });
+
+  const pctEl=document.getElementById('pct-total');
+  const hEl=document.getElementById('horas-total-check');
+  if(pctEl) pctEl.textContent=totalPct+'%';
+  if(hEl) hEl.textContent=totalH+' h';
+  if(pctEl) pctEl.style.color = Math.abs(totalPct-100)<1 ? 'var(--green)' : 'var(--red)';
+}
+
+function recalcFechas(){ renderEtapas(); }
+
+// ══════════════════════════════════ PLANIFICACIÓN ══════════════════════════════════
+function calcularPlan(){
+  const inicio = document.getElementById('p-inicio').value;
+  if(!inicio){ alert('Define una fecha de inicio primero po 😊'); return; }
+
+  const horasTotal = parseFloat(document.getElementById('p-horas-total').value)||200;
+  const nMod = parseInt(document.getElementById('p-modulos').value)||4;
+  const revClienteMode = parseInt(document.getElementById('p-rev-cliente').value)||0;
+  const diasRevCliente = parseInt(document.getElementById('p-dias-rev').value)||3;
+  const buffer = parseInt(document.getElementById('p-buffer').value)||2;
+
+  // Armar plan por etapas
+  let currentDate = inicio;
+  const plan = []; // { etapa, persona, startDate, endDate, horas }
+  const hitos = [];
+
+  etapas.forEach((et, i) => {
+    const horas = Math.round(horasTotal * et.pct / 100);
+    if(horas <= 0) return;
+
+    // Obtener responsable
+    const selEl = document.getElementById(`et-resp-${et.id}`);
+    const respId = selEl ? parseInt(selEl.value) : null;
+    const persona = personas.find(p=>p.id===respId) || personas[0];
+
+    // Para digitalización, si hay 2 devs, dividir en paralelo
+    let assignedPersonas = [persona];
+    if(et.id === 'digital'){
+      const devs = personas.filter(p=>p.roles.includes('Diseñador/a E-Learning'));
+      if(devs.length > 1) assignedPersonas = devs;
+    }
+
+    if(assignedPersonas.length > 1){
+      // Paralelo: dividir horas entre devs, misma fecha inicio
+      const horasPorDev = horas / assignedPersonas.length;
+      let maxEnd = currentDate;
+      assignedPersonas.forEach(dev=>{
+        const endDate = calcEndDate(currentDate, horasPorDev, dev);
+        plan.push({etapa:et, persona:dev, startDate:currentDate, endDate, horas:horasPorDev, modulo:null});
+        if(endDate > maxEnd) maxEnd = endDate;
+      });
+      currentDate = maxEnd;
+    } else {
+      const endDate = calcEndDate(currentDate, horas, persona);
+      plan.push({etapa:et, persona, startDate:currentDate, endDate, horas, modulo:null});
+      currentDate = endDate;
+    }
+
+    hitos.push({nombre:`Entrega ${et.nombre}`, responsable:persona?.nombre||'—', fecha:currentDate, etapa:et});
+
+    // Aprobación interna
+    if(et.aprobacion && et.diasAprobacion > 0){
+      const approver = personas.find(p=>p.roles.includes('Gestión / Coordinación')) || personas[0];
+      const endApproval = addWorkdays(currentDate, et.diasAprobacion, approver);
+      plan.push({etapa:{...et, nombre:`Aprobación ${et.nombre}`, color:'#95a5a6'}, persona:approver, startDate:currentDate, endDate:endApproval, horas:0, esAprobacion:true});
+      currentDate = addWorkdays(endApproval, 1, approver);
+      hitos.push({nombre:`Aprobación ${et.nombre}`, responsable:approver?.nombre||'—', fecha:currentDate, etapa:et});
+    }
+
+    // Revisión cliente
+    if((revClienteMode===1) && diasRevCliente > 0){
+      const clRef = personas.find(p=>p.roles.includes('Gestión / Coordinación')) || personas[0];
+      const endRev = addWorkdays(currentDate, diasRevCliente, clRef);
+      plan.push({etapa:{id:'rev-cliente', nombre:`Revisión cliente`, color:'#1abc9c'}, persona:clRef, startDate:currentDate, endDate:endRev, horas:0, esRevCliente:true});
+      currentDate = addWorkdays(endRev, 1, clRef);
+      hitos.push({nombre:`Aprobación cliente — ${et.nombre}`, responsable:'Cliente', fecha:currentDate, etapa:et});
+    }
+  });
+
+  // Revisión cliente solo final
+  if(revClienteMode===2 && diasRevCliente>0){
+    const clRef = personas.find(p=>p.roles.includes('Gestión / Coordinación')) || personas[0];
+    const endRev = addWorkdays(currentDate, diasRevCliente, clRef);
+    plan.push({etapa:{id:'rev-cliente', nombre:'Revisión final cliente', color:'#1abc9c'}, persona:clRef, startDate:currentDate, endDate:endRev, horas:0, esRevCliente:true});
+    currentDate = addWorkdays(endRev, 1, clRef);
+    hitos.push({nombre:'Aprobación cliente final', responsable:'Cliente', fecha:currentDate, etapa:{color:'#1abc9c'}});
+  }
+
+  // Buffer
+  if(buffer > 0){
+    const ref = personas[0];
+    currentDate = addWorkdays(currentDate, buffer, ref);
+  }
+
+  const fechaEntrega = currentDate;
+  const diasCal = diffCalDays(inicio, fechaEntrega);
+  const diasHab = Math.round(diasCal * 5/7);
+  const semanas = Math.ceil(diasCal/7);
+
+  planResult = { plan, hitos, inicio, fechaEntrega, diasCal, diasHab, semanas, horasTotal, nMod };
+
+  renderKPIs();
+  renderGantt();
+  renderHitos();
+}
+
+function renderKPIs(){
+  if(!planResult) return;
+  const {inicio, fechaEntrega, diasCal, semanas, horasTotal, nMod} = planResult;
+  const kpiData = [
+    {label:'Fecha inicio', val:formatDateHuman(inicio), sub:'día hábil'},
+    {label:'Fecha entrega', val:formatDateHuman(fechaEntrega), sub:'estimada', hl:true},
+    {label:'Duración total', val:`${diasCal} días`, sub:`${semanas} semanas calendario`},
+    {label:'Horas producción', val:horasTotal, sub:'horas trabajo equipo'},
+    {label:'N° módulos', val:nMod, sub:'unidades de contenido'},
+  ];
+  ['res-kpis','res-kpis-2'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    el.innerHTML=kpiData.map(k=>`<div class="res-card ${k.hl?'hl':''}">
+      <div class="res-label">${k.label}</div>
+      <div class="res-val" style="font-size:${k.val.toString().length>8?'14px':'20px'}">${k.val}</div>
+      <div class="res-sub">${k.sub}</div>
+    </div>`).join('');
+  });
+}
+
+function renderGantt(){
+  if(!planResult) return;
+  const {plan, inicio, fechaEntrega} = planResult;
+
+  // Rango de días
+  const days = [];
+  let d = parseDate(inicio);
+  const end = parseDate(fechaEntrega);
+  end.setDate(end.getDate()+3);
+  while(d <= end){
+    days.push(formatDate(d));
+    d.setDate(d.getDate()+1);
+  }
+
+  const gantt = document.getElementById('gantt-container');
+  const todayStr = formatDate(new Date());
+
+  // Agrupar por persona
+  const porPersona = {};
+  plan.forEach(item=>{
+    const key = item.persona?.nombre||'Sin asignar';
+    if(!porPersona[key]) porPersona[key] = {persona:item.persona, items:[]};
+    porPersona[key].items.push(item);
+  });
+
+  // Leyenda
+  const colores = {};
+  plan.forEach(item=>{ colores[item.etapa.nombre]=item.etapa.color; });
+  document.getElementById('gantt-legend').innerHTML =
+    Object.entries(colores).map(([n,c])=>`<div class="legend-item"><div class="legend-dot" style="background:${c}"></div>${n}</div>`).join('');
+
+  // Agrupar días por mes para header
+  const meses = {};
+  days.forEach(ds=>{
+    const [y,m]=ds.split('-');
+    const key=`${y}-${m}`;
+    if(!meses[key]) meses[key]={label:new Date(parseInt(y),parseInt(m)-1,1).toLocaleString('es-CL',{month:'short',year:'numeric'}), count:0};
+    meses[key].count++;
+  });
+
+  let html = '';
+
+  // Header meses
+  html += `<div class="gantt-month-row">
+    <div class="gantt-month-spacer"></div>
+    ${Object.values(meses).map(m=>`<div class="gantt-month-cell" style="flex:${m.count}">${m.label}</div>`).join('')}
+  </div>`;
+
+  // Header días
+  html += `<div class="gantt-header">
+    <div class="gantt-person-col">Persona</div>
+    <div class="gantt-days-header">
+      ${days.map(ds=>{
+        const d2=parseDate(ds);
+        const isWE=isWeekend(d2);
+        const isHol=Object.values(personas).some(p=>isHolidayPersona(ds,p));
+        const isToday=ds===todayStr;
+        const cls=isToday?'today':isHol?'holiday':isWE?'weekend':'';
+        return `<div class="gantt-day-h ${cls}" title="${ds}">${d2.getDate()}</div>`;
+      }).join('')}
+    </div>
+  </div>`;
+
+  // Filas por persona
+  Object.values(porPersona).forEach(({persona, items})=>{
+    const pais = persona?.pais||'CL';
+    const flag = FERIADOS[pais]?.flag||'';
+    html += `<div class="gantt-row">
+      <div class="gantt-person">
+        <div class="gantt-person-name">${flag} ${persona?.nombre||'—'}</div>
+        <div class="gantt-person-role">${persona?.roles?.join(', ')||''}</div>
+      </div>
+      <div class="gantt-cells">
+        ${days.map((ds,di)=>{
+          const d2=parseDate(ds);
+          const isWE=isWeekend(d2);
+          const isHol=persona?isHolidayPersona(ds,persona):false;
+          const isToday=ds===todayStr;
+          const cls=(isToday?'today-col':isHol?'holiday':isWE?'weekend':'');
+          return `<div class="gantt-cell ${cls}" style="position:relative"></div>`;
+        }).join('')}
+        ${items.map(item=>{
+          const startIdx=days.indexOf(item.startDate);
+          const endIdx=days.indexOf(item.endDate);
+          if(startIdx<0) return '';
+          const left=startIdx;
+          const width=Math.max(endIdx-startIdx+1,1);
+          const cellW=22;
+          return `<div class="gantt-bar" style="left:${left*cellW}px;width:${width*cellW-2}px;background:${item.etapa.color}" title="${item.etapa.nombre}: ${item.startDate} → ${item.endDate}">${item.etapa.nombre}</div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  });
+
+  gantt.innerHTML = html;
+
+  // Alertas feriados
+  const alertsCont = document.getElementById('feriados-alert');
+  alertsCont.innerHTML='';
+  const feriadosEnRango = [];
+  personas.forEach(p=>{
+    FERIADOS[p.pais].dias.forEach(fd=>{
+      if(fd>=inicio && fd<=fechaEntrega){
+        feriadosEnRango.push(`${FERIADOS[p.pais].flag} ${p.nombre} — ${formatDateHuman(fd)} (${FERIADOS[p.pais].nombre})`);
+      }
+    });
+  });
+  if(feriadosEnRango.length>0){
+    alertsCont.innerHTML=`<div class="alert alert-orange">
+      ⚠️ <strong>Feriados dentro del rango del proyecto (${feriadosEnRango.length}):</strong><br>
+      ${feriadosEnRango.slice(0,8).join(' · ')}${feriadosEnRango.length>8?` · ... y ${feriadosEnRango.length-8} más`:''}
+    </div>`;
+  }
+}
+
+function renderHitos(){
+  if(!planResult) return;
+  const tbody=document.getElementById('hitos-body');
+  tbody.innerHTML='';
+  planResult.hitos.forEach((h,i)=>{
+    tbody.innerHTML+=`<tr>
+      <td><strong>${i+1}</strong></td>
+      <td><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${h.etapa?.color||'#ccc'};margin-right:6px"></span>${h.nombre}</td>
+      <td>${h.responsable}</td>
+      <td><strong>${formatDateHuman(h.fecha)}</strong></td>
+      <td><span class="badge" style="background:#e8f5e9;color:#2e7d32">Estimado</span></td>
+    </tr>`;
+  });
+}
+
+// ══════════════════════════════════ TEXTO CLIENTE ══════════════════════════════════
+function generarTexto(){
+  if(!planResult){ alert('Primero genera la planificación en el panel ③'); return; }
+  const nombre=document.getElementById('c-nombre').value||'estimado/a cliente';
+  const inst=document.getElementById('c-institucion').value||document.getElementById('p-cliente')?.value||'su institución';
+  const proyecto=document.getElementById('p-nombre')?.value||'el proyecto';
+  const tono=document.getElementById('c-tono').value;
+  const {inicio, fechaEntrega, diasCal, semanas, horasTotal, nMod, hitos} = planResult;
+
+  const saludo = tono==='formal' ? `Estimado/a ${nombre}` : `Hola ${nombre}`;
+  const cierre = tono==='formal'
+    ? 'Quedo atenta ante cualquier consulta.\n\nSaludos cordiales,\nHackea — Equipo de Producción\ninfo@hackea.pro'
+    : 'Cualquier duda me avisas 😊\n\nSaludos,\nHackea — Equipo de Producción\ninfo@hackea.pro';
+
+  const hitosTexto = hitos.slice(0,5).map((h,i)=>`   ${i+1}. ${h.nombre}: ${formatDateFull(h.fecha)}`).join('\n');
+
+  const texto = `${saludo},
+
+Junto con saludar, le comparto la planificación estimada para el desarrollo de ${proyecto} en ${inst}.
+
+📅 CRONOGRAMA ESTIMADO
+——————————————————————
+• Fecha de inicio:     ${formatDateFull(inicio)}
+• Fecha de entrega:    ${formatDateFull(fechaEntrega)}
+• Duración total:      ${diasCal} días calendario (${semanas} semanas)
+• Módulos a producir:  ${nMod}
+• Horas de producción: ${horasTotal} horas
+
+📌 HITOS PRINCIPALES
+——————————————————————
+${hitosTexto}
+
+Esta planificación considera los días hábiles del equipo de producción distribuido en Latinoamérica y España, incluyendo los festivos nacionales de cada país. Los plazos son estimaciones profesionales sujetas a ajuste ante cambios de alcance o retroalimentaciones fuera de los plazos acordados.
+
+${cierre}`;
+
+  document.getElementById('texto-cliente').textContent=texto;
+}
+
+function copiarTexto(){
+  const txt=document.getElementById('texto-cliente').textContent;
+  navigator.clipboard.writeText(txt).then(()=>alert('¡Copiado al portapapeles! 📋'));
+}
+
+// ══════════════════════════════════ NAV ══════════════════════════════════
+function showPanel(name,tab){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  if(tab) tab.classList.add('active');
+  if(name==='planificacion') calcularPlan();
+  if(name==='entrega'){ if(!planResult) calcularPlan(); renderKPIs(); renderHitos(); }
+}
+
+// ══════════════════════════════════ INIT ══════════════════════════════════
+// Fecha inicio = hoy
+const hoy = formatDate(new Date());
+document.getElementById('p-inicio').value = hoy;
+
+renderTZ();
+renderEquipo();
+renderFeriados();
+renderEtapas();
+</script>
+</body>
+</html>
