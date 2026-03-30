@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hackea — Calculadora de Proyectos v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:#0090F8; --blue-light:#e6f4ff; --blue-mid:#b3deff;
+  --text:#2A2A2A; --body:#404040; --bg:#EBECF0; --surface:#F3F3F3;
+  --white:#FFFFFF; --black:#000000; --muted:#888; --border:#d4d6db;
+  --red:#e74c3c; --green:#27ae60; --orange:#f39c12;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* HEADER */
+header{background:var(--white);border-bottom:2px solid var(--blue);padding:14px 28px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,144,248,.08);}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-text{font-weight:900;font-size:21px;letter-spacing:-.5px;} .logo-text span{color:var(--blue);}
+.hdiv{width:2px;height:30px;background:var(--blue);margin:0 6px;}
+.htitle{font-size:13px;font-weight:600;color:var(--body);}
+.hbadge{margin-left:auto;background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+
+/* TABS */
+.tabs{display:flex;gap:2px;padding:20px 28px 0;background:var(--white);border-bottom:1px solid var(--border);}
+.tab{padding:10px 18px;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;border:none;background:none;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;margin-bottom:-1px;}
+.tab:hover{color:var(--blue);}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+
+/* MAIN */
+.main{max-width:1280px;margin:0 auto;padding:28px;}
+.panel{display:none;} .panel.active{display:block;}
+
+/* SECTION TITLE */
+.stitle{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.stitle::after{content:'';flex:1;height:1px;background:var(--blue-mid);}
+
+/* CARD */
+.card{background:var(--white);border-radius:12px;padding:22px;margin-bottom:20px;border:1px solid var(--border);position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--blue);border-radius:12px 0 0 12px;}
+
+/* FORM */
+label{display:block;font-size:11px;font-weight:700;color:var(--body);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px;}
+input[type=number],input[type=text],select{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;color:var(--text);background:var(--surface);transition:border-color .2s;outline:none;}
+input:focus,select:focus{border-color:var(--blue);background:var(--white);}
+.pfx{position:relative;} .pfx span{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:600;color:var(--muted);pointer-events:none;}
+.pfx input{padding-left:26px;}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;}
+.grid5{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:14px;}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:12px;}
+.tbl th{text-align:left;padding:8px 10px;font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.7px;border-bottom:2px solid var(--blue-mid);background:var(--blue-light);}
+.tbl td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.tbl tr:hover td{background:var(--surface);}
+.tbl .tfoot td{font-weight:700;border-top:2px solid var(--blue-mid);border-bottom:none;color:var(--blue);background:var(--blue-light);}
+.tbl input{padding:5px 8px;font-size:12px;}
+
+/* BADGE */
+.badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700;}
+.badge-green{background:#e8f5e9;color:#2e7d32;}
+.badge-orange{background:#fff3e0;color:#e65100;}
+.badge-blue{background:var(--blue-light);color:var(--blue);}
+.badge-red{background:#fde8e8;color:var(--red);}
+
+/* BENCHMARK CHIP */
+.bench{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;background:#f0faf0;color:#2e7d32;border:1px solid #a5d6a7;cursor:help;margin-left:4px;}
+.bench.warn{background:#fff8e1;color:#f57f17;border-color:#ffe082;}
+
+/* ALERT */
+.alert{padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:14px;display:flex;align-items:flex-start;gap:8px;}
+.alert-blue{background:var(--blue-light);color:var(--blue);border:1px solid var(--blue-mid);}
+.alert-green{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;}
+.alert-orange{background:#fff8e1;color:#e65100;border:1px solid #ffe082;}
+
+/* BTNS */
+.btn{padding:9px 18px;border-radius:8px;font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;border:none;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:5px;}
+.btn-primary{background:var(--blue);color:#fff;}
+.btn-primary:hover{background:#007ad6;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,144,248,.3);}
+.btn-outline{background:transparent;color:var(--blue);border:2px solid var(--blue);}
+.btn-outline:hover{background:var(--blue-light);}
+.btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--border);font-size:11px;padding:5px 10px;}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
+.btn-danger{background:transparent;color:var(--red);border:1.5px solid var(--red);font-size:11px;padding:4px 9px;border-radius:6px;}
+.btn-danger:hover{background:#fde8e8;}
+
+/* RESULTADO CARDS */
+.rcard{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:18px;text-align:center;position:relative;overflow:hidden;}
+.rcard.hl{background:var(--blue);border-color:var(--blue);}
+.rcard .rlabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:6px;}
+.rcard .rval{font-size:22px;font-weight:900;color:var(--text);line-height:1;margin-bottom:3px;}
+.rcard.hl .rlabel,.rcard.hl .rsub{color:rgba(255,255,255,.8);}
+.rcard.hl .rval{color:#fff;}
+.rcard .rsub{font-size:10px;color:var(--muted);}
+
+/* BAR */
+.bar-wrap{display:flex;align-items:center;gap:6px;}
+.bar{height:7px;background:var(--blue);border-radius:4px;transition:width .5s ease;min-width:2px;}
+
+/* MARGEN */
+.mcontrol{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.mcontrol input[type=range]{flex:1;accent-color:var(--blue);height:6px;padding:0;border:none;background:none;}
+.mval{font-size:26px;font-weight:900;color:var(--blue);min-width:56px;text-align:center;}
+.pvline{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.pvline:last-child{border-bottom:none;}
+.pvline.tot .lb{font-size:15px;font-weight:700;}
+.pvline.tot .vl{font-size:19px;color:var(--blue);}
+.pvline .lb{color:var(--body);}
+.pvline .vl{font-weight:700;}
+
+/* MODULOS */
+.modulo-block{border:1.5px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden;}
+.modulo-header{background:var(--surface);padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;}
+.modulo-header:hover{background:var(--blue-light);}
+.modulo-num{width:28px;height:28px;background:var(--blue);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;}
+.modulo-name{font-weight:700;font-size:13px;flex:1;}
+.modulo-stats{font-size:11px;color:var(--muted);display:flex;gap:12px;}
+.modulo-body{padding:16px;display:none;}
+.modulo-body.open{display:block;}
+.chevron{transition:transform .2s;font-size:12px;color:var(--muted);}
+.chevron.open{transform:rotate(180deg);}
+
+/* RECURSO ROW */
+.rec-row{display:grid;grid-template-columns:180px 1fr;gap:12px;align-items:start;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.rec-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.rec-label{font-size:12px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;padding-top:8px;}
+.rec-label .icon{font-size:16px;}
+
+/* VIDEO SUB-ROWS */
+.video-list{display:flex;flex-direction:column;gap:8px;}
+.video-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px;align-items:center;}
+.video-item label{font-size:10px;margin-bottom:3px;}
+
+/* TABS INTERNO */
+.sub-tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap;}
+.sub-tab{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);transition:all .2s;}
+.sub-tab:hover,.sub-tab.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* HELPERS */
+.flex{display:flex;} .ic{align-items:center;} .jb{justify-content:space-between;}
+.gap8{gap:8px;} .gap12{gap:12px;} .gap16{gap:16px;}
+.mb8{margin-bottom:8px;} .mb14{margin-bottom:14px;} .mb20{margin-bottom:20px;}
+.text-blue{color:var(--blue);font-weight:700;}
+.text-muted{font-size:11px;color:var(--muted);}
+.text-right{text-align:right;}
+.fw7{font-weight:700;}
+
+::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-track{background:var(--surface);} ::-webkit-scrollbar-thumb{background:var(--blue-mid);border-radius:3px;}
+@media(max-width:768px){.main{padding:14px;}.grid2,.grid3,.grid4,.grid5{grid-template-columns:1fr;}.rcard-grid{grid-template-columns:1fr 1fr !important;}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <svg width="34" height="34" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="17" stroke="#0090F8" stroke-width="2"/><circle cx="19" cy="19" r="11" stroke="#0090F8" stroke-width="1.5"/><circle cx="19" cy="19" r="5" stroke="#0090F8" stroke-width="1.5"/><circle cx="19" cy="19" r="2" fill="#0090F8"/><line x1="19" y1="2" x2="19" y2="8" stroke="#0090F8" stroke-width="1.5"/><line x1="19" y1="30" x2="19" y2="36" stroke="#0090F8" stroke-width="1.5"/><line x1="2" y1="19" x2="8" y2="19" stroke="#0090F8" stroke-width="1.5"/><line x1="30" y1="19" x2="36" y2="19" stroke="#0090F8" stroke-width="1.5"/></svg>
+    <div class="logo-text">HACK<span>EA</span></div>
+  </div>
+  <div class="hdiv"></div>
+  <div class="htitle">Calculadora de Proyectos E-Learning</div>
+  <div class="hbadge">v2.0</div>
+</header>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="showPanel('equipo',this)">① Equipo &amp; Config</button>
+  <button class="tab" onclick="showPanel('recursos',this)">② Biblioteca de Recursos</button>
+  <button class="tab" onclick="showPanel('proyecto',this)">③ Proyecto &amp; Módulos</button>
+  <button class="tab" onclick="showPanel('resultados',this)">④ Resultados</button>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════════════════════════════════════
+     PANEL 1: EQUIPO
+═══════════════════════════════════════════════ -->
+<div id="panel-equipo" class="panel active">
+  <div class="stitle">Parámetros Globales</div>
+  <div class="card mb20">
+    <div class="grid4">
+      <div><label>Horas trabajadas / mes</label><input type="number" id="horas-mes" value="160" min="1" onchange="recalcEquipo()"></div>
+      <div><label>Tipo de cambio USD → CLP</label><div class="pfx"><span>$</span><input type="number" id="usd-clp" value="980" min="1" onchange="recalcEquipo()"></div></div>
+      <div><label>Comisión Western Union (%)</label><div class="pfx"><span>%</span><input type="number" id="wu-com" value="4" min="0" max="20" step=".1" onchange="recalcEquipo()"></div></div>
+      <div><label>Overhead / imprevistos (%)</label><div class="pfx"><span>%</span><input type="number" id="overhead" value="10" min="0" max="50" onchange="recalcEquipo()"></div></div>
+    </div>
+  </div>
+
+  <div class="flex ic jb mb14">
+    <div class="stitle" style="margin:0;flex:1">Equipo</div>
+    <button class="btn btn-outline" style="font-size:11px;padding:7px 14px" onclick="addRol()">+ Agregar rol</button>
+  </div>
+  <div class="card">
+    <table class="tbl" id="tabla-equipo">
+      <thead><tr>
+        <th>Rol</th><th>Referencia</th><th>Tipo pago</th>
+        <th>Monto base</th><th>Moneda</th><th>Jornada %</th>
+        <th>Costo/hora calc.</th><th></th>
+      </tr></thead>
+      <tbody id="equipo-body"></tbody>
+    </table>
+    <p class="text-muted" style="margin-top:8px">* USD aplica TC + comisión WU automáticamente. Roles "por proyecto" se ingresan como monto fijo total por proyecto en el panel Proyecto.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PANEL 2: RECURSOS (biblioteca con benchmarks)
+═══════════════════════════════════════════════ -->
+<div id="panel-recursos" class="panel">
+  <div class="alert alert-blue">
+    💡 Estos son los <strong>parámetros de producción por unidad</strong> de cada recurso. Los benchmarks (verde = ok, naranja = revisar) están basados en el estándar <strong>Chapman Alliance</strong> ajustado al uso de IA de Hackea. Edítalos con tus datos reales una vez que tengas mediciones propias.
+  </div>
+
+  <div class="stitle">Tipos de Video</div>
+  <div class="card mb20">
+    <table class="tbl" id="tabla-videos-lib">
+      <thead><tr>
+        <th>Tipo de video</th><th>Herramienta</th>
+        <th>Horas prod. / min de video <span class="bench" title="Chapman: 0.3–0.5 h/min para avatar IA; 0.8–1.5 h/min para motion">?</span></th>
+        <th>Incluye guión</th>
+        <th>H extra si incluye guión</th>
+        <th>Benchmark</th>
+      </tr></thead>
+      <tbody id="video-lib-body"></tbody>
+    </table>
+  </div>
+
+  <div class="stitle">Otros Recursos</div>
+  <div class="card">
+    <table class="tbl" id="tabla-otros-lib">
+      <thead><tr>
+        <th>Recurso</th><th>Herramienta</th>
+        <th>Min. consumo / unidad</th>
+        <th>Horas prod. / unidad <span class="bench" title="Chapman Alliance ajustado a flujo con IA">?</span></th>
+        <th>Benchmark</th>
+      </tr></thead>
+      <tbody id="otros-lib-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PANEL 3: PROYECTO & MÓDULOS
+═══════════════════════════════════════════════ -->
+<div id="panel-proyecto" class="panel">
+
+  <!-- Info general -->
+  <div class="stitle">Datos del Proyecto</div>
+  <div class="card mb20">
+    <div class="grid5" style="margin-bottom:14px">
+      <div><label>Nombre del proyecto</label><input type="text" id="p-nombre" placeholder="ej. Diplomado Liderazgo"></div>
+      <div><label>Cliente</label><input type="text" id="p-cliente" placeholder="ej. Universidad Mayor"></div>
+      <div><label>N° de módulos</label><input type="number" id="p-modulos" value="4" min="1" max="30" onchange="generarModulos()"></div>
+      <div><label>Contenido de base</label>
+        <select id="p-base" onchange="renderModulos()">
+          <option value="0">Desde cero</option>
+          <option value="20">Base parcial (–20% DI)</option>
+          <option value="40">Base sólida (–40% DI)</option>
+        </select>
+      </div>
+      <div><label>Estructura de módulos</label>
+        <select id="p-estructura" onchange="cambiarEstructura()">
+          <option value="uniforme">Todos iguales (estándar)</option>
+          <option value="custom">Personalizado por módulo</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Resumen rápido -->
+    <div id="resumen-rapido" class="flex gap16" style="flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--border)">
+      <div><span class="text-muted">Horas curso estimadas: </span><span class="text-blue" id="rq-horas">0 h</span></div>
+      <div><span class="text-muted">Total recursos: </span><span class="text-blue" id="rq-recursos">0</span></div>
+      <div><span class="text-muted">Horas producción estimadas: </span><span class="text-blue" id="rq-hprod">0 h</span></div>
+      <div><span class="text-muted">Ratio prod/hora curso: </span><span class="text-blue" id="rq-ratio">—</span></div>
+    </div>
+  </div>
+
+  <!-- Módulo estándar (modo uniforme) -->
+  <div id="bloque-uniforme">
+    <div class="stitle">Estructura Estándar del Módulo <span style="font-weight:400;text-transform:none;font-size:11px;color:var(--muted)">(se replica en todos los módulos)</span></div>
+    <div class="card" id="modulo-estandar">
+      <!-- se genera dinámico -->
+    </div>
+  </div>
+
+  <!-- Módulos personalizados -->
+  <div id="bloque-custom" style="display:none">
+    <div class="stitle">Módulos del Proyecto</div>
+    <div id="modulos-custom-container"></div>
+  </div>
+
+  <!-- Asignación roles -->
+  <div class="stitle" style="margin-top:8px">Asignación de Roles al Proyecto</div>
+  <div class="card">
+    <div class="alert alert-orange mb14">
+      ⚠️ Para roles con <strong>sueldo fijo</strong>, ingresa el % de su jornada que dedican a este proyecto. Para roles <strong>por proyecto</strong>, ingresa el monto total acordado directamente.
+    </div>
+    <table class="tbl">
+      <thead><tr><th>Rol</th><th>¿Participa?</th><th>Dedicación / monto</th><th>Horas estimadas</th><th>Costo calculado</th></tr></thead>
+      <tbody id="asig-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PANEL 4: RESULTADOS
+═══════════════════════════════════════════════ -->
+<div id="panel-resultados" class="panel">
+
+  <div class="stitle">Resumen Ejecutivo</div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px" class="rcard-grid">
+    <div class="rcard"><div class="rlabel">Horas producción total</div><div class="rval" id="r-hprod">0</div><div class="rsub">hrs trabajo equipo</div></div>
+    <div class="rcard"><div class="rlabel">Ratio prod / hr curso</div><div class="rval" id="r-ratio">0x</div><div class="rsub">benchmark Hackea: 8–15x</div></div>
+    <div class="rcard"><div class="rlabel">Costo directo</div><div class="rval" id="r-cdirecto" style="font-size:16px">$0</div><div class="rsub">sin overhead</div></div>
+    <div class="rcard hl"><div class="rlabel">Costo interno total</div><div class="rval" id="r-ctotal" style="font-size:16px">$0</div><div class="rsub">con overhead incluido</div></div>
+  </div>
+
+  <!-- Sub-tabs resultados -->
+  <div class="sub-tabs">
+    <div class="sub-tab active" onclick="showSubTab('por-rol',this)">Por rol</div>
+    <div class="sub-tab" onclick="showSubTab('por-recurso',this)">Por tipo de recurso</div>
+    <div class="sub-tab" onclick="showSubTab('por-modulo',this)">Por módulo</div>
+    <div class="sub-tab" onclick="showSubTab('precio-venta',this)">Precio de venta</div>
+  </div>
+
+  <!-- Por rol -->
+  <div id="sub-por-rol" class="sub-panel">
+    <div class="card">
+      <table class="tbl">
+        <thead><tr><th>Rol</th><th>Horas</th><th>Costo CLP</th><th>% del total</th></tr></thead>
+        <tbody id="r-rol-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Por recurso -->
+  <div id="sub-por-recurso" class="sub-panel" style="display:none">
+    <div class="card">
+      <table class="tbl">
+        <thead><tr><th>Recurso</th><th>Unidades</th><th>Horas prod.</th><th>% tiempo</th></tr></thead>
+        <tbody id="r-rec-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Por módulo -->
+  <div id="sub-por-modulo" class="sub-panel" style="display:none">
+    <div class="card">
+      <table class="tbl">
+        <thead><tr><th>Módulo</th><th>Recursos</th><th>Min. consumo</th><th>Hrs producción</th><th>Costo estimado</th></tr></thead>
+        <tbody id="r-mod-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Precio venta -->
+  <div id="sub-precio-venta" class="sub-panel" style="display:none">
+    <div class="card">
+      <div style="display:grid;grid-template-columns:1fr 2fr;gap:24px;align-items:start">
+        <div>
+          <label>Margen de utilidad (%)</label>
+          <div class="mcontrol"><input type="range" id="margen-slider" min="5" max="80" value="35" oninput="updMargen()"><div class="mval" id="margen-disp">35%</div></div>
+          <div class="pfx mb14"><span>%</span><input type="number" id="margen-input" value="35" min="0" max="95" onchange="updMargenInput()"></div>
+          <div class="alert alert-green">✅ Hackea retiene <strong id="hackea-retiene">$0</strong></div>
+        </div>
+        <div style="background:var(--surface);border-radius:10px;padding:18px">
+          <div class="pvline"><span class="lb">Costo interno (con overhead)</span><span class="vl" id="pv-costo">$0</span></div>
+          <div class="pvline"><span class="lb">Margen de utilidad</span><span class="vl" id="pv-margen-monto">$0</span></div>
+          <div class="pvline tot" style="padding-top:10px;border-top:2px solid var(--blue-mid)"><span class="lb">💰 Precio de venta sugerido</span><span class="vl" id="pv-total">$0</span></div>
+          <div class="pvline"><span class="lb" style="color:var(--muted)">Por hora de curso</span><span class="vl" style="color:var(--muted);font-size:13px" id="pv-x-hora">$0/hr</span></div>
+          <div class="pvline"><span class="lb" style="color:var(--muted)">Por módulo</span><span class="vl" style="color:var(--muted);font-size:13px" id="pv-x-mod">$0/módulo</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div>
+
+<script>
+// ═══════════════════════════════════ DATOS BASE ═══════════════════════════════════
+
+const rolesBase = [
+  {id:1,rol:'Gerenta Operaciones / Revisión',ref:'Naty',tipo:'fijo',monto:5000000,moneda:'CLP',jornada:100},
+  {id:2,rol:'Líder Producción / DI Senior',ref:'Maibe',tipo:'fijo',monto:1200000,moneda:'CLP',jornada:100},
+  {id:3,rol:'Revisión de Contenidos',ref:'Liss',tipo:'fijo',monto:600000,moneda:'CLP',jornada:33},
+  {id:4,rol:'Diseñadora Instruccional IA',ref:'Merlym',tipo:'proyecto',monto:1500000,moneda:'CLP',jornada:100},
+  {id:5,rol:'Diseñador/a E-Learning 1',ref:'Dev 1',tipo:'fijo',monto:550,moneda:'USD',jornada:100},
+  {id:6,rol:'Diseñador/a E-Learning 2',ref:'Dev 2',tipo:'fijo',monto:550,moneda:'USD',jornada:100},
+  {id:7,rol:'QA / Revisión técnica',ref:'',tipo:'hora',monto:0,moneda:'CLP',jornada:100},
+  {id:8,rol:'Narrador/a profesional',ref:'',tipo:'hora',monto:0,moneda:'CLP',jornada:100},
+];
+
+// Tipos de video: hPorMin = horas de producción por MINUTO de video
+const videoLib = [
+  {id:'v-avatar',nombre:'Video avatar IA',tool:'HeyGen + Eleven Labs',hPorMin:0.35,incluyeGuion:true,hGuion:0.5,
+   bench:'0.25–0.5 h/min',benchOk:true},
+  {id:'v-motion',nombre:'Video motion graphics',tool:'After Effects / Canva',hPorMin:0.9,incluyeGuion:true,hGuion:0.5,
+   bench:'0.7–1.5 h/min',benchOk:true},
+  {id:'v-locucion',nombre:'Video con locución profesional',tool:'Audición + edición',hPorMin:0.5,incluyeGuion:true,hGuion:0.6,
+   bench:'0.4–0.8 h/min',benchOk:true},
+  {id:'v-screen',nombre:'Video screencast / tutorial',tool:'Camtasia / Loom',hPorMin:0.25,incluyeGuion:false,hGuion:0.3,
+   bench:'0.2–0.4 h/min',benchOk:true},
+];
+
+// Otros recursos: hPorUnidad = horas producción por unidad
+const otrosLib = [
+  {id:'r-storyline',nombre:'Módulo Storyline 360',tool:'Storyline 360',minConsumo:20,hPorU:8,bench:'6–12 h/u',benchOk:true},
+  {id:'r-rise',nombre:'Módulo Rise 360',tool:'Rise 360',minConsumo:15,hPorU:4,bench:'3–6 h/u',benchOk:true},
+  {id:'r-genially-anim',nombre:'Infografía animada',tool:'Genially',minConsumo:8,hPorU:3,bench:'2–4 h/u',benchOk:true},
+  {id:'r-canva-est',nombre:'Infografía estática',tool:'Canva',minConsumo:5,hPorU:1.5,bench:'1–2 h/u',benchOk:true},
+  {id:'r-quiz',nombre:'Quiz / evaluación formativa',tool:'Storyline / Rise / LMS',minConsumo:10,hPorU:2,bench:'1.5–3 h/u',benchOk:true},
+  {id:'r-caso',nombre:'Evaluación de caso / sumativa',tool:'Documento + LMS',minConsumo:20,hPorU:4,bench:'3–6 h/u',benchOk:true},
+  {id:'r-mindsmith',nombre:'Micro-curso Mindsmith',tool:'Mindsmith',minConsumo:15,hPorU:3,bench:'2–5 h/u',benchOk:true},
+  {id:'r-docinter',nombre:'Documento interactivo / e-book',tool:'Genially / Rise',minConsumo:12,hPorU:3.5,bench:'3–5 h/u',benchOk:true},
+];
+
+let roles = JSON.parse(JSON.stringify(rolesBase));
+let nextRolId = 50;
+let asignacion = {};
+roles.forEach(r => asignacion[r.id] = {activo:true, pct:50, monto_proyecto:r.monto});
+asignacion[7] = {activo:false, pct:0, monto_proyecto:0};
+asignacion[8] = {activo:false, pct:0, monto_proyecto:0};
+
+// Estado del módulo estándar
+let moduloEstandar = {
+  videos: [{tipo:'v-avatar',cantidad:1,minutos:10}],
+  otros: {
+    'r-storyline':{activo:true,cantidad:1},
+    'r-quiz':{activo:true,cantidad:1},
+    'r-caso':{activo:false,cantidad:1},
+    'r-rise':{activo:false,cantidad:1},
+    'r-genially-anim':{activo:false,cantidad:1},
+    'r-canva-est':{activo:false,cantidad:1},
+    'r-mindsmith':{activo:false,cantidad:1},
+    'r-docinter':{activo:false,cantidad:1},
+  }
+};
+
+let modulosCustom = []; // array de copias del moduloEstandar por módulo
+
+// ═══════════════════════════════════ HELPERS ═══════════════════════════════════
+function getN(id){return parseFloat(document.getElementById(id)?.value)||0;}
+function getS(id){return document.getElementById(id)?.value||'';}
+function clp(n){return '$'+Math.round(n).toLocaleString('es-CL');}
+
+function costoHoraRol(rol){
+  const hm = getN('horas-mes')||160;
+  const tc = getN('usd-clp')||980;
+  const wu = (getN('wu-com')||4)/100;
+  if(rol.tipo==='proyecto'||rol.tipo==='hora') return null;
+  let monto = rol.moneda==='USD' ? rol.monto*tc*(1+wu) : rol.monto;
+  const hEfec = hm*(rol.jornada/100);
+  return hEfec>0 ? monto/hEfec : 0;
+}
+
+function getVideoLib(id){return videoLib.find(v=>v.id===id)||videoLib[0];}
+function getOtroLib(id){return otrosLib.find(o=>o.id===id);}
+
+// Calcular horas de producción de un módulo
+function calcModulo(mod){
+  let minConsumo=0, hProd=0;
+  const basePct = getN('p-base')/100;
+  // Videos
+  (mod.videos||[]).forEach(v=>{
+    const lib = getVideoLib(v.tipo);
+    const mins = (v.cantidad||1)*(v.minutos||10);
+    minConsumo += mins;
+    let h = mins * lib.hPorMin;
+    if(lib.incluyeGuion) h += (v.cantidad||1)*lib.hGuion*(1-basePct);
+    hProd += h;
+  });
+  // Otros
+  Object.entries(mod.otros||{}).forEach(([rid,cfg])=>{
+    if(!cfg.activo) return;
+    const lib = getOtroLib(rid); if(!lib) return;
+    minConsumo += lib.minConsumo*(cfg.cantidad||1);
+    hProd += lib.hPorU*(cfg.cantidad||1);
+  });
+  return {minConsumo, hProd};
+}
+
+// ═══════════════════════════════════ PANEL 1: EQUIPO ═══════════════════════════════════
+function renderEquipo(){
+  const tbody = document.getElementById('equipo-body');
+  tbody.innerHTML='';
+  roles.forEach(rol=>{
+    const cph = costoHoraRol(rol);
+    const tc=getN('usd-clp')||980, wu=(getN('wu-com')||4)/100;
+    const montoMostrar = rol.moneda==='USD'
+      ? `${rol.monto} USD ≈ ${clp(rol.monto*tc*(1+wu))}`
+      : clp(rol.monto);
+    const costoCell = rol.tipo==='proyecto'
+      ? '<span style="color:var(--muted);font-size:10px">se ingresa por proyecto</span>'
+      : rol.tipo==='hora'
+      ? `<div class="pfx" style="width:130px"><span>$</span><input type="number" value="${rol.monto}" min="0" style="width:130px" onchange="roles.find(r=>r.id==${rol.id}).monto=parseFloat(this.value)||0;renderEquipo()"></div>`
+      : `<strong class="text-blue">${clp(cph||0)}/hr</strong>`;
+    tbody.innerHTML+=`<tr>
+      <td><input type="text" value="${rol.rol}" style="min-width:200px" onchange="roles.find(r=>r.id==${rol.id}).rol=this.value"></td>
+      <td><input type="text" value="${rol.ref}" style="width:90px" onchange="roles.find(r=>r.id==${rol.id}).ref=this.value"></td>
+      <td><select onchange="roles.find(r=>r.id==${rol.id}).tipo=this.value;renderEquipo()">
+        <option value="fijo" ${rol.tipo==='fijo'?'selected':''}>Sueldo fijo</option>
+        <option value="proyecto" ${rol.tipo==='proyecto'?'selected':''}>Por proyecto</option>
+        <option value="hora" ${rol.tipo==='hora'?'selected':''}>Por hora</option>
+      </select></td>
+      <td><input type="number" value="${rol.monto}" min="0" style="width:120px" onchange="roles.find(r=>r.id==${rol.id}).monto=parseFloat(this.value)||0;renderEquipo()"></td>
+      <td><select onchange="roles.find(r=>r.id==${rol.id}).moneda=this.value;renderEquipo()">
+        <option value="CLP" ${rol.moneda==='CLP'?'selected':''}>CLP</option>
+        <option value="USD" ${rol.moneda==='USD'?'selected':''}>USD</option>
+      </select></td>
+      <td><input type="number" value="${rol.jornada}" min="1" max="100" style="width:65px" onchange="roles.find(r=>r.id==${rol.id}).jornada=parseInt(this.value)||100;renderEquipo()"> %</td>
+      <td>${costoCell}</td>
+      <td><button class="btn btn-danger" onclick="delRol(${rol.id})">✕</button></td>
+    </tr>`;
+  });
+}
+
+function addRol(){
+  const id=nextRolId++;
+  roles.push({id,rol:'Nuevo rol',ref:'',tipo:'hora',monto:0,moneda:'CLP',jornada:100});
+  asignacion[id]={activo:false,pct:0,monto_proyecto:0};
+  renderEquipo();
+}
+function delRol(id){
+  if(roles.length<=1) return;
+  roles=roles.filter(r=>r.id!==id);
+  delete asignacion[id];
+  renderEquipo();
+}
+function recalcEquipo(){renderEquipo();}
+
+// ═══════════════════════════════════ PANEL 2: BIBLIOTECA ═══════════════════════════════════
+function renderBiblioteca(){
+  // Videos
+  const tbody1=document.getElementById('video-lib-body');
+  tbody1.innerHTML='';
+  videoLib.forEach(v=>{
+    const bclass=v.benchOk?'bench':'bench warn';
+    tbody1.innerHTML+=`<tr>
+      <td><strong>${v.nombre}</strong></td>
+      <td style="color:var(--muted);font-size:11px">${v.tool}</td>
+      <td><input type="number" value="${v.hPorMin}" min="0.05" step="0.05" style="width:80px"
+        onchange="videoLib.find(x=>x.id==='${v.id}').hPorMin=parseFloat(this.value)||0;actualizarResumen()">
+        <span class="${bclass}" title="Chapman Alliance ajustado IA">${v.bench}</span>
+      </td>
+      <td><input type="checkbox" ${v.incluyeGuion?'checked':''} style="accent-color:var(--blue);width:16px;height:16px"
+        onchange="videoLib.find(x=>x.id==='${v.id}').incluyeGuion=this.checked"></td>
+      <td><input type="number" value="${v.hGuion}" min="0" step="0.1" style="width:70px"
+        onchange="videoLib.find(x=>x.id==='${v.id}').hGuion=parseFloat(this.value)||0"> h/video</td>
+      <td><span class="${bclass}">${v.bench}</span></td>
+    </tr>`;
+  });
+  // Otros
+  const tbody2=document.getElementById('otros-lib-body');
+  tbody2.innerHTML='';
+  otrosLib.forEach(o=>{
+    const bclass=o.benchOk?'bench':'bench warn';
+    tbody2.innerHTML+=`<tr>
+      <td><strong>${o.nombre}</strong></td>
+      <td style="color:var(--muted);font-size:11px">${o.tool}</td>
+      <td><input type="number" value="${o.minConsumo}" min="1" style="width:70px"
+        onchange="otrosLib.find(x=>x.id==='${o.id}').minConsumo=parseInt(this.value)||0"> min</td>
+      <td><input type="number" value="${o.hPorU}" min="0.5" step="0.5" style="width:70px"
+        onchange="otrosLib.find(x=>x.id==='${o.id}').hPorU=parseFloat(this.value)||0;actualizarResumen()">
+        <span class="${bclass}" title="Chapman Alliance ajustado IA">${o.bench}</span>
+      </td>
+      <td><span class="${bclass}">${o.bench}</span></td>
+    </tr>`;
+  });
+}
+
+// ═══════════════════════════════════ PANEL 3: PROYECTO ═══════════════════════════════════
+
+function renderModuloEditor(mod, containerId, idx){
+  const c=document.getElementById(containerId);
+  if(!c) return;
+  const basePct=getN('p-base')/100;
+  let html='';
+
+  // Videos
+  html+=`<div class="rec-row">
+    <div class="rec-label"><span class="icon">🎬</span> Videos</div>
+    <div>
+      <div class="video-list" id="vlist-${containerId}">`;
+  (mod.videos||[]).forEach((v,vi)=>{
+    const vlib=getVideoLib(v.tipo);
+    const hCalc=((v.cantidad||1)*(v.minutos||10)*vlib.hPorMin + (vlib.incluyeGuion?(v.cantidad||1)*vlib.hGuion*(1-basePct):0)).toFixed(1);
+    html+=`<div class="video-item">
+      <div>
+        <label>Tipo</label>
+        <select onchange="setVideoTipo('${containerId}',${vi},this.value)">
+          ${videoLib.map(vl=>`<option value="${vl.id}" ${v.tipo===vl.id?'selected':''}>${vl.nombre}</option>`).join('')}
+        </select>
+      </div>
+      <div><label>Cantidad</label>
+        <input type="number" value="${v.cantidad}" min="1" style="width:60px"
+          onchange="setVideoVal('${containerId}',${vi},'cantidad',parseInt(this.value)||1)">
+      </div>
+      <div><label>Min. c/u</label>
+        <input type="number" value="${v.minutos}" min="1" style="width:65px"
+          onchange="setVideoVal('${containerId}',${vi},'minutos',parseInt(this.value)||5)">
+      </div>
+      <div><label>Hrs prod. est.</label>
+        <div style="font-weight:700;color:var(--blue);padding-top:6px;font-size:13px">${hCalc} h</div>
+      </div>
+      <button class="btn btn-danger" onclick="delVideo('${containerId}',${vi})">✕</button>
+    </div>`;
+  });
+  html+=`</div>
+      <button class="btn btn-ghost" style="margin-top:8px" onclick="addVideo('${containerId}')">+ Agregar video</button>
+    </div>
+  </div>`;
+
+  // Otros recursos
+  otrosLib.forEach(o=>{
+    const cfg=(mod.otros||{})[o.id]||{activo:false,cantidad:1};
+    const hCalc=cfg.activo?((cfg.cantidad||1)*o.hPorU).toFixed(1):'—';
+    html+=`<div class="rec-row" style="${!cfg.activo?'opacity:.5':''}">
+      <div class="rec-label">
+        <input type="checkbox" ${cfg.activo?'checked':''} style="accent-color:var(--blue);width:15px;height:15px;cursor:pointer"
+          onchange="setOtroActivo('${containerId}','${o.id}',this.checked)">
+        <span style="font-size:14px">📦</span> ${o.nombre}
+        <span class="text-muted" style="font-weight:400">${o.minConsumo} min</span>
+      </div>
+      <div class="flex ic gap12">
+        <div><label>Cantidad</label>
+          <input type="number" value="${cfg.cantidad}" min="1" style="width:70px" ${!cfg.activo?'disabled':''}
+            onchange="setOtroCantidad('${containerId}','${o.id}',parseInt(this.value)||1)">
+        </div>
+        <div><label>Hrs prod. est.</label>
+          <div style="font-weight:700;color:var(--blue);padding-top:6px;font-size:13px">${hCalc} h</div>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  // Totales del módulo
+  const tots=calcModulo(mod);
+  html+=`<div style="padding-top:12px;border-top:2px solid var(--blue-mid);display:flex;gap:20px;flex-wrap:wrap">
+    <span class="text-muted">Min. consumo estudiante: <strong style="color:var(--text)">${tots.minConsumo} min (${(tots.minConsumo/60).toFixed(1)} h)</strong></span>
+    <span class="text-muted">Horas producción: <strong class="text-blue">${tots.hProd.toFixed(1)} h</strong></span>
+  </div>`;
+
+  c.innerHTML=html;
+}
+
+// Helpers para módulo editor
+function getModRef(containerId){
+  if(containerId==='modulo-estandar') return moduloEstandar;
+  const idx=parseInt(containerId.replace('modulo-custom-',''));
+  return modulosCustom[idx];
+}
+
+function setVideoTipo(cid,vi,val){
+  const mod=getModRef(cid); mod.videos[vi].tipo=val;
+  renderModuloEditor(mod,cid); actualizarResumen();
+}
+function setVideoVal(cid,vi,key,val){
+  const mod=getModRef(cid); mod.videos[vi][key]=val;
+  renderModuloEditor(mod,cid); actualizarResumen();
+}
+function addVideo(cid){
+  const mod=getModRef(cid);
+  mod.videos.push({tipo:'v-avatar',cantidad:1,minutos:10});
+  renderModuloEditor(mod,cid); actualizarResumen();
+}
+function delVideo(cid,vi){
+  const mod=getModRef(cid);
+  mod.videos.splice(vi,1);
+  renderModuloEditor(mod,cid); actualizarResumen();
+}
+function setOtroActivo(cid,rid,val){
+  const mod=getModRef(cid);
+  if(!mod.otros[rid]) mod.otros[rid]={activo:false,cantidad:1};
+  mod.otros[rid].activo=val;
+  renderModuloEditor(mod,cid); actualizarResumen();
+}
+function setOtroCantidad(cid,rid,val){
+  const mod=getModRef(cid);
+  if(!mod.otros[rid]) mod.otros[rid]={activo:true,cantidad:1};
+  mod.otros[rid].cantidad=val;
+  renderModuloEditor(mod,cid); actualizarResumen();
+}
+
+function generarModulos(){
+  const n=parseInt(getN('p-modulos'))||4;
+  // Sincronizar array custom
+  while(modulosCustom.length<n) modulosCustom.push(JSON.parse(JSON.stringify(moduloEstandar)));
+  modulosCustom=modulosCustom.slice(0,n);
+  renderModulos();
+}
+
+function renderModulos(){
+  const estructura=getS('p-estructura');
+  document.getElementById('bloque-uniforme').style.display=estructura==='uniforme'?'block':'none';
+  document.getElementById('bloque-custom').style.display=estructura==='custom'?'block':'none';
+
+  if(estructura==='uniforme'){
+    renderModuloEditor(moduloEstandar,'modulo-estandar');
+  } else {
+    const n=parseInt(getN('p-modulos'))||4;
+    const cont=document.getElementById('modulos-custom-container');
+    cont.innerHTML='';
+    for(let i=0;i<n;i++){
+      const mid=`modulo-custom-${i}`;
+      cont.innerHTML+=`
+        <div class="modulo-block">
+          <div class="modulo-header" onclick="toggleModulo(${i})">
+            <div class="modulo-num">${i+1}</div>
+            <div class="modulo-name">Módulo ${i+1}</div>
+            <div class="modulo-stats" id="mstats-${i}">—</div>
+            <span class="chevron" id="chev-${i}">▼</span>
+          </div>
+          <div class="modulo-body" id="mbody-${i}">
+            <div id="${mid}"></div>
+          </div>
+        </div>`;
+    }
+    for(let i=0;i<n;i++){
+      renderModuloEditor(modulosCustom[i],`modulo-custom-${i}`);
+      updModuloStats(i);
+    }
+  }
+  renderAsignacion();
+  actualizarResumen();
+}
+
+function toggleModulo(i){
+  const body=document.getElementById(`mbody-${i}`);
+  const chev=document.getElementById(`chev-${i}`);
+  const open=body.classList.toggle('open');
+  chev.classList.toggle('open',open);
+}
+
+function updModuloStats(i){
+  const el=document.getElementById(`mstats-${i}`);
+  if(!el) return;
+  const tots=calcModulo(modulosCustom[i]);
+  el.innerHTML=`<span>${(tots.minConsumo/60).toFixed(1)} h consumo</span><span>${tots.hProd.toFixed(1)} h producción</span>`;
+}
+
+function cambiarEstructura(){
+  generarModulos();
+}
+
+function actualizarResumen(){
+  const n=parseInt(getN('p-modulos'))||4;
+  const estructura=getS('p-estructura');
+  let totalMin=0, totalH=0, totalRecursos=0;
+
+  for(let i=0;i<n;i++){
+    const mod=estructura==='uniforme' ? moduloEstandar : (modulosCustom[i]||moduloEstandar);
+    const t=calcModulo(mod);
+    totalMin+=t.minConsumo; totalH+=t.hProd;
+    totalRecursos+=mod.videos.reduce((s,v)=>s+(v.cantidad||1),0);
+    Object.values(mod.otros||{}).forEach(c=>{if(c.activo) totalRecursos+=(c.cantidad||1);});
+  }
+
+  const horasCurso=totalMin/60;
+  const ratio=horasCurso>0?(totalH/horasCurso).toFixed(1):'—';
+
+  document.getElementById('rq-horas').textContent=(horasCurso).toFixed(1)+' h';
+  document.getElementById('rq-recursos').textContent=totalRecursos+' unidades';
+  document.getElementById('rq-hprod').textContent=totalH.toFixed(1)+' h';
+  document.getElementById('rq-ratio').textContent=ratio+'x';
+
+  if(estructura==='custom'){
+    for(let i=0;i<n;i++) updModuloStats(i);
+  }
+  renderAsignacion();
+}
+
+function renderAsignacion(){
+  const tbody=document.getElementById('asig-body');
+  if(!tbody) return;
+  tbody.innerHTML='';
+  const hm=getN('horas-mes')||160;
+  roles.forEach(rol=>{
+    const asig=asignacion[rol.id]||{activo:true,pct:50,monto_proyecto:rol.monto};
+    const cph=costoHoraRol(rol)||0;
+    let costoCell='', horasCell='—';
+
+    if(rol.tipo==='proyecto'){
+      costoCell=`<div class="pfx" style="width:160px"><span>$</span>
+        <input type="number" value="${asig.monto_proyecto||0}" min="0" style="width:160px" ${!asig.activo?'disabled':''}
+          onchange="asignacion[${rol.id}].monto_proyecto=parseFloat(this.value)||0;actualizarResumen()">
+        </div>`;
+      horasCell='por proyecto';
+    } else if(rol.tipo==='hora'){
+      const hrs=(asig.pct||0);
+      const costo=Math.round(hrs*cph);
+      costoCell=`<strong class="text-blue">${clp(costo)}</strong>`;
+      horasCell=`<input type="number" value="${asig.pct||0}" min="0" style="width:70px" ${!asig.activo?'disabled':''}
+        placeholder="hrs totales"
+        onchange="asignacion[${rol.id}].pct=parseFloat(this.value)||0;renderAsignacion()"> hrs`;
+    } else {
+      const hrs=hm*(rol.jornada/100)*((asig.pct||0)/100);
+      const costo=Math.round(hrs*cph);
+      horasCell=`${hrs.toFixed(1)} h`;
+      costoCell=`<strong class="text-blue">${clp(costo)}</strong>`;
+    }
+
+    const controlDedicacion = rol.tipo==='proyecto' ? '' :
+      rol.tipo==='hora' ? '' :
+      `<div class="flex ic gap8">
+        <input type="range" min="5" max="100" step="5" value="${asig.pct||0}" ${!asig.activo?'disabled':''}
+          oninput="asignacion[${rol.id}].pct=parseInt(this.value);renderAsignacion()" style="width:100px;accent-color:var(--blue)">
+        <span style="font-weight:700;color:var(--blue);min-width:36px">${asig.pct||0}%</span>
+      </div>`;
+
+    tbody.innerHTML+=`<tr style="${!asig.activo?'opacity:.45':''}">
+      <td><strong>${rol.rol}</strong>${rol.ref?` <span class="text-muted">(${rol.ref})</span>`:''}
+        <span class="badge ${rol.tipo==='fijo'?'badge-green':rol.tipo==='proyecto'?'badge-orange':'badge-blue'}" style="margin-left:4px">${rol.tipo}</span>
+      </td>
+      <td><input type="checkbox" ${asig.activo?'checked':''} style="accent-color:var(--blue);width:16px;height:16px;cursor:pointer"
+        onchange="asignacion[${rol.id}].activo=this.checked;renderAsignacion()"></td>
+      <td>${controlDedicacion}</td>
+      <td>${horasCell}</td>
+      <td>${costoCell}</td>
+    </tr>`;
+  });
+}
+
+// ═══════════════════════════════════ PANEL 4: RESULTADOS ═══════════════════════════════════
+
+function calcularResultados(){
+  const n=parseInt(getN('p-modulos'))||4;
+  const estructura=getS('p-estructura');
+  const hm=getN('horas-mes')||160;
+  const overhead=(getN('overhead')||10)/100;
+
+  // Horas por recurso (acumulado)
+  let totalHProd=0, totalMinConsumo=0;
+  const recResumen={};
+  const modResumen=[];
+
+  for(let i=0;i<n;i++){
+    const mod=estructura==='uniforme' ? moduloEstandar : (modulosCustom[i]||moduloEstandar);
+    const t=calcModulo(mod);
+    totalHProd+=t.hProd; totalMinConsumo+=t.minConsumo;
+
+    // Por módulo
+    modResumen.push({nombre:`Módulo ${i+1}`, minConsumo:t.minConsumo, hProd:t.hProd, recursos:0});
+
+    // Por recurso
+    const basePct=getN('p-base')/100;
+    (mod.videos||[]).forEach(v=>{
+      const lib=getVideoLib(v.tipo);
+      const minsTot=(v.cantidad||1)*(v.minutos||10);
+      let h=minsTot*lib.hPorMin+(lib.incluyeGuion?(v.cantidad||1)*lib.hGuion*(1-basePct):0);
+      const key=lib.nombre;
+      if(!recResumen[key]) recResumen[key]={unidades:0,horas:0};
+      recResumen[key].unidades+=(v.cantidad||1);
+      recResumen[key].horas+=h;
+    });
+    Object.entries(mod.otros||{}).forEach(([rid,cfg])=>{
+      if(!cfg.activo) return;
+      const lib=getOtroLib(rid); if(!lib) return;
+      const key=lib.nombre;
+      if(!recResumen[key]) recResumen[key]={unidades:0,horas:0};
+      recResumen[key].unidades+=(cfg.cantidad||1);
+      recResumen[key].horas+=lib.hPorU*(cfg.cantidad||1);
+    });
+  }
+
+  // Costo por rol
+  let costoDirecto=0;
+  const rolResumen=[];
+  roles.forEach(rol=>{
+    const asig=asignacion[rol.id]||{activo:false};
+    if(!asig.activo) return;
+    const cph=costoHoraRol(rol)||0;
+    let costo=0, horas=0;
+    if(rol.tipo==='proyecto'){
+      costo=asig.monto_proyecto||0;
+    } else if(rol.tipo==='hora'){
+      horas=asig.pct||0;
+      costo=Math.round(horas*cph);
+    } else {
+      horas=hm*(rol.jornada/100)*((asig.pct||0)/100);
+      costo=Math.round(horas*cph);
+    }
+    costoDirecto+=costo;
+    rolResumen.push({nombre:rol.rol+(rol.ref?` (${rol.ref})`:''), horas, costo});
+  });
+
+  const costoTotal=Math.round(costoDirecto*(1+overhead));
+  const horasCurso=totalMinConsumo/60;
+  const ratio=horasCurso>0?(totalHProd/horasCurso).toFixed(1):'—';
+
+  // KPIs
+  document.getElementById('r-hprod').textContent=totalHProd.toFixed(0);
+  document.getElementById('r-ratio').textContent=ratio+'x';
+  document.getElementById('r-cdirecto').textContent=clp(costoDirecto);
+  document.getElementById('r-ctotal').textContent=clp(costoTotal);
+
+  // Por rol
+  const tbRol=document.getElementById('r-rol-body');
+  tbRol.innerHTML='';
+  rolResumen.forEach(r=>{
+    const pct=costoDirecto>0?Math.round(r.costo/costoDirecto*100):0;
+    tbRol.innerHTML+=`<tr>
+      <td>${r.nombre}</td>
+      <td>${r.horas>0?r.horas.toFixed(1)+' h':'proyecto'}</td>
+      <td class="text-blue">${clp(r.costo)}</td>
+      <td><div class="bar-wrap"><div class="bar" style="width:${Math.max(pct,1)}px"></div><span>${pct}%</span></div></td>
+    </tr>`;
+  });
+  tbRol.innerHTML+=`<tr class="tfoot"><td>TOTAL</td><td>—</td><td>${clp(costoDirecto)}</td><td></td></tr>`;
+
+  // Por recurso
+  const tbRec=document.getElementById('r-rec-body');
+  tbRec.innerHTML='';
+  Object.entries(recResumen).forEach(([nombre,data])=>{
+    const pct=totalHProd>0?Math.round(data.horas/totalHProd*100):0;
+    tbRec.innerHTML+=`<tr>
+      <td>${nombre}</td>
+      <td>${data.unidades}</td>
+      <td>${data.horas.toFixed(1)} h</td>
+      <td><div class="bar-wrap"><div class="bar" style="width:${Math.max(pct,1)}px"></div><span>${pct}%</span></div></td>
+    </tr>`;
+  });
+  tbRec.innerHTML+=`<tr class="tfoot"><td>TOTAL</td><td>—</td><td>${totalHProd.toFixed(1)} h</td><td></td></tr>`;
+
+  // Por módulo
+  const tbMod=document.getElementById('r-mod-body');
+  tbMod.innerHTML='';
+  const costoxH=totalHProd>0?costoDirecto/totalHProd:0;
+  modResumen.forEach(m=>{
+    tbMod.innerHTML+=`<tr>
+      <td>${m.nombre}</td>
+      <td>—</td>
+      <td>${(m.minConsumo/60).toFixed(1)} h</td>
+      <td>${m.hProd.toFixed(1)} h</td>
+      <td class="text-blue">${clp(m.hProd*costoxH)}</td>
+    </tr>`;
+  });
+  tbMod.innerHTML+=`<tr class="tfoot"><td>TOTAL</td><td>—</td><td>${(totalMinConsumo/60).toFixed(1)} h</td><td>${totalHProd.toFixed(1)} h</td><td>${clp(costoDirecto)}</td></tr>`;
+
+  window._costoTotal=costoTotal;
+  window._horasCurso=horasCurso;
+  window._nModulos=n;
+  updMargen();
+}
+
+function updMargen(){
+  const pct=parseInt(document.getElementById('margen-slider')?.value)||35;
+  const disp=document.getElementById('margen-disp');
+  const inp=document.getElementById('margen-input');
+  if(disp) disp.textContent=pct+'%';
+  if(inp) inp.value=pct;
+  calcPV(pct);
+}
+function updMargenInput(){
+  const pct=parseInt(document.getElementById('margen-input')?.value)||35;
+  const slider=document.getElementById('margen-slider');
+  const disp=document.getElementById('margen-disp');
+  if(slider) slider.value=pct;
+  if(disp) disp.textContent=pct+'%';
+  calcPV(pct);
+}
+function calcPV(margenPct){
+  const costo=window._costoTotal||0;
+  const horas=window._horasCurso||1;
+  const n=window._nModulos||1;
+  const m=margenPct/100;
+  const pv=m<1?Math.round(costo/(1-m)):costo*2;
+  const margenMonto=pv-costo;
+  const xHora=horas>0?Math.round(pv/horas):0;
+  const xMod=n>0?Math.round(pv/n):0;
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('pv-costo',clp(costo));
+  set('pv-margen-monto',clp(margenMonto));
+  set('pv-total',clp(pv));
+  set('pv-x-hora',clp(xHora)+'/hr curso');
+  set('pv-x-mod',clp(xMod)+'/módulo');
+  set('hackea-retiene',clp(margenMonto));
+}
+
+// ═══════════════════════════════════ NAV ═══════════════════════════════════
+function showPanel(name,tab){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  if(tab) tab.classList.add('active');
+  if(name==='proyecto'){renderModulos();}
+  if(name==='resultados'){calcularResultados();}
+}
+
+function showSubTab(name,el){
+  document.querySelectorAll('.sub-panel').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sub-'+name).style.display='block';
+  el.classList.add('active');
+}
+
+// ═══════════════════════════════════ INIT ═══════════════════════════════════
+renderEquipo();
+renderBiblioteca();
+generarModulos();
+</script>
+</body>
+</html>
