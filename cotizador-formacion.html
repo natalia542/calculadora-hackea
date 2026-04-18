@@ -189,6 +189,7 @@ table.desglose-tabla tr.categoria td { background: var(--azul-claro); font-weigh
 table.desglose-tabla tr.subtotal td { background: var(--fondo); font-weight: 600; }
 table.desglose-tabla tr.total td { background: var(--azul); color: var(--blanco); font-weight: 700; font-family: 'Poppins', sans-serif; font-size: 0.95rem; }
 table.desglose-tabla tr.margen td { background: #FFF7E6; font-style: italic; color: var(--texto-muted); }
+table.desglose-tabla tr.subtotal-cat td { background: #F0F9FF; font-style: italic; color: var(--azul-oscuro); font-weight: 600; }
 
 .nota-interna { font-size: 0.75rem; color: var(--texto-muted); background: #FFF7E6; padding: 0.5rem 0.75rem; border-radius: var(--radio); border-left: 3px solid #F59E0B; margin-top: 0.75rem; }
 
@@ -988,6 +989,14 @@ function renderDesglose(escenarios, params) {
     if (e.vacio) { div.innerHTML = `<p style="color:var(--texto-muted); padding: 1rem;">Sin datos.</p>`; return; }
 
     const retPct = params.retencion.toFixed(2);
+    const base = e.subtotalBruto;
+
+    // Helper: formatea monto bruto con % sobre subtotal del proyecto
+    const cellBruto = (v) => {
+      if (base <= 0) return `<strong>${fmtCLP(v)}</strong>`;
+      const pct = (v / base) * 100;
+      return `<strong>${fmtCLP(v)}</strong><div style="font-size:0.72rem; color:var(--texto-muted); font-weight:400; margin-top:2px;">${pct.toFixed(1)}% del proyecto</div>`;
+    };
 
     let detalleRelator, montoLiqRelator;
     const vhTxtRelator = params.modalidadRelator === 'mensual' ? `${fmtCLP(params.vhMensualRelator)}/hr (tarifa mensual)` : `${fmtCLP(params.vhRelator)}/hr`;
@@ -1008,23 +1017,36 @@ function renderDesglose(escenarios, params) {
     }
 
     let html = `<table class="desglose-tabla"><thead><tr><th>Ítem</th><th class="num">Detalle</th><th class="num">Líquido (CLP)</th><th class="num">Bruto c/ret ${retPct}%</th></tr></thead><tbody>`;
+
+    // 1. Ejecución docente
     html += `<tr class="categoria"><td colspan="4">1. Ejecución docente</td></tr>`;
-    html += `<tr><td>Relatores (${params.modalidadRelator})</td><td class="num">${detalleRelator}</td><td class="num">${montoLiqRelator}</td><td class="num"><strong>${fmtCLP(e.costoRelatorBruto)}</strong></td></tr>`;
+    html += `<tr><td>Relatores (${params.modalidadRelator})</td><td class="num">${detalleRelator}</td><td class="num">${montoLiqRelator}</td><td class="num">${cellBruto(e.costoRelatorBruto)}</td></tr>`;
     if (params.incluyeAyudante) {
-      html += `<tr><td>Ayudantes (${params.modalidadAyudante})</td><td class="num">${detalleAyudante}</td><td class="num">${montoLiqAyudante}</td><td class="num"><strong>${fmtCLP(e.costoAyudanteBruto)}</strong></td></tr>`;
+      html += `<tr><td>Ayudantes (${params.modalidadAyudante})</td><td class="num">${detalleAyudante}</td><td class="num">${montoLiqAyudante}</td><td class="num">${cellBruto(e.costoAyudanteBruto)}</td></tr>`;
     }
+    html += `<tr class="subtotal-cat"><td colspan="3">→ Subtotal ejecución docente</td><td class="num">${cellBruto(e.ejecucionDocente)}</td></tr>`;
+
+    // 2. Coordinación
     html += `<tr class="categoria"><td colspan="4">2. Coordinación y gestión</td></tr>`;
-    html += `<tr><td>Coordinador(es)</td><td class="num">${params.nCoord} × ${e.mesesCoordTot} meses × ${fmtCLP(params.sueldoCoord)}</td><td class="num">${fmtCLP(e.costoCoordLiq)}</td><td class="num"><strong>${fmtCLP(e.costoCoordBruto)}</strong></td></tr>`;
+    html += `<tr><td>Coordinador(es)</td><td class="num">${params.nCoord} × ${e.mesesCoordTot} meses × ${fmtCLP(params.sueldoCoord)}</td><td class="num">${fmtCLP(e.costoCoordLiq)}</td><td class="num">${cellBruto(e.costoCoordBruto)}</td></tr>`;
     if (params.incluyeAdmin) {
-      html += `<tr><td>Administrativo(s)</td><td class="num">${params.nAdmin} × ${e.mesesProy} meses × ${fmtCLP(params.sueldoAdmin)}</td><td class="num">${fmtCLP(e.costoAdminLiq)}</td><td class="num"><strong>${fmtCLP(e.costoAdminBruto)}</strong></td></tr>`;
+      html += `<tr><td>Administrativo(s)</td><td class="num">${params.nAdmin} × ${e.mesesProy} meses × ${fmtCLP(params.sueldoAdmin)}</td><td class="num">${fmtCLP(e.costoAdminLiq)}</td><td class="num">${cellBruto(e.costoAdminBruto)}</td></tr>`;
     }
+    html += `<tr class="subtotal-cat"><td colspan="3">→ Subtotal coordinación y gestión</td><td class="num">${cellBruto(e.coordGestion)}</td></tr>`;
+
+    // 3. Desarrollo de contenido
     html += `<tr class="categoria"><td colspan="4">3. Desarrollo de contenido</td></tr>`;
-    html += `<tr><td>Material / contenido</td><td class="num">Global</td><td class="num">—</td><td class="num"><strong>${fmtCLP(e.devMaterial)}</strong></td></tr>`;
+    html += `<tr><td>Material / contenido</td><td class="num">Global</td><td class="num">—</td><td class="num">${cellBruto(e.devMaterial)}</td></tr>`;
+
+    // 4. Plataformas
     html += `<tr class="categoria"><td colspan="4">4. Plataformas y tecnología</td></tr>`;
-    html += `<tr><td>Licencias Zoom</td><td class="num">${params.nZoom} × ${e.mesesProy} meses × ${fmtCLP(params.costoZoom)}</td><td class="num">—</td><td class="num"><strong>${fmtCLP(e.costoZoomTot)}</strong></td></tr>`;
-    html += `<tr><td>Herramientas digitales</td><td class="num">${e.mesesProy} meses × ${fmtCLP(params.costoTools)}</td><td class="num">—</td><td class="num"><strong>${fmtCLP(e.costoToolsTot)}</strong></td></tr>`;
-    if (e.otrosGastos > 0) html += `<tr><td>Otros gastos</td><td class="num">Global</td><td class="num">—</td><td class="num"><strong>${fmtCLP(e.otrosGastos)}</strong></td></tr>`;
-    html += `<tr class="subtotal"><td colspan="3">Subtotal costos brutos</td><td class="num">${fmtCLP(e.subtotalBruto)}</td></tr>`;
+    html += `<tr><td>Licencias Zoom</td><td class="num">${params.nZoom} × ${e.mesesProy} meses × ${fmtCLP(params.costoZoom)}</td><td class="num">—</td><td class="num">${cellBruto(e.costoZoomTot)}</td></tr>`;
+    html += `<tr><td>Herramientas digitales</td><td class="num">${e.mesesProy} meses × ${fmtCLP(params.costoTools)}</td><td class="num">—</td><td class="num">${cellBruto(e.costoToolsTot)}</td></tr>`;
+    if (e.otrosGastos > 0) html += `<tr><td>Otros gastos</td><td class="num">Global</td><td class="num">—</td><td class="num">${cellBruto(e.otrosGastos)}</td></tr>`;
+    html += `<tr class="subtotal-cat"><td colspan="3">→ Subtotal plataformas y tecnología</td><td class="num">${cellBruto(e.plataformasTech)}</td></tr>`;
+
+    // Totales
+    html += `<tr class="subtotal"><td colspan="3">Subtotal costos brutos (100% del proyecto)</td><td class="num">${fmtCLP(e.subtotalBruto)}</td></tr>`;
     html += `<tr class="subtotal"><td colspan="3">+ Contingencia (${params.contingencia}%)</td><td class="num">${fmtCLP(e.contingenciaMonto)}</td></tr>`;
     html += `<tr class="subtotal"><td colspan="3">= Costo total del proyecto (bruto)</td><td class="num">${fmtCLP(e.costoTotalBruto)}</td></tr>`;
     html += `<tr class="margen"><td colspan="3">+ Margen / utilidad (${params.margen}%) — no se muestra al cliente</td><td class="num">${fmtCLP(e.margenMonto)}</td></tr>`;
@@ -1242,8 +1264,8 @@ async function exportarPPTX() {
     slideVisionGeneral(pptx, params, escenarios, modo);
     slideCronograma(pptx, params, escenarios, modo);
     slideEquipo(pptx, params);
+    // Slide "Inversión" individual deshabilitado a pedido del usuario — el precio total se muestra en "Indicadores".
     if (modo === 'comparada') slideComparativa(pptx, params, escenarios);
-    else slideInversion(pptx, params, escenarios.find(x => x.letra === modo));
     slideIndicadores(pptx, params, escenarios, modo);
     slideCondiciones(pptx, params);
     slideCierre(pptx);
