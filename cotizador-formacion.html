@@ -726,15 +726,19 @@ function calcular() {
     // El costo del relator = horas totales × valor hora efectiva (tarifa depende de la modalidad).
     // El N° de relatores NO multiplica el costo — solo afecta cómo se reparte el pago entre personas.
     horasImparticionRelator = sumaAsignados * horas;
-    horasExtrasRelatorTot = nRelatores * hExtraRelator * semanasProy;
+    // Horas extras: si "uno por grupo", cada relator trabaja solo las semanas de SU grupo.
+    //               Si "N° fijo", cada relator acompaña todo el proyecto.
+    if (relatorModo === 'por-grupo') {
+      horasExtrasRelatorTot = bloquesHorarios.reduce((sum, b) => sum + b.grupos * b.semanasPorGrupo * hExtraRelator, 0);
+    } else {
+      horasExtrasRelatorTot = nRelatoresFijos * semanasProy * hExtraRelator;
+    }
     horasRelatorTot = horasImparticionRelator + horasExtrasRelatorTot;
     const vhEfectivaRelator = modalidadRelator === 'mensual' ? vhMensualRelator : vhRelator;
     costoRelatorLiq = horasRelatorTot * vhEfectivaRelator;
     costoRelatorBruto = costoRelatorLiq * factor;
     if (nRelatores > 0 && mesesProy > 0) {
-      const horasImparticionPorRelator = (sumaAsignados * horas) / nRelatores;
-      const horasExtrasPorRelatorMes = hExtraRelator * (semanasProy / mesesProy);
-      jornadaMensualRelator = (horasImparticionPorRelator / mesesProy) + horasExtrasPorRelatorMes;
+      jornadaMensualRelator = horasRelatorTot / nRelatores / mesesProy;
     }
 
     let nAyudantes = 0, horasImparticionAyudante = 0, horasExtrasAyudanteTot = 0, horasAyudanteTot = 0;
@@ -743,15 +747,17 @@ function calcular() {
     if (incluyeAyudante) {
       nAyudantes = ayudanteModo === 'por-grupo' ? (sumaAsignados || numGruposTotal) : nAyudantesFijos;
       horasImparticionAyudante = sumaAsignados * horas;
-      horasExtrasAyudanteTot = nAyudantes * hExtraAyudante * semanasProy;
+      if (ayudanteModo === 'por-grupo') {
+        horasExtrasAyudanteTot = bloquesHorarios.reduce((sum, b) => sum + b.grupos * b.semanasPorGrupo * hExtraAyudante, 0);
+      } else {
+        horasExtrasAyudanteTot = nAyudantesFijos * semanasProy * hExtraAyudante;
+      }
       horasAyudanteTot = horasImparticionAyudante + horasExtrasAyudanteTot;
       const vhEfectivaAyudante = modalidadAyudante === 'mensual' ? vhMensualAyudante : vhAyudante;
       costoAyudanteLiq = horasAyudanteTot * vhEfectivaAyudante;
       costoAyudanteBruto = costoAyudanteLiq * factor;
       if (nAyudantes > 0 && mesesProy > 0) {
-        const horasImparticionPorAyudante = (sumaAsignados * horas) / nAyudantes;
-        const horasExtrasPorAyudanteMes = hExtraAyudante * (semanasProy / mesesProy);
-        jornadaMensualAyudante = (horasImparticionPorAyudante / mesesProy) + horasExtrasPorAyudanteMes;
+        jornadaMensualAyudante = horasAyudanteTot / nAyudantes / mesesProy;
       }
     }
 
@@ -985,13 +991,19 @@ function renderDesglose(escenarios, params) {
 
     let detalleRelator, montoLiqRelator;
     const vhTxtRelator = params.modalidadRelator === 'mensual' ? `${fmtCLP(params.vhMensualRelator)}/hr (tarifa mensual)` : `${fmtCLP(params.vhRelator)}/hr`;
-    detalleRelator = `${e.sumaAsignados} grupos × ${params.horas} hrs = ${e.horasImparticionRelator} hrs imp. + ${e.nRelatores} relator(es) × ${params.hExtraRelator} hrs/sem × ${e.semanasProy} sem = ${e.horasExtrasRelatorTot} hrs extra. Total ${e.horasRelatorTot} hrs × ${vhTxtRelator}`;
+    const extrasTxtRelator = params.relatorModo === 'por-grupo'
+      ? `${e.nRelatores} relator(es) × ${params.hExtraRelator} hrs/sem × sem de cada grupo = ${Math.round(e.horasExtrasRelatorTot)} hrs extra`
+      : `${params.nRelatoresFijos} relator(es) fijo × ${params.hExtraRelator} hrs/sem × ${e.semanasProy} sem = ${Math.round(e.horasExtrasRelatorTot)} hrs extra`;
+    detalleRelator = `${e.sumaAsignados} grupos × ${params.horas} hrs = ${e.horasImparticionRelator} hrs imp. + ${extrasTxtRelator}. Total ${Math.round(e.horasRelatorTot)} hrs × ${vhTxtRelator}`;
     montoLiqRelator = fmtCLP(e.costoRelatorLiq);
 
     let detalleAyudante = '', montoLiqAyudante = '';
     if (params.incluyeAyudante) {
       const vhTxtAyudante = params.modalidadAyudante === 'mensual' ? `${fmtCLP(params.vhMensualAyudante)}/hr (tarifa mensual)` : `${fmtCLP(params.vhAyudante)}/hr`;
-      detalleAyudante = `${e.sumaAsignados} grupos × ${params.horas} hrs = ${e.horasImparticionAyudante} hrs imp. + ${e.nAyudantes} ayudante(s) × ${params.hExtraAyudante} hrs/sem × ${e.semanasProy} sem = ${e.horasExtrasAyudanteTot} hrs extra. Total ${e.horasAyudanteTot} hrs × ${vhTxtAyudante}`;
+      const extrasTxtAyudante = params.ayudanteModo === 'por-grupo'
+        ? `${e.nAyudantes} ayudante(s) × ${params.hExtraAyudante} hrs/sem × sem de cada grupo = ${Math.round(e.horasExtrasAyudanteTot)} hrs extra`
+        : `${params.nAyudantesFijos} ayudante(s) fijo × ${params.hExtraAyudante} hrs/sem × ${e.semanasProy} sem = ${Math.round(e.horasExtrasAyudanteTot)} hrs extra`;
+      detalleAyudante = `${e.sumaAsignados} grupos × ${params.horas} hrs = ${e.horasImparticionAyudante} hrs imp. + ${extrasTxtAyudante}. Total ${Math.round(e.horasAyudanteTot)} hrs × ${vhTxtAyudante}`;
       montoLiqAyudante = fmtCLP(e.costoAyudanteLiq);
     }
 
