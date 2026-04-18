@@ -425,7 +425,7 @@ footer strong { color: var(--azul); }
 
       <div class="grupo-condicional" id="bloque-relator-hora">
         <div class="campo"><label>Valor hora LÍQUIDO relator <span class="hint">(CLP)</span></label><input type="number" id="vh-relator" placeholder="50000" min="0"></div>
-        <div class="campo"><label>Horas extras POR RELATOR <span class="hint">(bolsa personal · total proyecto)</span></label><input type="number" id="h-extra-relator" value="4" min="0" step="0.5"></div>
+        <div class="campo"><label>Horas extras POR RELATOR <span class="hint">(hrs/semana · se multiplica por semanas del proyecto)</span></label><input type="number" id="h-extra-relator" value="1" min="0" step="0.5"></div>
       </div>
 
       <div class="grupo-condicional oculto" id="bloque-relator-mensual">
@@ -458,7 +458,7 @@ footer strong { color: var(--azul); }
 
         <div class="grupo-condicional" id="bloque-ayudante-hora">
           <div class="campo"><label>Valor hora LÍQUIDO ayudante <span class="hint">(CLP)</span></label><input type="number" id="vh-ayudante" placeholder="15000" min="0"></div>
-          <div class="campo"><label>Horas extras POR AYUDANTE <span class="hint">(total proyecto · suele ser > que relator)</span></label><input type="number" id="h-extra-ayudante" value="2" min="0" step="0.5"></div>
+          <div class="campo"><label>Horas extras POR AYUDANTE <span class="hint">(hrs/semana · suele ser más que el relator si revisa tareas)</span></label><input type="number" id="h-extra-ayudante" value="1" min="0" step="0.5"></div>
         </div>
 
         <div class="grupo-condicional oculto" id="bloque-ayudante-mensual">
@@ -727,15 +727,15 @@ function calcular() {
       costoRelatorBruto = costoRelatorLiq * factor;
     } else {
       horasImparticionRelator = sumaAsignados * horas;
-      horasExtrasRelatorTot = nRelatores * hExtraRelator;
+      horasExtrasRelatorTot = nRelatores * hExtraRelator * semanasProy;
       horasRelatorTot = horasImparticionRelator + horasExtrasRelatorTot;
       costoRelatorLiq = horasRelatorTot * vhRelator;
       costoRelatorBruto = costoRelatorLiq * factor;
     }
     if (nRelatores > 0 && mesesProy > 0) {
-      const horasPorRelator = (sumaAsignados * horas) / nRelatores;
-      const horasExtrasMensuales = hExtraRelator / mesesProy;
-      jornadaMensualRelator = (horasPorRelator / mesesProy) + horasExtrasMensuales;
+      const horasImparticionPorRelator = (sumaAsignados * horas) / nRelatores;
+      const horasExtrasPorRelatorMes = hExtraRelator * (semanasProy / mesesProy);
+      jornadaMensualRelator = (horasImparticionPorRelator / mesesProy) + horasExtrasPorRelatorMes;
     }
 
     let nAyudantes = 0, horasImparticionAyudante = 0, horasExtrasAyudanteTot = 0, horasAyudanteTot = 0;
@@ -747,7 +747,7 @@ function calcular() {
         costoAyudanteBruto = costoAyudanteLiq * factor;
       } else {
         horasImparticionAyudante = sumaAsignados * horas;
-        horasExtrasAyudanteTot = nAyudantes * hExtraAyudante;
+        horasExtrasAyudanteTot = nAyudantes * hExtraAyudante * semanasProy;
         horasAyudanteTot = horasImparticionAyudante + horasExtrasAyudanteTot;
         costoAyudanteLiq = horasAyudanteTot * vhAyudante;
         costoAyudanteBruto = costoAyudanteLiq * factor;
@@ -944,7 +944,7 @@ function renderDesglose(escenarios, params) {
       detalleRelator = `${e.nRelatores} relator(es) × ${e.mesesProy} meses × ${fmtCLP(params.sueldoMensualRelator)} mensual`;
       montoLiqRelator = fmtCLP(e.costoRelatorLiq);
     } else {
-      detalleRelator = `${e.sumaAsignados} grupos × ${params.horas} hrs = ${e.horasImparticionRelator} hrs imp. + ${e.nRelatores} × ${params.hExtraRelator} hrs extra = ${e.horasExtrasRelatorTot} hrs. Total ${e.horasRelatorTot} hrs × ${fmtCLP(params.vhRelator)}`;
+      detalleRelator = `${e.sumaAsignados} grupos × ${params.horas} hrs = ${e.horasImparticionRelator} hrs imp. + ${e.nRelatores} relator(es) × ${params.hExtraRelator} hrs/sem × ${e.semanasProy} sem = ${e.horasExtrasRelatorTot} hrs extra. Total ${e.horasRelatorTot} hrs × ${fmtCLP(params.vhRelator)}`;
       montoLiqRelator = fmtCLP(e.costoRelatorLiq);
     }
 
@@ -953,7 +953,7 @@ function renderDesglose(escenarios, params) {
       if (params.modalidadAyudante === 'mensual') {
         detalleAyudante = `${e.nAyudantes} ayudante(s) × ${e.mesesProy} meses × ${fmtCLP(params.sueldoMensualAyudante)} mensual`;
       } else {
-        detalleAyudante = `${e.sumaAsignados} grupos × ${params.horas} hrs = ${e.horasImparticionAyudante} hrs imp. + ${e.nAyudantes} × ${params.hExtraAyudante} hrs extra = ${e.horasExtrasAyudanteTot} hrs. Total ${e.horasAyudanteTot} hrs × ${fmtCLP(params.vhAyudante)}`;
+        detalleAyudante = `${e.sumaAsignados} grupos × ${params.horas} hrs = ${e.horasImparticionAyudante} hrs imp. + ${e.nAyudantes} ayudante(s) × ${params.hExtraAyudante} hrs/sem × ${e.semanasProy} sem = ${e.horasExtrasAyudanteTot} hrs extra. Total ${e.horasAyudanteTot} hrs × ${fmtCLP(params.vhAyudante)}`;
       }
       montoLiqAyudante = fmtCLP(e.costoAyudanteLiq);
     }
