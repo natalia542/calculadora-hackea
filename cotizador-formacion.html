@@ -9,13 +9,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/gh/gitbrent/PptxGenJS@3.12.0/dist/pptxgen.bundle.js"></script>
 <style>
-/* ═══════════════════════════════════════════
-   IDENTIDAD HACKEA — Variables
-   ═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════ IDENTIDAD HACKEA ═══════════════════════════════════════════ */
 :root {
   --azul: #0090F8;
   --azul-oscuro: #006FC4;
   --azul-claro: #E5F3FE;
+  --azul-h2: #8B5CF6;
+  --azul-h3: #F59E0B;
   --texto-principal: #2A2A2A;
   --texto-cuerpo: #404040;
   --texto-muted: #6B7280;
@@ -26,807 +26,212 @@
   --borde: #D1D5DB;
   --verde-ok: #10B981;
   --rojo-alerta: #EF4444;
+  --amarillo: #F59E0B;
   --sombra: 0 2px 8px rgba(0,0,0,0.06);
   --sombra-hover: 0 4px 16px rgba(0,0,0,0.10);
   --radio: 8px;
   --radio-grande: 16px;
 }
 
-/* ═══════════════════════════════════════════
-   RESET Y BASE
-   ═══════════════════════════════════════════ */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { font-size: 15px; }
+body { font-family: Arial, Helvetica, sans-serif; color: var(--texto-cuerpo); background: var(--fondo); line-height: 1.5; min-height: 100vh; }
+h1, h2, h3, h4, h5 { font-family: 'Poppins', sans-serif; color: var(--texto-principal); font-weight: 700; }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  color: var(--texto-cuerpo);
-  background: var(--fondo);
-  line-height: 1.5;
-  min-height: 100vh;
-}
-
-h1, h2, h3, h4, h5 {
-  font-family: 'Poppins', sans-serif;
-  color: var(--texto-principal);
-  font-weight: 700;
-}
-
-/* ═══════════════════════════════════════════
-   HEADER
-   ═══════════════════════════════════════════ */
-header {
-  background: var(--blanco);
-  border-bottom: 2px solid var(--borde);
-  padding: 1rem 2rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1600px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.logo-icono {
-  width: 36px;
-  height: 36px;
-  position: relative;
-  flex-shrink: 0;
-}
-
-.logo-icono svg {
-  width: 100%;
-  height: 100%;
-}
-
-.logo-texto {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 800;
-  font-size: 1.6rem;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-
+header { background: var(--blanco); border-bottom: 2px solid var(--borde); padding: 1rem 2rem; position: relative; overflow: hidden; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; max-width: 1600px; margin: 0 auto; position: relative; z-index: 2; }
+.logo { display: flex; align-items: center; gap: 0.75rem; }
+.logo-icono { width: 36px; height: 36px; flex-shrink: 0; }
+.logo-icono svg { width: 100%; height: 100%; }
+.logo-texto { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.6rem; letter-spacing: -0.02em; line-height: 1; }
 .logo-texto .hack { color: var(--negro); }
 .logo-texto .ea { color: var(--azul); }
+.header-titulo { font-size: 0.9rem; color: var(--texto-muted); text-align: right; }
+.header-titulo strong { display: block; color: var(--texto-principal); font-weight: 600; font-size: 1rem; }
+header::before { content: ''; position: absolute; top: -20px; right: 80px; width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--azul); opacity: 0.15; }
+header::after { content: ''; position: absolute; bottom: -30px; right: 180px; width: 50px; height: 50px; border-radius: 50%; background: var(--azul); opacity: 0.08; }
 
-.header-titulo {
-  font-size: 0.9rem;
-  color: var(--texto-muted);
-  text-align: right;
+main { max-width: 1600px; margin: 0 auto; padding: 2rem; display: grid; grid-template-columns: 440px 1fr; gap: 2rem; align-items: start; }
+@media (max-width: 1150px) { main { grid-template-columns: 1fr; } }
+
+.sidebar { background: var(--blanco); border-radius: var(--radio-grande); padding: 1.5rem; box-shadow: var(--sombra); position: sticky; top: 2rem; max-height: calc(100vh - 4rem); overflow-y: auto; border-left: 3px solid var(--azul); }
+@media (max-width: 1150px) { .sidebar { position: static; max-height: none; } }
+.sidebar section { margin-bottom: 1.75rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--borde); }
+.sidebar section:last-child { border-bottom: none; margin-bottom: 0; }
+.sidebar h3 { font-size: 0.95rem; color: var(--azul); font-weight: 600; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; font-family: 'Poppins', sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+.hint-seccion { font-size: 0.8rem; color: var(--texto-muted); margin-bottom: 0.75rem; font-style: italic; }
+
+.campo { margin-bottom: 0.75rem; }
+.campo label { display: block; font-size: 0.8rem; color: var(--texto-cuerpo); margin-bottom: 0.25rem; font-weight: 500; }
+.campo label .hint { font-size: 0.7rem; color: var(--texto-muted); font-weight: 400; margin-left: 0.25rem; }
+.campo input[type="text"], .campo input[type="number"], .campo input[type="date"], .campo select, .campo textarea {
+  width: 100%; padding: 0.5rem 0.65rem; border: 1px solid var(--borde); border-radius: var(--radio);
+  font-size: 0.9rem; font-family: Arial, sans-serif; color: var(--texto-principal);
+  background: var(--superficie); transition: border-color 0.15s, background 0.15s;
 }
+.campo textarea { resize: vertical; min-height: 80px; font-size: 0.85rem; }
+.campo input:focus, .campo select:focus, .campo textarea:focus { outline: none; border-color: var(--azul); background: var(--blanco); }
+.campo-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
 
-.header-titulo strong {
-  display: block;
-  color: var(--texto-principal);
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-/* Decoración header */
-header::before {
-  content: '';
-  position: absolute;
-  top: -20px;
-  right: 80px;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 3px solid var(--azul);
-  opacity: 0.15;
-}
-
-header::after {
-  content: '';
-  position: absolute;
-  bottom: -30px;
-  right: 180px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--azul);
-  opacity: 0.08;
-}
-
-/* ═══════════════════════════════════════════
-   LAYOUT PRINCIPAL
-   ═══════════════════════════════════════════ */
-main {
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 2rem;
-  display: grid;
-  grid-template-columns: 400px 1fr;
-  gap: 2rem;
-  align-items: start;
-}
-
-@media (max-width: 1100px) {
-  main { grid-template-columns: 1fr; }
-}
-
-/* ═══════════════════════════════════════════
-   SIDEBAR DE INPUTS
-   ═══════════════════════════════════════════ */
-.sidebar {
-  background: var(--blanco);
-  border-radius: var(--radio-grande);
-  padding: 1.5rem;
-  box-shadow: var(--sombra);
-  position: sticky;
-  top: 2rem;
-  max-height: calc(100vh - 4rem);
-  overflow-y: auto;
-  border-left: 3px solid var(--azul);
-}
-
-@media (max-width: 1100px) {
-  .sidebar { position: static; max-height: none; }
-}
-
-.sidebar section {
-  margin-bottom: 1.75rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--borde);
-}
-
-.sidebar section:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-}
-
-.sidebar h3 {
-  font-size: 0.95rem;
-  color: var(--azul);
-  font-weight: 600;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: 'Poppins', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.campo {
-  margin-bottom: 0.75rem;
-}
-
-.campo label {
-  display: block;
-  font-size: 0.8rem;
-  color: var(--texto-cuerpo);
-  margin-bottom: 0.25rem;
-  font-weight: 500;
-}
-
-.campo label .hint {
-  font-size: 0.7rem;
-  color: var(--texto-muted);
-  font-weight: 400;
-  margin-left: 0.25rem;
-}
-
-.campo input[type="text"],
-.campo input[type="number"],
-.campo input[type="date"],
-.campo select,
-.campo textarea {
-  width: 100%;
-  padding: 0.5rem 0.65rem;
-  border: 1px solid var(--borde);
-  border-radius: var(--radio);
-  font-size: 0.9rem;
-  font-family: Arial, sans-serif;
-  color: var(--texto-principal);
-  background: var(--superficie);
-  transition: border-color 0.15s, background 0.15s;
-}
-
-.campo textarea {
-  resize: vertical;
-  min-height: 80px;
-  font-size: 0.85rem;
-}
-
-.campo input:focus,
-.campo select:focus,
-.campo textarea:focus {
-  outline: none;
-  border-color: var(--azul);
-  background: var(--blanco);
-}
-
-.campo-grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-}
-
-.campo-grid-3 {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.5rem;
-}
-
-/* Toggle switch */
-.toggle-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.75rem;
-  padding: 0.5rem 0.65rem;
-  background: var(--superficie);
-  border-radius: var(--radio);
-  border: 1px solid var(--borde);
-}
-
-.toggle-row label {
-  font-size: 0.85rem;
-  color: var(--texto-principal);
-  font-weight: 500;
-  margin: 0;
-  cursor: pointer;
-  flex: 1;
-}
-
-.toggle {
-  position: relative;
-  width: 42px;
-  height: 22px;
-  flex-shrink: 0;
-}
-
+.toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; padding: 0.5rem 0.65rem; background: var(--superficie); border-radius: var(--radio); border: 1px solid var(--borde); }
+.toggle-row label { font-size: 0.85rem; color: var(--texto-principal); font-weight: 500; margin: 0; cursor: pointer; flex: 1; }
+.toggle { position: relative; width: 42px; height: 22px; flex-shrink: 0; }
 .toggle input { opacity: 0; width: 0; height: 0; }
-
-.toggle-slider {
-  position: absolute;
-  cursor: pointer;
-  inset: 0;
-  background: var(--borde);
-  border-radius: 22px;
-  transition: 0.2s;
-}
-
-.toggle-slider::before {
-  content: '';
-  position: absolute;
-  height: 18px;
-  width: 18px;
-  left: 2px;
-  bottom: 2px;
-  background: var(--blanco);
-  border-radius: 50%;
-  transition: 0.2s;
-}
-
+.toggle-slider { position: absolute; cursor: pointer; inset: 0; background: var(--borde); border-radius: 22px; transition: 0.2s; }
+.toggle-slider::before { content: ''; position: absolute; height: 18px; width: 18px; left: 2px; bottom: 2px; background: var(--blanco); border-radius: 50%; transition: 0.2s; }
 .toggle input:checked + .toggle-slider { background: var(--azul); }
 .toggle input:checked + .toggle-slider::before { transform: translateX(20px); }
 
-.grupo-condicional {
-  padding-left: 0.75rem;
-  border-left: 2px solid var(--azul-claro);
-  margin-bottom: 0.75rem;
-  margin-top: -0.25rem;
-}
+.grupo-condicional { padding-left: 0.75rem; border-left: 2px solid var(--azul-claro); margin-bottom: 0.75rem; margin-top: -0.25rem; }
+.grupo-condicional.oculto { display: none; }
 
-.grupo-condicional.oculto {
-  display: none;
-}
-
-.radio-group {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.radio-group label {
-  flex: 1;
-  padding: 0.4rem 0.5rem;
-  border: 1px solid var(--borde);
-  border-radius: var(--radio);
-  text-align: center;
-  font-size: 0.8rem;
-  cursor: pointer;
-  background: var(--superficie);
-  transition: all 0.15s;
-}
-
+.radio-group { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; }
+.radio-group label { flex: 1; padding: 0.4rem 0.5rem; border: 1px solid var(--borde); border-radius: var(--radio); text-align: center; font-size: 0.8rem; cursor: pointer; background: var(--superficie); transition: all 0.15s; }
 .radio-group input[type="radio"] { display: none; }
+.radio-group label:has(input:checked) { background: var(--azul); color: var(--blanco); border-color: var(--azul); font-weight: 600; }
 
-.radio-group input[type="radio"]:checked + span {
-  font-weight: 600;
-}
+.horario-card { background: var(--superficie); border: 1px solid var(--borde); border-left-width: 4px; padding: 0.75rem; border-radius: var(--radio); margin-bottom: 0.75rem; }
+.horario-card.h1 { border-left-color: var(--azul); }
+.horario-card.h2 { border-left-color: var(--azul-h2); }
+.horario-card.h3 { border-left-color: var(--azul-h3); }
+.horario-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+.horario-titulo { font-weight: 600; font-family: 'Poppins', sans-serif; font-size: 0.9rem; }
+.horario-titulo.h1 { color: var(--azul); }
+.horario-titulo.h2 { color: var(--azul-h2); }
+.horario-titulo.h3 { color: var(--azul-h3); }
+.horario-card input[type="text"] { flex: 1; font-size: 0.85rem; padding: 0.3rem 0.5rem; }
 
-.radio-group label:has(input:checked) {
-  background: var(--azul);
-  color: var(--blanco);
-  border-color: var(--azul);
-}
+.dias-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.25rem; margin-bottom: 0.5rem; }
+.dia-chk { padding: 0.4rem 0; text-align: center; border: 1px solid var(--borde); border-radius: var(--radio); cursor: pointer; font-size: 0.8rem; font-weight: 600; background: var(--blanco); transition: all 0.15s; display: block; }
+.dia-chk input { display: none; }
+.dia-chk:has(input:checked) { background: var(--azul); color: var(--blanco); border-color: var(--azul); }
+.horario-card.h2 .dia-chk:has(input:checked) { background: var(--azul-h2); border-color: var(--azul-h2); }
+.horario-card.h3 .dia-chk:has(input:checked) { background: var(--azul-h3); border-color: var(--azul-h3); }
 
-/* ═══════════════════════════════════════════
-   PANEL DE RESULTADOS
-   ═══════════════════════════════════════════ */
-.resultados {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
+.dist-grupos { padding: 0.5rem; background: var(--superficie); border-radius: var(--radio); margin-top: 0.25rem; }
+.dist-grupos-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--texto-muted); margin-bottom: 0.4rem; }
+.dist-grupos-header .total { font-weight: 600; color: var(--texto-principal); }
+.dist-grupos-header .suma { font-weight: 600; }
+.dist-grupos-header .suma.ok { color: var(--verde-ok); }
+.dist-grupos-header .suma.err { color: var(--rojo-alerta); }
+.dist-grupos-inputs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.3rem; }
+.dist-grupos-inputs > div { display: flex; align-items: center; gap: 0.3rem; }
+.dist-grupos-inputs label { font-size: 0.75rem; font-weight: 600; flex-shrink: 0; width: 1.4rem; margin: 0; }
+.dist-grupos-inputs label.h1 { color: var(--azul); }
+.dist-grupos-inputs label.h2 { color: var(--azul-h2); }
+.dist-grupos-inputs label.h3 { color: var(--azul-h3); }
+.dist-grupos-inputs input { padding: 0.3rem 0.4rem; font-size: 0.85rem; width: 100%; min-width: 0; }
 
-.bloque {
-  background: var(--blanco);
-  border-radius: var(--radio-grande);
-  padding: 1.75rem;
-  box-shadow: var(--sombra);
-  position: relative;
-}
+.resultados { display: flex; flex-direction: column; gap: 1.5rem; }
+.bloque { background: var(--blanco); border-radius: var(--radio-grande); padding: 1.75rem; box-shadow: var(--sombra); position: relative; }
+.bloque h2 { font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--borde); display: flex; align-items: center; gap: 0.5rem; }
+.bloque h2::before { content: ''; width: 4px; height: 24px; background: var(--azul); border-radius: 2px; }
 
-.bloque h2 {
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--borde);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+.escenarios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+@media (max-width: 900px) { .escenarios-grid { grid-template-columns: 1fr; } }
+.escenario-card { background: var(--superficie); border-radius: var(--radio); padding: 1.25rem; border: 2px solid transparent; position: relative; overflow: hidden; transition: all 0.2s; }
+.escenario-card:hover { border-color: var(--azul); box-shadow: var(--sombra-hover); }
+.escenario-card.vacio { opacity: 0.45; }
+.escenario-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 80px; height: 80px; border-radius: 50%; background: var(--azul); opacity: 0.06; }
+.escenario-header { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 1rem; }
+.escenario-letra { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.8rem; color: var(--azul); line-height: 1; }
+.escenario-label { font-size: 0.75rem; color: var(--texto-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+.escenario-participantes { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--texto-principal); margin-bottom: 0.25rem; }
+.escenario-participantes-label { font-size: 0.75rem; color: var(--texto-muted); margin-bottom: 1rem; }
 
-.bloque h2::before {
-  content: '';
-  width: 4px;
-  height: 24px;
-  background: var(--azul);
-  border-radius: 2px;
-}
+.kpi-principal { background: var(--azul); color: var(--blanco); padding: 1rem; border-radius: var(--radio); margin-bottom: 0.75rem; text-align: center; position: relative; z-index: 1; }
+.kpi-principal-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.9; margin-bottom: 0.25rem; }
+.kpi-principal-valor { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.7rem; line-height: 1.1; }
+.kpi-principal-sub { font-size: 0.7rem; opacity: 0.85; margin-top: 0.25rem; }
 
-/* Tarjetas de escenarios */
-.escenarios-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
+.delta-vhc { padding: 0.6rem 0.75rem; border-radius: var(--radio); margin-bottom: 0.75rem; text-align: center; font-size: 0.8rem; font-weight: 600; font-family: 'Poppins', sans-serif; position: relative; z-index: 1; line-height: 1.4; }
+.delta-vhc.ok { background: #DCFCE7; color: #166534; border: 1px solid #86EFAC; }
+.delta-vhc.warn { background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; }
+.delta-vhc.err { background: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; }
 
-@media (max-width: 900px) {
-  .escenarios-grid { grid-template-columns: 1fr; }
-}
-
-.escenario-card {
-  background: var(--superficie);
-  border-radius: var(--radio);
-  padding: 1.25rem;
-  border: 2px solid transparent;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.2s;
-}
-
-.escenario-card:hover {
-  border-color: var(--azul);
-  box-shadow: var(--sombra-hover);
-}
-
-.escenario-card.vacio {
-  opacity: 0.45;
-}
-
-.escenario-card::before {
-  content: '';
-  position: absolute;
-  top: -30px;
-  right: -30px;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: var(--azul);
-  opacity: 0.06;
-}
-
-.escenario-header {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.escenario-letra {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 800;
-  font-size: 1.8rem;
-  color: var(--azul);
-  line-height: 1;
-}
-
-.escenario-label {
-  font-size: 0.75rem;
-  color: var(--texto-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-}
-
-.escenario-participantes {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--texto-principal);
-  margin-bottom: 0.25rem;
-}
-
-.escenario-participantes-label {
-  font-size: 0.75rem;
-  color: var(--texto-muted);
-  margin-bottom: 1rem;
-}
-
-.kpi-principal {
-  background: var(--azul);
-  color: var(--blanco);
-  padding: 1rem;
-  border-radius: var(--radio);
-  margin-bottom: 1rem;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-
-.kpi-principal-label {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  opacity: 0.9;
-  margin-bottom: 0.25rem;
-}
-
-.kpi-principal-valor {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  font-size: 1.7rem;
-  line-height: 1.1;
-}
-
-.kpi-principal-sub {
-  font-size: 0.7rem;
-  opacity: 0.85;
-  margin-top: 0.25rem;
-}
-
-.kpi-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.4rem 0;
-  font-size: 0.85rem;
-  border-bottom: 1px solid var(--borde);
-}
-
+.kpi-row { display: flex; justify-content: space-between; padding: 0.4rem 0; font-size: 0.85rem; border-bottom: 1px solid var(--borde); }
 .kpi-row:last-child { border-bottom: none; }
+.kpi-row .etiqueta { color: var(--texto-muted); }
+.kpi-row .valor { font-weight: 600; color: var(--texto-principal); font-family: 'Poppins', sans-serif; }
+.kpi-row.total { margin-top: 0.5rem; padding-top: 0.75rem; border-top: 2px solid var(--azul); border-bottom: none; }
+.kpi-row.total .etiqueta { color: var(--texto-principal); font-weight: 600; font-size: 0.9rem; }
+.kpi-row.total .valor { color: var(--azul); font-size: 1.1rem; }
 
-.kpi-row .etiqueta {
-  color: var(--texto-muted);
-}
+.cronograma-vista { margin-bottom: 1.25rem; }
+.cronograma-vista h3 { font-size: 1rem; color: var(--azul); margin-bottom: 0.5rem; font-family: 'Poppins', sans-serif; font-weight: 600; }
 
-.kpi-row .valor {
-  font-weight: 600;
-  color: var(--texto-principal);
-  font-family: 'Poppins', sans-serif;
-}
+.gantt-svg-wrap { background: var(--superficie); border-radius: var(--radio); padding: 1rem; overflow-x: auto; }
+.gantt-svg-wrap svg { display: block; min-width: 100%; }
 
-.kpi-row.total {
-  margin-top: 0.5rem;
-  padding-top: 0.75rem;
-  border-top: 2px solid var(--azul);
-  border-bottom: none;
-}
+.semanal-grid { display: grid; grid-template-columns: 120px repeat(6, 1fr); gap: 3px; background: var(--fondo); padding: 0.5rem; border-radius: var(--radio); }
+.semanal-cell { padding: 0.5rem; text-align: center; background: var(--blanco); border-radius: 4px; font-size: 0.8rem; font-family: 'Poppins', sans-serif; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.semanal-cell.header { background: var(--texto-principal); color: var(--blanco); font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.semanal-cell.label { background: transparent; text-align: left; font-weight: 700; color: var(--texto-principal); justify-content: flex-start; padding-left: 0.4rem; font-size: 0.8rem; }
+.semanal-cell.activo.h1 { background: var(--azul); color: var(--blanco); font-weight: 700; }
+.semanal-cell.activo.h2 { background: var(--azul-h2); color: var(--blanco); font-weight: 700; }
+.semanal-cell.activo.h3 { background: var(--azul-h3); color: var(--blanco); font-weight: 700; }
 
-.kpi-row.total .etiqueta {
-  color: var(--texto-principal);
-  font-weight: 600;
-  font-size: 0.9rem;
-}
+.escenario-selector { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+.escenario-selector button { padding: 0.4rem 0.9rem; border: 1px solid var(--borde); background: var(--superficie); border-radius: var(--radio); font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.85rem; cursor: pointer; color: var(--texto-muted); transition: all 0.15s; }
+.escenario-selector button.active { background: var(--azul); color: var(--blanco); border-color: var(--azul); }
 
-.kpi-row.total .valor {
-  color: var(--azul);
-  font-size: 1.1rem;
-}
-
-/* Desglose interno */
-.desglose-tabs {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  border-bottom: 2px solid var(--borde);
-}
-
-.tab-btn {
-  padding: 0.5rem 1rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--texto-muted);
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-  transition: all 0.15s;
-}
-
-.tab-btn.active {
-  color: var(--azul);
-  border-bottom-color: var(--azul);
-}
-
+.desglose-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 2px solid var(--borde); }
+.tab-btn { padding: 0.5rem 1rem; background: transparent; border: none; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.9rem; color: var(--texto-muted); border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
+.tab-btn.active { color: var(--azul); border-bottom-color: var(--azul); }
 .tab-content { display: none; }
 .tab-content.active { display: block; }
+table.desglose-tabla { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+table.desglose-tabla th { background: var(--fondo); text-align: left; padding: 0.6rem 0.75rem; font-family: 'Poppins', sans-serif; font-weight: 600; color: var(--texto-principal); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; border-bottom: 2px solid var(--borde); }
+table.desglose-tabla th.num, table.desglose-tabla td.num { text-align: right; font-variant-numeric: tabular-nums; }
+table.desglose-tabla td { padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--borde); }
+table.desglose-tabla tr:last-child td { border-bottom: none; }
+table.desglose-tabla tr.categoria td { background: var(--azul-claro); font-weight: 600; color: var(--texto-principal); }
+table.desglose-tabla tr.subtotal td { background: var(--fondo); font-weight: 600; }
+table.desglose-tabla tr.total td { background: var(--azul); color: var(--blanco); font-weight: 700; font-family: 'Poppins', sans-serif; font-size: 0.95rem; }
+table.desglose-tabla tr.margen td { background: #FFF7E6; font-style: italic; color: var(--texto-muted); }
 
-table.desglose-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.85rem;
-}
+.nota-interna { font-size: 0.75rem; color: var(--texto-muted); background: #FFF7E6; padding: 0.5rem 0.75rem; border-radius: var(--radio); border-left: 3px solid #F59E0B; margin-top: 0.75rem; }
 
-table.desglose-tabla th {
-  background: var(--fondo);
-  text-align: left;
-  padding: 0.6rem 0.75rem;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  color: var(--texto-principal);
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  border-bottom: 2px solid var(--borde);
-}
+.comparativa-bars { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem; }
+.bar-row { display: grid; grid-template-columns: 120px 1fr auto; gap: 1rem; align-items: center; }
+.bar-row .bar-label { font-family: 'Poppins', sans-serif; font-weight: 600; color: var(--texto-principal); }
+.bar-row .bar-label .sub { display: block; font-size: 0.75rem; color: var(--texto-muted); font-weight: 400; }
+.bar-track { background: var(--fondo); border-radius: 4px; height: 28px; position: relative; overflow: hidden; }
+.bar-fill { background: linear-gradient(90deg, var(--azul) 0%, var(--azul-oscuro) 100%); height: 100%; border-radius: 4px; transition: width 0.4s ease-out; }
+.bar-value { font-family: 'Poppins', sans-serif; font-weight: 600; color: var(--texto-principal); white-space: nowrap; font-size: 0.9rem; }
+.ahorro-escala { background: #DCFCE7; color: #166534; padding: 0.5rem 0.75rem; border-radius: var(--radio); font-size: 0.8rem; margin-top: 0.75rem; border-left: 3px solid var(--verde-ok); }
 
-table.desglose-tabla th.num,
-table.desglose-tabla td.num {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
+.jornada-info { background: var(--azul-claro); color: var(--texto-principal); padding: 0.6rem 0.8rem; border-radius: var(--radio); font-size: 0.78rem; margin-top: 0.5rem; border-left: 3px solid var(--azul); line-height: 1.5; }
+.jornada-info strong { color: var(--azul); }
 
-table.desglose-tabla td {
-  padding: 0.55rem 0.75rem;
-  border-bottom: 1px solid var(--borde);
-}
+.acciones-row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+.acciones-row select { padding: 0.6rem 0.75rem; border: 1px solid var(--borde); border-radius: var(--radio); background: var(--superficie); font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 0.9rem; color: var(--texto-principal); cursor: pointer; }
+.btn { padding: 0.7rem 1.25rem; border-radius: var(--radio); border: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 0.5rem; }
+.btn-primario { background: var(--azul); color: var(--blanco); }
+.btn-primario:hover { background: var(--azul-oscuro); transform: translateY(-1px); box-shadow: var(--sombra-hover); }
+.btn-secundario { background: var(--superficie); color: var(--texto-principal); border: 1px solid var(--borde); }
+.btn-secundario:hover { background: var(--fondo); border-color: var(--azul); }
+.btn-export { background: var(--negro); color: var(--blanco); font-size: 1rem; padding: 0.85rem 1.5rem; }
+.btn-export:hover { background: var(--texto-principal); transform: translateY(-1px); box-shadow: var(--sombra-hover); }
 
-table.desglose-tabla tr:last-child td {
-  border-bottom: none;
-}
-
-table.desglose-tabla tr.categoria td {
-  background: var(--azul-claro);
-  font-weight: 600;
-  color: var(--texto-principal);
-}
-
-table.desglose-tabla tr.subtotal td {
-  background: var(--fondo);
-  font-weight: 600;
-}
-
-table.desglose-tabla tr.total td {
-  background: var(--azul);
-  color: var(--blanco);
-  font-weight: 700;
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.95rem;
-}
-
-table.desglose-tabla tr.margen td {
-  background: #FFF7E6;
-  font-style: italic;
-  color: var(--texto-muted);
-}
-
-.nota-interna {
-  font-size: 0.75rem;
-  color: var(--texto-muted);
-  background: #FFF7E6;
-  padding: 0.5rem 0.75rem;
-  border-radius: var(--radio);
-  border-left: 3px solid #F59E0B;
-  margin-top: 0.75rem;
-}
-
-/* Comparativa visual */
-.comparativa-bars {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 0.5rem;
-}
-
-.bar-row {
-  display: grid;
-  grid-template-columns: 100px 1fr auto;
-  gap: 1rem;
-  align-items: center;
-}
-
-.bar-row .bar-label {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  color: var(--texto-principal);
-}
-
-.bar-row .bar-label .sub {
-  display: block;
-  font-size: 0.75rem;
-  color: var(--texto-muted);
-  font-weight: 400;
-}
-
-.bar-track {
-  background: var(--fondo);
-  border-radius: 4px;
-  height: 28px;
-  position: relative;
-  overflow: hidden;
-}
-
-.bar-fill {
-  background: linear-gradient(90deg, var(--azul) 0%, var(--azul-oscuro) 100%);
-  height: 100%;
-  border-radius: 4px;
-  transition: width 0.4s ease-out;
-}
-
-.bar-value {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  color: var(--texto-principal);
-  white-space: nowrap;
-  font-size: 0.9rem;
-}
-
-/* Acciones */
-.acciones-row {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.acciones-row select {
-  padding: 0.6rem 0.75rem;
-  border: 1px solid var(--borde);
-  border-radius: var(--radio);
-  background: var(--superficie);
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  font-size: 0.9rem;
-  color: var(--texto-principal);
-  cursor: pointer;
-}
-
-.btn {
-  padding: 0.7rem 1.25rem;
-  border-radius: var(--radio);
-  border: none;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.15s;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.btn-primario {
-  background: var(--azul);
-  color: var(--blanco);
-}
-
-.btn-primario:hover {
-  background: var(--azul-oscuro);
-  transform: translateY(-1px);
-  box-shadow: var(--sombra-hover);
-}
-
-.btn-secundario {
-  background: var(--superficie);
-  color: var(--texto-principal);
-  border: 1px solid var(--borde);
-}
-
-.btn-secundario:hover {
-  background: var(--fondo);
-  border-color: var(--azul);
-}
-
-.btn-export {
-  background: var(--negro);
-  color: var(--blanco);
-  font-size: 1rem;
-  padding: 0.85rem 1.5rem;
-}
-
-.btn-export:hover {
-  background: var(--texto-principal);
-  transform: translateY(-1px);
-  box-shadow: var(--sombra-hover);
-}
-
-/* Toast */
-.toast {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  background: var(--texto-principal);
-  color: var(--blanco);
-  padding: 0.85rem 1.25rem;
-  border-radius: var(--radio);
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  box-shadow: var(--sombra-hover);
-  transform: translateX(120%);
-  transition: transform 0.25s;
-  z-index: 1000;
-}
-
+.toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--texto-principal); color: var(--blanco); padding: 0.85rem 1.25rem; border-radius: var(--radio); font-family: 'Poppins', sans-serif; font-weight: 500; box-shadow: var(--sombra-hover); transform: translateX(120%); transition: transform 0.25s; z-index: 1000; max-width: 350px; }
 .toast.show { transform: translateX(0); }
-
 .toast.error { background: var(--rojo-alerta); }
 .toast.success { background: var(--verde-ok); }
+.toast.warn { background: var(--amarillo); color: var(--negro); }
 
-/* Footer */
-footer {
-  text-align: center;
-  padding: 2rem;
-  color: var(--texto-muted);
-  font-size: 0.85rem;
-  border-top: 1px solid var(--borde);
-  background: var(--blanco);
-  margin-top: 3rem;
-}
-
+footer { text-align: center; padding: 2rem; color: var(--texto-muted); font-size: 0.85rem; border-top: 1px solid var(--borde); background: var(--blanco); margin-top: 3rem; }
 footer strong { color: var(--azul); }
 
-/* Decoración de resultados */
-.resultados .bloque:first-child::after {
-  content: '';
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 2px solid var(--azul);
-  opacity: 0.12;
-  pointer-events: none;
-}
-
-/* Print */
-@media print {
-  .sidebar, .acciones-row, footer { display: none; }
-  main { grid-template-columns: 1fr; padding: 0; }
-  .bloque { box-shadow: none; page-break-inside: avoid; }
-}
+@media print { .sidebar, .acciones-row, footer { display: none; } main { grid-template-columns: 1fr; padding: 0; } .bloque { box-shadow: none; page-break-inside: avoid; } }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════
-     HEADER
-     ═══════════════════════════════════════════ -->
 <header>
   <div class="header-inner">
     <div class="logo">
       <div class="logo-icono">
-        <!-- Ícono diana/crosshair -->
         <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
           <circle cx="18" cy="18" r="16" fill="none" stroke="#000" stroke-width="1.5"/>
           <circle cx="18" cy="18" r="10" fill="none" stroke="#0090F8" stroke-width="1.5"/>
@@ -846,238 +251,270 @@ footer strong { color: var(--azul); }
   </div>
 </header>
 
-<!-- ═══════════════════════════════════════════
-     LAYOUT PRINCIPAL
-     ═══════════════════════════════════════════ -->
 <main>
 
-  <!-- ═══════════════════════════════
-       SIDEBAR DE INPUTS
-       ═══════════════════════════════ -->
   <aside class="sidebar">
 
-    <!-- Identificación del proyecto -->
     <section>
       <h3>🏷️ Proyecto</h3>
-      <div class="campo">
-        <label>Nombre del proyecto</label>
-        <input type="text" id="nombre-proyecto" placeholder="Ej: Capacitación Liderazgo 2026">
-      </div>
-      <div class="campo">
-        <label>Cliente</label>
-        <input type="text" id="nombre-cliente" placeholder="Ej: Universidad Mayor">
-      </div>
+      <div class="campo"><label>Nombre del proyecto</label><input type="text" id="nombre-proyecto" placeholder="Ej: Capacitación Liderazgo 2026"></div>
+      <div class="campo"><label>Cliente</label><input type="text" id="nombre-cliente" placeholder="Ej: Universidad Mayor"></div>
       <div class="campo-grid-2">
-        <div class="campo">
-          <label>Fecha propuesta</label>
-          <input type="date" id="fecha-propuesta">
-        </div>
-        <div class="campo">
-          <label>Vigencia <span class="hint">(días)</span></label>
-          <input type="number" id="vigencia-dias" value="30" min="1">
-        </div>
+        <div class="campo"><label>Fecha propuesta</label><input type="date" id="fecha-propuesta"></div>
+        <div class="campo"><label>Vigencia <span class="hint">(días)</span></label><input type="number" id="vigencia-dias" value="30" min="1"></div>
       </div>
     </section>
 
-    <!-- Parámetros del curso -->
     <section>
       <h3>📘 Parámetros del curso</h3>
       <div class="campo-grid-2">
-        <div class="campo">
-          <label>Horas síncronas totales</label>
-          <input type="number" id="horas-totales" value="22" min="1" step="0.5">
+        <div class="campo"><label>Horas síncronas totales</label><input type="number" id="horas-totales" value="22" min="1" step="0.5"></div>
+        <div class="campo"><label>Tamaño promedio grupo</label><input type="number" id="tam-grupo" value="30" min="1"></div>
+      </div>
+      <div class="campo"><label>Duración clase <span class="hint">(hrs)</span></label><input type="number" id="dur-clase" value="2" min="0.5" step="0.5"></div>
+    </section>
+
+    <section>
+      <h3>📅 Horarios del proyecto</h3>
+      <p class="hint-seccion">Hasta 3 horarios distintos pueden convivir. Marca los días en que opera cada uno.</p>
+
+      <div class="horario-card h1" id="card-h1">
+        <div class="horario-header">
+          <span class="horario-titulo h1">Horario 1</span>
+          <input type="text" id="h1-nombre" value="Principal" placeholder="Nombre">
         </div>
-        <div class="campo">
-          <label>Tamaño promedio grupo</label>
-          <input type="number" id="tam-grupo" value="30" min="1">
+        <div class="dias-grid">
+          <label class="dia-chk"><input type="checkbox" id="h1-d-L" checked>L</label>
+          <label class="dia-chk"><input type="checkbox" id="h1-d-M">M</label>
+          <label class="dia-chk"><input type="checkbox" id="h1-d-X" checked>X</label>
+          <label class="dia-chk"><input type="checkbox" id="h1-d-J">J</label>
+          <label class="dia-chk"><input type="checkbox" id="h1-d-V" checked>V</label>
+          <label class="dia-chk"><input type="checkbox" id="h1-d-S">S</label>
+        </div>
+        <div class="campo"><label>Cohortes en paralelo <span class="hint">AM=1, AM+PM=2, etc.</span></label><input type="number" id="h1-cohortes" value="2" min="1"></div>
+      </div>
+
+      <div class="toggle-row">
+        <label for="h2-activo">Agregar Horario 2</label>
+        <label class="toggle"><input type="checkbox" id="h2-activo"><span class="toggle-slider"></span></label>
+      </div>
+      <div class="grupo-condicional oculto" id="bloque-h2">
+        <div class="horario-card h2">
+          <div class="horario-header">
+            <span class="horario-titulo h2">Horario 2</span>
+            <input type="text" id="h2-nombre" value="Secundario" placeholder="Nombre">
+          </div>
+          <div class="dias-grid">
+            <label class="dia-chk"><input type="checkbox" id="h2-d-L">L</label>
+            <label class="dia-chk"><input type="checkbox" id="h2-d-M" checked>M</label>
+            <label class="dia-chk"><input type="checkbox" id="h2-d-X">X</label>
+            <label class="dia-chk"><input type="checkbox" id="h2-d-J" checked>J</label>
+            <label class="dia-chk"><input type="checkbox" id="h2-d-V">V</label>
+            <label class="dia-chk"><input type="checkbox" id="h2-d-S">S</label>
+          </div>
+          <div class="campo"><label>Cohortes en paralelo</label><input type="number" id="h2-cohortes" value="2" min="1"></div>
         </div>
       </div>
-      <div class="campo-grid-2">
-        <div class="campo">
-          <label>Duración clase <span class="hint">(hrs)</span></label>
-          <input type="number" id="dur-clase" value="2" min="0.5" step="0.5">
-        </div>
-        <div class="campo">
-          <label>Frecuencia semanal</label>
-          <input type="number" id="frec-semanal" value="3" min="1">
-        </div>
+
+      <div class="toggle-row">
+        <label for="h3-activo">Agregar Horario 3</label>
+        <label class="toggle"><input type="checkbox" id="h3-activo"><span class="toggle-slider"></span></label>
       </div>
-      <div class="campo">
-        <label>Grupos corriendo en paralelo <span class="hint">(ej: 2 para AM+PM)</span></label>
-        <input type="number" id="grupos-paralelos" value="2" min="1">
+      <div class="grupo-condicional oculto" id="bloque-h3">
+        <div class="horario-card h3">
+          <div class="horario-header">
+            <span class="horario-titulo h3">Horario 3</span>
+            <input type="text" id="h3-nombre" value="Especial" placeholder="Nombre">
+          </div>
+          <div class="dias-grid">
+            <label class="dia-chk"><input type="checkbox" id="h3-d-L">L</label>
+            <label class="dia-chk"><input type="checkbox" id="h3-d-M">M</label>
+            <label class="dia-chk"><input type="checkbox" id="h3-d-X">X</label>
+            <label class="dia-chk"><input type="checkbox" id="h3-d-J">J</label>
+            <label class="dia-chk"><input type="checkbox" id="h3-d-V">V</label>
+            <label class="dia-chk"><input type="checkbox" id="h3-d-S" checked>S</label>
+          </div>
+          <div class="campo"><label>Cohortes en paralelo</label><input type="number" id="h3-cohortes" value="1" min="1"></div>
+        </div>
       </div>
     </section>
 
-    <!-- Escenarios -->
     <section>
       <h3>👥 Escenarios de participantes</h3>
-      <div class="campo-grid-3">
-        <div class="campo">
-          <label>Escenario A</label>
-          <input type="number" id="part-A" value="600" min="0">
+      <p class="hint-seccion">Tú decides cuántos grupos van en cada horario. La suma debe igualar el total de grupos.</p>
+
+      <div class="campo">
+        <label>Escenario A — Participantes</label>
+        <input type="number" id="part-A" value="600" min="0">
+        <div class="dist-grupos">
+          <div class="dist-grupos-header">
+            <span class="total">Total grupos: <span id="total-A">0</span></span>
+            <span>Asignados: <span class="suma" id="suma-A">0</span></span>
+          </div>
+          <div class="dist-grupos-inputs">
+            <div><label class="h1">H1</label><input type="number" id="g-A-1" min="0" value="0"></div>
+            <div><label class="h2">H2</label><input type="number" id="g-A-2" min="0" value="0"></div>
+            <div><label class="h3">H3</label><input type="number" id="g-A-3" min="0" value="0"></div>
+          </div>
         </div>
-        <div class="campo">
-          <label>Escenario B</label>
-          <input type="number" id="part-B" value="800" min="0">
+      </div>
+
+      <div class="campo">
+        <label>Escenario B — Participantes</label>
+        <input type="number" id="part-B" value="800" min="0">
+        <div class="dist-grupos">
+          <div class="dist-grupos-header">
+            <span class="total">Total grupos: <span id="total-B">0</span></span>
+            <span>Asignados: <span class="suma" id="suma-B">0</span></span>
+          </div>
+          <div class="dist-grupos-inputs">
+            <div><label class="h1">H1</label><input type="number" id="g-B-1" min="0" value="0"></div>
+            <div><label class="h2">H2</label><input type="number" id="g-B-2" min="0" value="0"></div>
+            <div><label class="h3">H3</label><input type="number" id="g-B-3" min="0" value="0"></div>
+          </div>
         </div>
-        <div class="campo">
-          <label>Escenario C</label>
-          <input type="number" id="part-C" value="1000" min="0">
+      </div>
+
+      <div class="campo">
+        <label>Escenario C — Participantes</label>
+        <input type="number" id="part-C" value="1000" min="0">
+        <div class="dist-grupos">
+          <div class="dist-grupos-header">
+            <span class="total">Total grupos: <span id="total-C">0</span></span>
+            <span>Asignados: <span class="suma" id="suma-C">0</span></span>
+          </div>
+          <div class="dist-grupos-inputs">
+            <div><label class="h1">H1</label><input type="number" id="g-C-1" min="0" value="0"></div>
+            <div><label class="h2">H2</label><input type="number" id="g-C-2" min="0" value="0"></div>
+            <div><label class="h3">H3</label><input type="number" id="g-C-3" min="0" value="0"></div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Configuración tributaria -->
+    <section>
+      <h3>🎯 VHC objetivo (opcional)</h3>
+      <div class="campo">
+        <label>Valor hora capacitación objetivo <span class="hint">(CLP · si el cliente fija un precio)</span></label>
+        <input type="number" id="vhc-objetivo" placeholder="Ej: 5000" min="0">
+      </div>
+    </section>
+
     <section>
       <h3>⚙️ Configuración tributaria</h3>
-      <div class="campo">
-        <label>Retención honorarios <span class="hint">(% — 2026: 15,25)</span></label>
-        <input type="number" id="retencion" value="15.25" min="0" max="100" step="0.25">
-      </div>
+      <div class="campo"><label>Retención honorarios <span class="hint">(% — 2026: 15,25)</span></label><input type="number" id="retencion" value="15.25" min="0" max="100" step="0.25"></div>
       <div class="toggle-row">
-        <label for="fact-separada">Facturación separada <br><span style="font-size:0.7rem;color:var(--texto-muted)">Desarrollo de contenido afecto a IVA</span></label>
-        <label class="toggle">
-          <input type="checkbox" id="fact-separada">
-          <span class="toggle-slider"></span>
-        </label>
+        <label for="fact-separada">Facturación separada<br><span style="font-size:0.7rem;color:var(--texto-muted)">Desarrollo de contenido afecto a IVA</span></label>
+        <label class="toggle"><input type="checkbox" id="fact-separada"><span class="toggle-slider"></span></label>
       </div>
       <div class="grupo-condicional oculto" id="grupo-iva">
-        <div class="campo">
-          <label>IVA <span class="hint">(%)</span></label>
-          <input type="number" id="iva" value="19" min="0" max="100" step="0.5">
-        </div>
+        <div class="campo"><label>IVA <span class="hint">(%)</span></label><input type="number" id="iva" value="19" min="0" max="100" step="0.5"></div>
       </div>
     </section>
 
-    <!-- Equipo docente -->
     <section>
       <h3>👨‍🏫 Equipo docente</h3>
+
       <div class="campo">
-        <label>Valor hora LÍQUIDO relator <span class="hint">(CLP)</span></label>
-        <input type="number" id="vh-relator" placeholder="50000" min="0">
+        <label>Modalidad de pago relator</label>
+        <div class="radio-group">
+          <label><input type="radio" name="modalidad-relator" value="por-hora" checked><span>Por hora</span></label>
+          <label><input type="radio" name="modalidad-relator" value="mensual"><span>Mensual</span></label>
+        </div>
       </div>
+
+      <div class="grupo-condicional" id="bloque-relator-hora">
+        <div class="campo"><label>Valor hora LÍQUIDO relator <span class="hint">(CLP)</span></label><input type="number" id="vh-relator" placeholder="50000" min="0"></div>
+        <div class="campo"><label>Horas extras POR RELATOR <span class="hint">(bolsa personal · total proyecto)</span></label><input type="number" id="h-extra-relator" value="4" min="0" step="0.5"></div>
+      </div>
+
+      <div class="grupo-condicional oculto" id="bloque-relator-mensual">
+        <div class="campo"><label>Sueldo mensual LÍQUIDO relator <span class="hint">(CLP · por cada relator)</span></label><input type="number" id="sueldo-mensual-relator" placeholder="1200000" min="0"></div>
+        <div id="jornada-relator" class="jornada-info" style="display:none"></div>
+      </div>
+
       <div class="campo">
-        <label>Horas extra por relator <span class="hint">(coord, revisión)</span></label>
-        <input type="number" id="h-extra-relator" value="4" min="0" step="0.5">
+        <label>N° de relatores</label>
+        <div class="radio-group">
+          <label><input type="radio" name="relator-modo" value="por-grupo" checked><span>Uno por grupo</span></label>
+          <label><input type="radio" name="relator-modo" value="fijo"><span>Número fijo</span></label>
+        </div>
+        <input type="number" id="n-relatores-fijos" placeholder="N° fijo de relatores" min="1" value="1" style="display:none">
       </div>
 
       <div class="toggle-row">
         <label for="incluye-ayudante">¿Incluye ayudante?</label>
-        <label class="toggle">
-          <input type="checkbox" id="incluye-ayudante">
-          <span class="toggle-slider"></span>
-        </label>
+        <label class="toggle"><input type="checkbox" id="incluye-ayudante"><span class="toggle-slider"></span></label>
       </div>
 
       <div class="grupo-condicional oculto" id="grupo-ayudante">
         <div class="campo">
-          <label>Valor hora LÍQUIDO ayudante <span class="hint">(CLP)</span></label>
-          <input type="number" id="vh-ayudante" placeholder="15000" min="0">
-        </div>
-        <div class="campo">
-          <label>Horas extra por ayudante</label>
-          <input type="number" id="h-extra-ayudante" value="2" min="0" step="0.5">
-        </div>
-        <div class="campo">
-          <label>Ayudantes</label>
+          <label>Modalidad de pago ayudante</label>
           <div class="radio-group">
-            <label>
-              <input type="radio" name="ayudante-modo" value="por-grupo" checked>
-              <span>Uno por grupo</span>
-            </label>
-            <label>
-              <input type="radio" name="ayudante-modo" value="fijo">
-              <span>Número fijo</span>
-            </label>
+            <label><input type="radio" name="modalidad-ayudante" value="por-hora" checked><span>Por hora</span></label>
+            <label><input type="radio" name="modalidad-ayudante" value="mensual"><span>Mensual</span></label>
           </div>
-          <input type="number" id="n-ayudantes-fijos" placeholder="N° fijo de ayudantes" min="1" style="display:none">
+        </div>
+
+        <div class="grupo-condicional" id="bloque-ayudante-hora">
+          <div class="campo"><label>Valor hora LÍQUIDO ayudante <span class="hint">(CLP)</span></label><input type="number" id="vh-ayudante" placeholder="15000" min="0"></div>
+          <div class="campo"><label>Horas extras POR AYUDANTE <span class="hint">(total proyecto · suele ser > que relator)</span></label><input type="number" id="h-extra-ayudante" value="2" min="0" step="0.5"></div>
+        </div>
+
+        <div class="grupo-condicional oculto" id="bloque-ayudante-mensual">
+          <div class="campo"><label>Sueldo mensual LÍQUIDO ayudante <span class="hint">(CLP · por cada ayudante)</span></label><input type="number" id="sueldo-mensual-ayudante" placeholder="600000" min="0"></div>
+        </div>
+
+        <div class="campo">
+          <label>N° de ayudantes</label>
+          <div class="radio-group">
+            <label><input type="radio" name="ayudante-modo" value="por-grupo" checked><span>Uno por grupo</span></label>
+            <label><input type="radio" name="ayudante-modo" value="fijo"><span>Número fijo</span></label>
+          </div>
+          <input type="number" id="n-ayudantes-fijos" placeholder="N° fijo de ayudantes" min="1" value="1" style="display:none">
         </div>
       </div>
     </section>
 
-    <!-- Coordinación -->
     <section>
       <h3>🎯 Coordinación</h3>
       <div class="campo-grid-2">
-        <div class="campo">
-          <label>Sueldo mensual LÍQUIDO coord <span class="hint">(CLP)</span></label>
-          <input type="number" id="sueldo-coord" placeholder="1500000" min="0">
-        </div>
-        <div class="campo">
-          <label>N° coordinadores</label>
-          <input type="number" id="n-coord" value="1" min="0">
-        </div>
+        <div class="campo"><label>Sueldo mensual LÍQUIDO coord <span class="hint">(CLP)</span></label><input type="number" id="sueldo-coord" placeholder="1500000" min="0"></div>
+        <div class="campo"><label>N° coordinadores</label><input type="number" id="n-coord" value="1" min="0"></div>
       </div>
-      <div class="campo">
-        <label>Meses extra <span class="hint">(antes + después del proyecto)</span></label>
-        <input type="number" id="meses-extra" value="3" min="0">
-      </div>
+      <div class="campo"><label>Meses extra <span class="hint">(antes + después del proyecto)</span></label><input type="number" id="meses-extra" value="3" min="0"></div>
 
       <div class="toggle-row">
         <label for="incluye-admin">¿Incluye administrativo?</label>
-        <label class="toggle">
-          <input type="checkbox" id="incluye-admin">
-          <span class="toggle-slider"></span>
-        </label>
+        <label class="toggle"><input type="checkbox" id="incluye-admin"><span class="toggle-slider"></span></label>
       </div>
-
       <div class="grupo-condicional oculto" id="grupo-admin">
         <div class="campo-grid-2">
-          <div class="campo">
-            <label>Sueldo mensual LÍQUIDO admin <span class="hint">(CLP)</span></label>
-            <input type="number" id="sueldo-admin" placeholder="800000" min="0">
-          </div>
-          <div class="campo">
-            <label>N° administrativos</label>
-            <input type="number" id="n-admin" value="1" min="0">
-          </div>
+          <div class="campo"><label>Sueldo mensual LÍQUIDO admin <span class="hint">(CLP)</span></label><input type="number" id="sueldo-admin" placeholder="800000" min="0"></div>
+          <div class="campo"><label>N° administrativos</label><input type="number" id="n-admin" value="1" min="0"></div>
         </div>
       </div>
     </section>
 
-    <!-- Contenido y tecnología -->
     <section>
       <h3>🛠️ Contenido y tecnología</h3>
-      <div class="campo">
-        <label>Desarrollo de material / contenido <span class="hint">(CLP, global)</span></label>
-        <input type="number" id="dev-material" placeholder="3000000" min="0">
-      </div>
+      <div class="campo"><label>Desarrollo de material / contenido <span class="hint">(CLP, global)</span></label><input type="number" id="dev-material" placeholder="3000000" min="0"></div>
       <div class="campo-grid-2">
-        <div class="campo">
-          <label>N° licencias Zoom</label>
-          <input type="number" id="n-zoom" value="2" min="0">
-        </div>
-        <div class="campo">
-          <label>Costo Zoom <span class="hint">(CLP/mes por licencia)</span></label>
-          <input type="number" id="costo-zoom" value="25000" min="0">
-        </div>
+        <div class="campo"><label>N° licencias Zoom</label><input type="number" id="n-zoom" value="2" min="0"></div>
+        <div class="campo"><label>Costo Zoom <span class="hint">(CLP/mes)</span></label><input type="number" id="costo-zoom" value="25000" min="0"></div>
       </div>
-      <div class="campo">
-        <label>Herramientas digitales <span class="hint">(AhaSlides, etc · CLP/mes total)</span></label>
-        <input type="number" id="costo-tools" value="15000" min="0">
-      </div>
-      <div class="campo">
-        <label>Otros gastos fijos <span class="hint">(CLP, global)</span></label>
-        <input type="number" id="otros-gastos" value="0" min="0">
-      </div>
+      <div class="campo"><label>Herramientas digitales <span class="hint">(CLP/mes)</span></label><input type="number" id="costo-tools" value="15000" min="0"></div>
+      <div class="campo"><label>Otros gastos fijos <span class="hint">(CLP, global)</span></label><input type="number" id="otros-gastos" value="0" min="0"></div>
     </section>
 
-    <!-- Cierre -->
     <section>
       <h3>💰 Cierre de cotización</h3>
       <div class="campo-grid-2">
-        <div class="campo">
-          <label>Contingencia <span class="hint">(%)</span></label>
-          <input type="number" id="contingencia" value="5" min="0" max="100" step="0.5">
-        </div>
-        <div class="campo">
-          <label>Margen / utilidad <span class="hint">(%)</span></label>
-          <input type="number" id="margen" value="30" min="0" max="200" step="0.5">
-        </div>
+        <div class="campo"><label>Contingencia <span class="hint">(%)</span></label><input type="number" id="contingencia" value="5" min="0" max="100" step="0.5"></div>
+        <div class="campo"><label>Margen / utilidad <span class="hint">(%)</span></label><input type="number" id="margen" value="30" min="0" max="200" step="0.5"></div>
       </div>
     </section>
 
-    <!-- Condiciones comerciales -->
     <section>
       <h3>📄 Condiciones comerciales</h3>
       <div class="campo">
@@ -1093,51 +530,54 @@ footer strong { color: var(--azul); }
 
   </aside>
 
-  <!-- ═══════════════════════════════
-       PANEL DE RESULTADOS
-       ═══════════════════════════════ -->
   <section class="resultados">
 
-    <!-- Tarjetas de escenarios -->
     <div class="bloque">
       <h2>Cotización por escenario</h2>
-      <div class="escenarios-grid" id="escenarios-container">
-        <!-- Las tarjetas se generan por JS -->
+      <div class="escenarios-grid" id="escenarios-container"></div>
+    </div>
+
+    <div class="bloque">
+      <h2>Cronograma del proyecto</h2>
+      <div class="escenario-selector" id="cronograma-selector">
+        <button class="active" data-letra="A">Escenario A</button>
+        <button data-letra="B">Escenario B</button>
+        <button data-letra="C">Escenario C</button>
+      </div>
+
+      <div class="cronograma-vista">
+        <h3>Vista panorámica · duración en semanas</h3>
+        <div class="gantt-svg-wrap" id="gantt-panoramica"></div>
+      </div>
+
+      <div class="cronograma-vista">
+        <h3>Vista semanal · días de operación</h3>
+        <div id="gantt-semanal"></div>
       </div>
     </div>
 
-    <!-- Desglose interno -->
     <div class="bloque">
       <h2>Desglose interno</h2>
       <div class="desglose-tabs">
-        <button class="tab-btn active" onclick="cambiarTab('A')">Escenario A</button>
-        <button class="tab-btn" onclick="cambiarTab('B')">Escenario B</button>
-        <button class="tab-btn" onclick="cambiarTab('C')">Escenario C</button>
+        <button class="tab-btn active" data-letra="A">Escenario A</button>
+        <button class="tab-btn" data-letra="B">Escenario B</button>
+        <button class="tab-btn" data-letra="C">Escenario C</button>
       </div>
       <div id="tab-A" class="tab-content active"></div>
       <div id="tab-B" class="tab-content"></div>
       <div id="tab-C" class="tab-content"></div>
-      <p class="nota-interna">
-        ⚠️ Este desglose es <strong>interno</strong>. Los valores líquidos, retención, margen y contingencia
-        NO se muestran al cliente en la propuesta PPTX.
-      </p>
+      <p class="nota-interna">⚠️ Este desglose es <strong>interno</strong>. Los valores líquidos, retención, margen y contingencia NO se muestran al cliente en la propuesta PPTX.</p>
     </div>
 
-    <!-- Comparativa visual -->
     <div class="bloque">
       <h2>Comparativa visual</h2>
-      <div class="comparativa-bars" id="comparativa-container">
-        <!-- Se genera por JS -->
-      </div>
+      <div class="comparativa-bars" id="comparativa-container"></div>
+      <div id="ahorro-escala-msg"></div>
     </div>
 
-    <!-- Exportar -->
     <div class="bloque">
       <h2>Exportar propuesta</h2>
-      <p style="color:var(--texto-cuerpo); margin-bottom:1rem; font-size:0.9rem;">
-        Genera una presentación editable en <strong>.pptx</strong> con identidad Hackea completa, lista
-        para revisar en PowerPoint, Canva o Google Slides y enviar al cliente.
-      </p>
+      <p style="color:var(--texto-cuerpo); margin-bottom:1rem; font-size:0.9rem;">Genera una presentación editable en <strong>.pptx</strong> con identidad Hackea completa, incluyendo el Gantt del proyecto.</p>
       <div class="acciones-row">
         <label style="font-weight:500; margin-right:-0.3rem;">Exportar:</label>
         <select id="escenario-exportar">
@@ -1146,15 +586,9 @@ footer strong { color: var(--azul); }
           <option value="C">Escenario C (individual)</option>
           <option value="comparada">Los 3 escenarios comparados</option>
         </select>
-        <button class="btn btn-export" onclick="exportarPPTX()">
-          🎨 Descargar propuesta (.pptx)
-        </button>
-        <button class="btn btn-secundario" onclick="imprimirCotizacion()">
-          🖨️ Imprimir interna
-        </button>
-        <button class="btn btn-secundario" onclick="copiarResumen()">
-          📋 Copiar resumen
-        </button>
+        <button class="btn btn-export" onclick="exportarPPTX()">🎨 Descargar propuesta (.pptx)</button>
+        <button class="btn btn-secundario" onclick="imprimirCotizacion()">🖨️ Imprimir interna</button>
+        <button class="btn btn-secundario" onclick="copiarResumen()">📋 Copiar resumen</button>
       </div>
     </div>
 
@@ -1162,112 +596,90 @@ footer strong { color: var(--azul); }
 
 </main>
 
-<footer>
-  <strong>Hackea</strong> · info@hackea.pro · Cotizador Formación Sincrónica ·
-  Los cálculos aplican retención de honorarios vigente en Chile (Ley 21.133)
-</footer>
+<footer><strong>Hackea</strong> · info@hackea.pro · Cotizador Formación Sincrónica · Retención honorarios Chile 2026: 15,25% (Ley 21.133)</footer>
 
 <div class="toast" id="toast"></div>
 
-<!-- ═══════════════════════════════════════════
-     LÓGICA
-     ═══════════════════════════════════════════ -->
 <script>
-// ═══════════════════════════════════════════
-// IDENTIDAD HACKEA (para PPTX)
-// ═══════════════════════════════════════════
 const HACKEA = {
-  azul: '0090F8',
-  azulOscuro: '006FC4',
-  azulClaro: 'E5F3FE',
-  textoPrincipal: '2A2A2A',
-  textoCuerpo: '404040',
-  textoMuted: '6B7280',
-  fondo: 'EBECF0',
-  superficie: 'F3F3F3',
-  blanco: 'FFFFFF',
-  negro: '000000',
-  fontTitulo: 'Poppins',
-  fontCuerpo: 'Arial'
+  azul: '0090F8', azulOscuro: '006FC4', azulClaro: 'E5F3FE',
+  azulH2: '8B5CF6', azulH3: 'F59E0B',
+  textoPrincipal: '2A2A2A', textoCuerpo: '404040', textoMuted: '6B7280',
+  fondo: 'EBECF0', superficie: 'F3F3F3', blanco: 'FFFFFF', negro: '000000',
+  borde: 'D1D5DB',
+  fontTitulo: 'Poppins', fontCuerpo: 'Arial'
 };
 
-// ═══════════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════════
-function fmtCLP(n) {
-  if (!isFinite(n)) return '$0';
-  return '$' + Math.round(n).toLocaleString('es-CL');
-}
+const COLORES_H = { 1: HACKEA.azul, 2: HACKEA.azulH2, 3: HACKEA.azulH3 };
+const DIAS_LABELS = { L: 'Lunes', M: 'Martes', X: 'Miércoles', J: 'Jueves', V: 'Viernes', S: 'Sábado' };
+const DIAS_ORDEN = ['L','M','X','J','V','S'];
 
-function fmtCLPcorto(n) {
-  if (!isFinite(n) || n === 0) return '$0';
-  if (n >= 1000000) return '$' + (n/1000000).toFixed(1).replace('.0','') + 'M';
-  if (n >= 1000) return '$' + Math.round(n/1000) + 'K';
-  return '$' + Math.round(n);
-}
-
-function num(id) {
-  const el = document.getElementById(id);
-  if (!el) return 0;
-  const v = parseFloat(el.value);
-  return isFinite(v) ? v : 0;
-}
-
-function txt(id) {
-  const el = document.getElementById(id);
-  return el ? el.value.trim() : '';
-}
-
-function bool(id) {
-  const el = document.getElementById(id);
-  return el ? el.checked : false;
-}
-
+function fmtCLP(n) { if (!isFinite(n)) return '$0'; return '$' + Math.round(n).toLocaleString('es-CL'); }
+function num(id) { const el = document.getElementById(id); if (!el) return 0; const v = parseFloat(el.value); return isFinite(v) ? v : 0; }
+function txt(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function bool(id) { const el = document.getElementById(id); return el ? el.checked : false; }
 function fmtFecha(dateStr) {
   if (!dateStr) return new Date().toLocaleDateString('es-CL', { day:'numeric', month:'long', year:'numeric' });
   const d = new Date(dateStr + 'T00:00');
   return d.toLocaleDateString('es-CL', { day:'numeric', month:'long', year:'numeric' });
 }
-
 function showToast(msg, tipo = '') {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = 'toast show ' + tipo;
-  setTimeout(() => t.className = 'toast', 3000);
+  setTimeout(() => t.className = 'toast', 3500);
 }
 
-// ═══════════════════════════════════════════
-// ESTADO GLOBAL
-// ═══════════════════════════════════════════
 let ultimosCalculos = null;
+let escenarioCronogramaActual = 'A';
 
-// ═══════════════════════════════════════════
-// CÁLCULO PRINCIPAL
-// ═══════════════════════════════════════════
+function leerHorarios() {
+  const horarios = [];
+  for (let h = 1; h <= 3; h++) {
+    const activo = h === 1 ? true : bool(`h${h}-activo`);
+    if (!activo) continue;
+    const dias = {};
+    DIAS_ORDEN.forEach(d => dias[d] = bool(`h${h}-d-${d}`));
+    const frecuencia = DIAS_ORDEN.filter(d => dias[d]).length;
+    horarios.push({
+      id: h,
+      nombre: txt(`h${h}-nombre`) || `Horario ${h}`,
+      dias,
+      frecuencia,
+      cohortes: num(`h${h}-cohortes`) || 1
+    });
+  }
+  return horarios;
+}
+
 function calcular() {
-  // Parámetros del curso
   const horas = num('horas-totales');
   const tamGrupo = num('tam-grupo') || 1;
   const durClase = num('dur-clase') || 1;
-  const frec = num('frec-semanal') || 1;
-  const paralelos = num('grupos-paralelos') || 1;
+  const clasesPorGrupo = Math.ceil(horas / durClase);
 
-  // Tributario
+  const horarios = leerHorarios();
+
   const retencion = num('retencion');
   const factor = retencion >= 100 ? 1 : 1 / (1 - retencion/100);
   const factSeparada = bool('fact-separada');
   const iva = num('iva');
 
-  // Equipo docente
   const vhRelator = num('vh-relator');
   const hExtraRelator = num('h-extra-relator');
+  const modalidadRelator = document.querySelector('input[name="modalidad-relator"]:checked')?.value || 'por-hora';
+  const sueldoMensualRelator = num('sueldo-mensual-relator');
+  const relatorModo = document.querySelector('input[name="relator-modo"]:checked')?.value || 'por-grupo';
+  const nRelatoresFijos = num('n-relatores-fijos') || 1;
+
   const incluyeAyudante = bool('incluye-ayudante');
   const vhAyudante = num('vh-ayudante');
   const hExtraAyudante = num('h-extra-ayudante');
+  const modalidadAyudante = document.querySelector('input[name="modalidad-ayudante"]:checked')?.value || 'por-hora';
+  const sueldoMensualAyudante = num('sueldo-mensual-ayudante');
   const ayudanteModo = document.querySelector('input[name="ayudante-modo"]:checked')?.value || 'por-grupo';
   const nAyudantesFijos = num('n-ayudantes-fijos') || 1;
 
-  // Coordinación
   const sueldoCoord = num('sueldo-coord');
   const nCoord = num('n-coord');
   const mesesExtra = num('meses-extra');
@@ -1275,48 +687,76 @@ function calcular() {
   const sueldoAdmin = num('sueldo-admin');
   const nAdmin = num('n-admin');
 
-  // Tech
   const devMaterial = num('dev-material');
   const nZoom = num('n-zoom');
   const costoZoom = num('costo-zoom');
   const costoTools = num('costo-tools');
   const otrosGastos = num('otros-gastos');
 
-  // Cierre
   const contingencia = num('contingencia');
   const margen = num('margen');
+  const vhcObjetivo = num('vhc-objetivo');
 
-  // Parámetros compartidos del proyecto
-  const clasesPorGrupo = Math.ceil(horas / durClase);
-  const semanasPorGrupo = Math.ceil(clasesPorGrupo / frec);
-
-  // Por cada escenario
   const escenarios = ['A','B','C'].map(letra => {
     const participantes = num(`part-${letra}`);
     if (participantes <= 0) return { letra, vacio: true, participantes: 0 };
 
-    const numGrupos = Math.ceil(participantes / tamGrupo);
-    const ciclos = Math.ceil(numGrupos / paralelos);
-    const semanasProy = ciclos * semanasPorGrupo;
+    const numGruposTotal = Math.ceil(participantes / tamGrupo);
+    const gruposPorHorario = horarios.map(h => num(`g-${letra}-${h.id}`));
+    const sumaAsignados = gruposPorHorario.reduce((a,b) => a+b, 0);
+
+    const bloquesHorarios = horarios.map((h, i) => {
+      const grupos = gruposPorHorario[i];
+      if (grupos <= 0 || h.frecuencia <= 0) return { ...h, grupos: 0, ciclos: 0, semanasPorGrupo: 0, semanasBloque: 0 };
+      const semanasPorGrupo = Math.ceil(clasesPorGrupo / h.frecuencia);
+      const ciclos = Math.ceil(grupos / h.cohortes);
+      const semanasBloque = ciclos * semanasPorGrupo;
+      return { ...h, grupos, ciclos, semanasPorGrupo, semanasBloque };
+    });
+
+    const semanasProy = Math.max(1, ...bloquesHorarios.map(b => b.semanasBloque));
     const mesesProy = Math.max(1, Math.ceil(semanasProy / 4));
 
-    // Costos por boleta de honorarios (líquido y bruto)
-    const horasRelatorTot = numGrupos * (horas + hExtraRelator);
-    const costoRelatorLiq = horasRelatorTot * vhRelator;
-    const costoRelatorBruto = costoRelatorLiq * factor;
+    const nRelatores = relatorModo === 'por-grupo' ? (sumaAsignados || numGruposTotal) : nRelatoresFijos;
+    let horasImparticionRelator = 0, horasExtrasRelatorTot = 0, horasRelatorTot = 0;
+    let costoRelatorLiq = 0, costoRelatorBruto = 0;
+    let jornadaMensualRelator = 0;
 
-    let nAyudantes = 0, horasAyudanteTot = 0, costoAyudanteLiq = 0, costoAyudanteBruto = 0;
+    if (modalidadRelator === 'mensual') {
+      costoRelatorLiq = nRelatores * sueldoMensualRelator * mesesProy;
+      costoRelatorBruto = costoRelatorLiq * factor;
+    } else {
+      horasImparticionRelator = sumaAsignados * horas;
+      horasExtrasRelatorTot = nRelatores * hExtraRelator;
+      horasRelatorTot = horasImparticionRelator + horasExtrasRelatorTot;
+      costoRelatorLiq = horasRelatorTot * vhRelator;
+      costoRelatorBruto = costoRelatorLiq * factor;
+    }
+    if (nRelatores > 0 && mesesProy > 0) {
+      const horasPorRelator = (sumaAsignados * horas) / nRelatores;
+      const horasExtrasMensuales = hExtraRelator / mesesProy;
+      jornadaMensualRelator = (horasPorRelator / mesesProy) + horasExtrasMensuales;
+    }
+
+    let nAyudantes = 0, horasImparticionAyudante = 0, horasExtrasAyudanteTot = 0, horasAyudanteTot = 0;
+    let costoAyudanteLiq = 0, costoAyudanteBruto = 0;
     if (incluyeAyudante) {
-      nAyudantes = ayudanteModo === 'por-grupo' ? numGrupos : nAyudantesFijos;
-      horasAyudanteTot = nAyudantes * (horas + hExtraAyudante);
-      costoAyudanteLiq = horasAyudanteTot * vhAyudante;
-      costoAyudanteBruto = costoAyudanteLiq * factor;
+      nAyudantes = ayudanteModo === 'por-grupo' ? (sumaAsignados || numGruposTotal) : nAyudantesFijos;
+      if (modalidadAyudante === 'mensual') {
+        costoAyudanteLiq = nAyudantes * sueldoMensualAyudante * mesesProy;
+        costoAyudanteBruto = costoAyudanteLiq * factor;
+      } else {
+        horasImparticionAyudante = sumaAsignados * horas;
+        horasExtrasAyudanteTot = nAyudantes * hExtraAyudante;
+        horasAyudanteTot = horasImparticionAyudante + horasExtrasAyudanteTot;
+        costoAyudanteLiq = horasAyudanteTot * vhAyudante;
+        costoAyudanteBruto = costoAyudanteLiq * factor;
+      }
     }
 
     const mesesCoordTot = mesesProy + mesesExtra;
     const costoCoordLiq = nCoord * sueldoCoord * mesesCoordTot;
     const costoCoordBruto = costoCoordLiq * factor;
-
     let costoAdminLiq = 0, costoAdminBruto = 0;
     if (incluyeAdmin) {
       costoAdminLiq = nAdmin * sueldoAdmin * mesesProy;
@@ -1326,7 +766,6 @@ function calcular() {
     const costoZoomTot = nZoom * costoZoom * mesesProy;
     const costoToolsTot = costoTools * mesesProy;
 
-    // Agregados por categoría (como los ve el cliente, en bruto)
     const ejecucionDocente = costoRelatorBruto + costoAyudanteBruto;
     const coordGestion = costoCoordBruto + costoAdminBruto;
     const desarrolloCont = devMaterial;
@@ -1338,14 +777,12 @@ function calcular() {
     const margenMonto = costoTotalBruto * margen / 100;
     const precioNeto = costoTotalBruto + margenMonto;
 
-    // Distribución de margen+contingencia proporcional a cada categoría (para mostrar al cliente)
     const multiplicadorCliente = subtotalBruto > 0 ? precioNeto / subtotalBruto : 0;
     const ejecucionDocenteCliente = ejecucionDocente * multiplicadorCliente;
     const coordGestionCliente = coordGestion * multiplicadorCliente;
     const desarrolloContCliente = desarrolloCont * multiplicadorCliente;
     const plataformasTechCliente = plataformasTech * multiplicadorCliente;
 
-    // IVA
     let ivaMonto = 0, baseIva = 0;
     if (factSeparada) {
       baseIva = desarrolloContCliente;
@@ -1353,43 +790,44 @@ function calcular() {
     }
     const precioFinal = precioNeto + ivaMonto;
 
-    // KPIs
     const valorHoraCapacitacion = horas > 0 && participantes > 0 ? precioNeto / (horas * participantes) : 0;
     const costoPorPart = participantes > 0 ? precioNeto / participantes : 0;
 
+    let deltaVHC = null, deltaVHCpct = null, precioSiObjetivo = null, margenSiObjetivo = null;
+    if (vhcObjetivo > 0 && horas > 0 && participantes > 0) {
+      deltaVHC = valorHoraCapacitacion - vhcObjetivo;
+      deltaVHCpct = (deltaVHC / vhcObjetivo) * 100;
+      precioSiObjetivo = vhcObjetivo * horas * participantes;
+      margenSiObjetivo = costoTotalBruto > 0 ? ((precioSiObjetivo / costoTotalBruto) - 1) * 100 : 0;
+    }
+
     return {
       letra, vacio: false, participantes,
-      // Proyecto
-      numGrupos, clasesPorGrupo, semanasPorGrupo, ciclos, semanasProy, mesesProy, mesesCoordTot,
-      // Costos líquidos (internos)
-      horasRelatorTot, costoRelatorLiq, costoRelatorBruto,
-      nAyudantes, horasAyudanteTot, costoAyudanteLiq, costoAyudanteBruto,
-      costoCoordLiq, costoCoordBruto,
-      costoAdminLiq, costoAdminBruto,
+      numGruposTotal, sumaAsignados, bloquesHorarios,
+      clasesPorGrupo, semanasProy, mesesProy, mesesCoordTot,
+      nRelatores, horasImparticionRelator, horasExtrasRelatorTot, horasRelatorTot, costoRelatorLiq, costoRelatorBruto, jornadaMensualRelator,
+      nAyudantes, horasImparticionAyudante, horasExtrasAyudanteTot, horasAyudanteTot, costoAyudanteLiq, costoAyudanteBruto,
+      costoCoordLiq, costoCoordBruto, costoAdminLiq, costoAdminBruto,
       costoZoomTot, costoToolsTot, devMaterial, otrosGastos,
-      // Categorías (bruto interno)
       ejecucionDocente, coordGestion, desarrolloCont, plataformasTech,
-      // Categorías cliente
       ejecucionDocenteCliente, coordGestionCliente, desarrolloContCliente, plataformasTechCliente,
-      // Totales
       subtotalBruto, contingenciaMonto, costoTotalBruto, margenMonto,
       precioNeto, baseIva, ivaMonto, precioFinal,
-      // KPIs
-      valorHoraCapacitacion, costoPorPart
+      valorHoraCapacitacion, costoPorPart,
+      deltaVHC, deltaVHCpct, precioSiObjetivo, margenSiObjetivo
     };
   });
 
-  // Parámetros del proyecto (compartidos)
   const params = {
-    horas, tamGrupo, durClase, frec, paralelos,
+    horas, tamGrupo, durClase, clasesPorGrupo,
+    horarios,
     retencion, factSeparada, iva,
-    vhRelator, hExtraRelator,
-    incluyeAyudante, vhAyudante, hExtraAyudante, ayudanteModo, nAyudantesFijos,
+    vhRelator, hExtraRelator, modalidadRelator, sueldoMensualRelator, relatorModo, nRelatoresFijos,
+    incluyeAyudante, vhAyudante, hExtraAyudante, modalidadAyudante, sueldoMensualAyudante, ayudanteModo, nAyudantesFijos,
     sueldoCoord, nCoord, mesesExtra,
     incluyeAdmin, sueldoAdmin, nAdmin,
     devMaterial, nZoom, costoZoom, costoTools, otrosGastos,
-    contingencia, margen,
-    clasesPorGrupo, semanasPorGrupo,
+    contingencia, margen, vhcObjetivo,
     nombreProyecto: txt('nombre-proyecto') || 'Proyecto sin nombre',
     cliente: txt('nombre-cliente') || 'Cliente',
     fecha: txt('fecha-propuesta'),
@@ -1399,70 +837,95 @@ function calcular() {
 
   ultimosCalculos = { escenarios, params };
   renderizar(escenarios, params);
+  actualizarSumasDistribucion(escenarios);
+  actualizarJornadaRelator(escenarios, params);
 }
 
-// ═══════════════════════════════════════════
-// RENDERIZADO
-// ═══════════════════════════════════════════
+function actualizarSumasDistribucion(escenarios) {
+  escenarios.forEach(e => {
+    const totalEl = document.getElementById(`total-${e.letra}`);
+    const sumaEl = document.getElementById(`suma-${e.letra}`);
+    if (!totalEl || !sumaEl) return;
+    if (e.vacio) {
+      totalEl.textContent = '0';
+      sumaEl.textContent = '0';
+      sumaEl.className = 'suma';
+      return;
+    }
+    totalEl.textContent = e.numGruposTotal;
+    sumaEl.textContent = e.sumaAsignados;
+    sumaEl.className = e.sumaAsignados === e.numGruposTotal ? 'suma ok' : 'suma err';
+  });
+}
+
+function actualizarJornadaRelator(escenarios, params) {
+  const el = document.getElementById('jornada-relator');
+  if (!el) return;
+  if (params.modalidadRelator !== 'mensual') { el.style.display = 'none'; return; }
+  const validos = escenarios.filter(e => !e.vacio);
+  if (validos.length === 0) { el.style.display = 'none'; return; }
+
+  el.style.display = 'block';
+  const rangos = validos.map(e => {
+    const jornadaHrs = e.jornadaMensualRelator;
+    const pctJornada = (jornadaHrs / 182) * 100;
+    return `<strong>Esc ${e.letra}:</strong> ${e.nRelatores} relator(es) con ~${Math.round(jornadaHrs)} hrs/mes (${Math.round(pctJornada)}% jornada)`;
+  }).join('<br>');
+  el.innerHTML = `📊 <strong>Jornada mensual estimada por relator:</strong><br>${rangos}<br><em style="font-size:0.7rem;color:var(--texto-muted)">Referencia: jornada completa Chile 2026 = 182 hrs/mes</em>`;
+}
+
 function renderizar(escenarios, params) {
-  renderEscenarios(escenarios);
+  renderEscenarios(escenarios, params);
   renderDesglose(escenarios, params);
   renderComparativa(escenarios);
+  renderCronograma(escenarios, params);
 }
 
-function renderEscenarios(escenarios) {
+function renderEscenarios(escenarios, params) {
   const cont = document.getElementById('escenarios-container');
   cont.innerHTML = escenarios.map(e => {
     if (e.vacio) {
-      return `
-        <div class="escenario-card vacio">
-          <div class="escenario-header">
-            <span class="escenario-letra">${e.letra}</span>
-            <span class="escenario-label">Escenario</span>
-          </div>
-          <p style="color:var(--texto-muted); font-size:0.85rem;">
-            Ingresa un número de participantes mayor a 0 para calcular este escenario.
-          </p>
-        </div>
-      `;
+      return `<div class="escenario-card vacio"><div class="escenario-header"><span class="escenario-letra">${e.letra}</span><span class="escenario-label">Escenario</span></div><p style="color:var(--texto-muted); font-size:0.85rem;">Ingresa participantes > 0 y reparte los grupos entre los horarios.</p></div>`;
     }
+
+    let deltaHTML = '';
+    if (e.deltaVHC !== null) {
+      const diff = e.deltaVHC;
+      const pct = e.deltaVHCpct;
+      let clase = 'ok', icono = '✓', texto = `Estás ${fmtCLP(Math.abs(diff))}/h bajo el objetivo (${pct.toFixed(1)}%)`;
+      if (diff > 0) {
+        clase = Math.abs(pct) > 10 ? 'err' : 'warn';
+        icono = Math.abs(pct) > 10 ? '⚠' : '!';
+        texto = `Te pasas ${fmtCLP(Math.abs(diff))}/h del objetivo (${pct.toFixed(1)}%)`;
+      } else if (diff === 0) {
+        texto = `Igual al objetivo`;
+      }
+      const margenObj = e.margenSiObjetivo !== null ? `<br><span style="font-weight:400;font-size:0.75rem">Margen si ajustas: ${e.margenSiObjetivo.toFixed(1)}%</span>` : '';
+      deltaHTML = `<div class="delta-vhc ${clase}">${icono} ${texto}${margenObj}</div>`;
+    }
+
+    let avisoSuma = '';
+    if (e.sumaAsignados !== e.numGruposTotal) {
+      avisoSuma = `<div style="color:var(--rojo-alerta); font-size:0.75rem; margin-bottom:0.75rem; padding:0.4rem 0.6rem; background:#FEE2E2; border-radius:6px;">⚠️ Asignaste ${e.sumaAsignados}/${e.numGruposTotal} grupos. Revisa la distribución.</div>`;
+    }
+
     return `
       <div class="escenario-card">
-        <div class="escenario-header">
-          <span class="escenario-letra">${e.letra}</span>
-          <span class="escenario-label">Escenario</span>
-        </div>
+        <div class="escenario-header"><span class="escenario-letra">${e.letra}</span><span class="escenario-label">Escenario</span></div>
         <div class="escenario-participantes">${e.participantes.toLocaleString('es-CL')} participantes</div>
-        <div class="escenario-participantes-label">${e.numGrupos} grupos · ${e.mesesProy} meses de proyecto</div>
-
+        <div class="escenario-participantes-label">${e.sumaAsignados || e.numGruposTotal} grupos · ${e.mesesProy} meses de proyecto</div>
+        ${avisoSuma}
         <div class="kpi-principal">
           <div class="kpi-principal-label">Valor hora capacitación</div>
           <div class="kpi-principal-valor">${fmtCLP(e.valorHoraCapacitacion)}</div>
           <div class="kpi-principal-sub">por hora × participante</div>
         </div>
-
-        <div class="kpi-row">
-          <span class="etiqueta">Costo por participante</span>
-          <span class="valor">${fmtCLP(e.costoPorPart)}</span>
-        </div>
-        <div class="kpi-row">
-          <span class="etiqueta">Duración del proyecto</span>
-          <span class="valor">${e.semanasProy} semanas</span>
-        </div>
-        <div class="kpi-row">
-          <span class="etiqueta">Precio neto (al cliente)</span>
-          <span class="valor">${fmtCLP(e.precioNeto)}</span>
-        </div>
-        ${e.ivaMonto > 0 ? `
-          <div class="kpi-row">
-            <span class="etiqueta">IVA (desarrollo contenido)</span>
-            <span class="valor">${fmtCLP(e.ivaMonto)}</span>
-          </div>
-        ` : ''}
-        <div class="kpi-row total">
-          <span class="etiqueta">Inversión total</span>
-          <span class="valor">${fmtCLP(e.precioFinal)}</span>
-        </div>
+        ${deltaHTML}
+        <div class="kpi-row"><span class="etiqueta">Costo por participante</span><span class="valor">${fmtCLP(e.costoPorPart)}</span></div>
+        <div class="kpi-row"><span class="etiqueta">Duración del proyecto</span><span class="valor">${e.semanasProy} semanas</span></div>
+        <div class="kpi-row"><span class="etiqueta">Precio neto (al cliente)</span><span class="valor">${fmtCLP(e.precioNeto)}</span></div>
+        ${e.ivaMonto > 0 ? `<div class="kpi-row"><span class="etiqueta">IVA (desarrollo)</span><span class="valor">${fmtCLP(e.ivaMonto)}</span></div>` : ''}
+        <div class="kpi-row total"><span class="etiqueta">Inversión total</span><span class="valor">${fmtCLP(e.precioFinal)}</span></div>
       </div>
     `;
   }).join('');
@@ -1472,134 +935,65 @@ function renderDesglose(escenarios, params) {
   escenarios.forEach(e => {
     const div = document.getElementById(`tab-${e.letra}`);
     if (!div) return;
-
-    if (e.vacio) {
-      div.innerHTML = `<p style="color:var(--texto-muted); padding: 1rem;">Sin datos para este escenario.</p>`;
-      return;
-    }
+    if (e.vacio) { div.innerHTML = `<p style="color:var(--texto-muted); padding: 1rem;">Sin datos.</p>`; return; }
 
     const retPct = params.retencion.toFixed(2);
 
-    div.innerHTML = `
-      <table class="desglose-tabla">
-        <thead>
-          <tr>
-            <th>Ítem</th>
-            <th class="num">Detalle</th>
-            <th class="num">Líquido (CLP)</th>
-            <th class="num">Bruto c/retención ${retPct}%</th>
-          </tr>
-        </thead>
-        <tbody>
+    let detalleRelator, montoLiqRelator;
+    if (params.modalidadRelator === 'mensual') {
+      detalleRelator = `${e.nRelatores} relator(es) × ${e.mesesProy} meses × ${fmtCLP(params.sueldoMensualRelator)} mensual`;
+      montoLiqRelator = fmtCLP(e.costoRelatorLiq);
+    } else {
+      detalleRelator = `${e.sumaAsignados} grupos × ${params.horas} hrs = ${e.horasImparticionRelator} hrs imp. + ${e.nRelatores} × ${params.hExtraRelator} hrs extra = ${e.horasExtrasRelatorTot} hrs. Total ${e.horasRelatorTot} hrs × ${fmtCLP(params.vhRelator)}`;
+      montoLiqRelator = fmtCLP(e.costoRelatorLiq);
+    }
 
-          <!-- EJECUCIÓN DOCENTE -->
-          <tr class="categoria"><td colspan="4">1. Ejecución docente</td></tr>
-          <tr>
-            <td>Relatores</td>
-            <td class="num">${e.numGrupos} grupos × ${params.horas + params.hExtraRelator} hrs = ${e.horasRelatorTot} hrs × ${fmtCLP(params.vhRelator)}</td>
-            <td class="num">${fmtCLP(e.costoRelatorLiq)}</td>
-            <td class="num"><strong>${fmtCLP(e.costoRelatorBruto)}</strong></td>
-          </tr>
-          ${params.incluyeAyudante ? `
-            <tr>
-              <td>Ayudantes</td>
-              <td class="num">${e.nAyudantes} ayudante(s) × ${params.horas + params.hExtraAyudante} hrs = ${e.horasAyudanteTot} hrs × ${fmtCLP(params.vhAyudante)}</td>
-              <td class="num">${fmtCLP(e.costoAyudanteLiq)}</td>
-              <td class="num"><strong>${fmtCLP(e.costoAyudanteBruto)}</strong></td>
-            </tr>
-          ` : ''}
+    let detalleAyudante = '', montoLiqAyudante = '';
+    if (params.incluyeAyudante) {
+      if (params.modalidadAyudante === 'mensual') {
+        detalleAyudante = `${e.nAyudantes} ayudante(s) × ${e.mesesProy} meses × ${fmtCLP(params.sueldoMensualAyudante)} mensual`;
+      } else {
+        detalleAyudante = `${e.sumaAsignados} grupos × ${params.horas} hrs = ${e.horasImparticionAyudante} hrs imp. + ${e.nAyudantes} × ${params.hExtraAyudante} hrs extra = ${e.horasExtrasAyudanteTot} hrs. Total ${e.horasAyudanteTot} hrs × ${fmtCLP(params.vhAyudante)}`;
+      }
+      montoLiqAyudante = fmtCLP(e.costoAyudanteLiq);
+    }
 
-          <!-- COORDINACIÓN -->
-          <tr class="categoria"><td colspan="4">2. Coordinación y gestión</td></tr>
-          <tr>
-            <td>Coordinador(es)</td>
-            <td class="num">${params.nCoord} × ${e.mesesCoordTot} meses × ${fmtCLP(params.sueldoCoord)}</td>
-            <td class="num">${fmtCLP(e.costoCoordLiq)}</td>
-            <td class="num"><strong>${fmtCLP(e.costoCoordBruto)}</strong></td>
-          </tr>
-          ${params.incluyeAdmin ? `
-            <tr>
-              <td>Administrativo(s)</td>
-              <td class="num">${params.nAdmin} × ${e.mesesProy} meses × ${fmtCLP(params.sueldoAdmin)}</td>
-              <td class="num">${fmtCLP(e.costoAdminLiq)}</td>
-              <td class="num"><strong>${fmtCLP(e.costoAdminBruto)}</strong></td>
-            </tr>
-          ` : ''}
-
-          <!-- DESARROLLO -->
-          <tr class="categoria"><td colspan="4">3. Desarrollo de contenido</td></tr>
-          <tr>
-            <td>Material / contenido</td>
-            <td class="num">Global</td>
-            <td class="num">—</td>
-            <td class="num"><strong>${fmtCLP(e.devMaterial)}</strong></td>
-          </tr>
-
-          <!-- PLATAFORMAS -->
-          <tr class="categoria"><td colspan="4">4. Plataformas y tecnología</td></tr>
-          <tr>
-            <td>Licencias Zoom</td>
-            <td class="num">${params.nZoom} × ${e.mesesProy} meses × ${fmtCLP(params.costoZoom)}</td>
-            <td class="num">—</td>
-            <td class="num"><strong>${fmtCLP(e.costoZoomTot)}</strong></td>
-          </tr>
-          <tr>
-            <td>Herramientas digitales</td>
-            <td class="num">${e.mesesProy} meses × ${fmtCLP(params.costoTools)}</td>
-            <td class="num">—</td>
-            <td class="num"><strong>${fmtCLP(e.costoToolsTot)}</strong></td>
-          </tr>
-          ${e.otrosGastos > 0 ? `
-            <tr>
-              <td>Otros gastos</td>
-              <td class="num">Global</td>
-              <td class="num">—</td>
-              <td class="num"><strong>${fmtCLP(e.otrosGastos)}</strong></td>
-            </tr>
-          ` : ''}
-
-          <!-- CIERRE -->
-          <tr class="subtotal">
-            <td colspan="3">Subtotal costos brutos</td>
-            <td class="num">${fmtCLP(e.subtotalBruto)}</td>
-          </tr>
-          <tr class="subtotal">
-            <td colspan="3">+ Contingencia (${params.contingencia}%)</td>
-            <td class="num">${fmtCLP(e.contingenciaMonto)}</td>
-          </tr>
-          <tr class="subtotal">
-            <td colspan="3">= Costo total del proyecto (bruto)</td>
-            <td class="num">${fmtCLP(e.costoTotalBruto)}</td>
-          </tr>
-          <tr class="margen">
-            <td colspan="3">+ Margen / utilidad (${params.margen}%) — no se muestra al cliente</td>
-            <td class="num">${fmtCLP(e.margenMonto)}</td>
-          </tr>
-          <tr class="total">
-            <td colspan="3">PRECIO NETO AL CLIENTE</td>
-            <td class="num">${fmtCLP(e.precioNeto)}</td>
-          </tr>
-          ${e.ivaMonto > 0 ? `
-            <tr class="subtotal">
-              <td colspan="3">+ IVA (${params.iva}%) sobre desarrollo de contenido</td>
-              <td class="num">${fmtCLP(e.ivaMonto)}</td>
-            </tr>
-            <tr class="total">
-              <td colspan="3">PRECIO TOTAL CON IVA</td>
-              <td class="num">${fmtCLP(e.precioFinal)}</td>
-            </tr>
-          ` : ''}
-        </tbody>
-      </table>
-    `;
+    let html = `<table class="desglose-tabla"><thead><tr><th>Ítem</th><th class="num">Detalle</th><th class="num">Líquido (CLP)</th><th class="num">Bruto c/ret ${retPct}%</th></tr></thead><tbody>`;
+    html += `<tr class="categoria"><td colspan="4">1. Ejecución docente</td></tr>`;
+    html += `<tr><td>Relatores (${params.modalidadRelator})</td><td class="num">${detalleRelator}</td><td class="num">${montoLiqRelator}</td><td class="num"><strong>${fmtCLP(e.costoRelatorBruto)}</strong></td></tr>`;
+    if (params.incluyeAyudante) {
+      html += `<tr><td>Ayudantes (${params.modalidadAyudante})</td><td class="num">${detalleAyudante}</td><td class="num">${montoLiqAyudante}</td><td class="num"><strong>${fmtCLP(e.costoAyudanteBruto)}</strong></td></tr>`;
+    }
+    html += `<tr class="categoria"><td colspan="4">2. Coordinación y gestión</td></tr>`;
+    html += `<tr><td>Coordinador(es)</td><td class="num">${params.nCoord} × ${e.mesesCoordTot} meses × ${fmtCLP(params.sueldoCoord)}</td><td class="num">${fmtCLP(e.costoCoordLiq)}</td><td class="num"><strong>${fmtCLP(e.costoCoordBruto)}</strong></td></tr>`;
+    if (params.incluyeAdmin) {
+      html += `<tr><td>Administrativo(s)</td><td class="num">${params.nAdmin} × ${e.mesesProy} meses × ${fmtCLP(params.sueldoAdmin)}</td><td class="num">${fmtCLP(e.costoAdminLiq)}</td><td class="num"><strong>${fmtCLP(e.costoAdminBruto)}</strong></td></tr>`;
+    }
+    html += `<tr class="categoria"><td colspan="4">3. Desarrollo de contenido</td></tr>`;
+    html += `<tr><td>Material / contenido</td><td class="num">Global</td><td class="num">—</td><td class="num"><strong>${fmtCLP(e.devMaterial)}</strong></td></tr>`;
+    html += `<tr class="categoria"><td colspan="4">4. Plataformas y tecnología</td></tr>`;
+    html += `<tr><td>Licencias Zoom</td><td class="num">${params.nZoom} × ${e.mesesProy} meses × ${fmtCLP(params.costoZoom)}</td><td class="num">—</td><td class="num"><strong>${fmtCLP(e.costoZoomTot)}</strong></td></tr>`;
+    html += `<tr><td>Herramientas digitales</td><td class="num">${e.mesesProy} meses × ${fmtCLP(params.costoTools)}</td><td class="num">—</td><td class="num"><strong>${fmtCLP(e.costoToolsTot)}</strong></td></tr>`;
+    if (e.otrosGastos > 0) html += `<tr><td>Otros gastos</td><td class="num">Global</td><td class="num">—</td><td class="num"><strong>${fmtCLP(e.otrosGastos)}</strong></td></tr>`;
+    html += `<tr class="subtotal"><td colspan="3">Subtotal costos brutos</td><td class="num">${fmtCLP(e.subtotalBruto)}</td></tr>`;
+    html += `<tr class="subtotal"><td colspan="3">+ Contingencia (${params.contingencia}%)</td><td class="num">${fmtCLP(e.contingenciaMonto)}</td></tr>`;
+    html += `<tr class="subtotal"><td colspan="3">= Costo total del proyecto (bruto)</td><td class="num">${fmtCLP(e.costoTotalBruto)}</td></tr>`;
+    html += `<tr class="margen"><td colspan="3">+ Margen / utilidad (${params.margen}%) — no se muestra al cliente</td><td class="num">${fmtCLP(e.margenMonto)}</td></tr>`;
+    html += `<tr class="total"><td colspan="3">PRECIO NETO AL CLIENTE</td><td class="num">${fmtCLP(e.precioNeto)}</td></tr>`;
+    if (e.ivaMonto > 0) {
+      html += `<tr class="subtotal"><td colspan="3">+ IVA (${params.iva}%) sobre desarrollo de contenido</td><td class="num">${fmtCLP(e.ivaMonto)}</td></tr>`;
+      html += `<tr class="total"><td colspan="3">PRECIO TOTAL CON IVA</td><td class="num">${fmtCLP(e.precioFinal)}</td></tr>`;
+    }
+    html += `</tbody></table>`;
+    div.innerHTML = html;
   });
 }
 
 function renderComparativa(escenarios) {
   const validos = escenarios.filter(e => !e.vacio);
   if (validos.length === 0) {
-    document.getElementById('comparativa-container').innerHTML =
-      '<p style="color:var(--texto-muted);">Sin escenarios válidos para comparar.</p>';
+    document.getElementById('comparativa-container').innerHTML = '<p style="color:var(--texto-muted);">Sin escenarios válidos.</p>';
+    document.getElementById('ahorro-escala-msg').innerHTML = '';
     return;
   }
   const max = Math.max(...validos.map(e => e.precioFinal));
@@ -1608,75 +1002,171 @@ function renderComparativa(escenarios) {
     const pct = max > 0 ? (e.precioFinal / max) * 100 : 0;
     return `
       <div class="bar-row">
-        <div class="bar-label">
-          Escenario ${e.letra}
-          <span class="sub">${e.participantes} pers · ${e.numGrupos} grupos</span>
-        </div>
-        <div class="bar-track">
-          <div class="bar-fill" style="width: ${pct}%"></div>
-        </div>
+        <div class="bar-label">Escenario ${e.letra}<span class="sub">${e.participantes} pers · ${e.sumaAsignados || e.numGruposTotal} grupos</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width: ${pct}%"></div></div>
         <div class="bar-value">${fmtCLP(e.precioFinal)}</div>
       </div>
       <div class="bar-row" style="margin-top:-0.5rem;">
-        <div class="bar-label">
-          <span class="sub" style="color:var(--azul); font-weight:600;">Valor hora capac.</span>
-        </div>
+        <div class="bar-label"><span class="sub" style="color:var(--azul); font-weight:600;">Valor hora capac.</span></div>
         <div></div>
         <div class="bar-value" style="color:var(--azul);">${fmtCLP(e.valorHoraCapacitacion)}/h×p</div>
       </div>
     `;
   }).join('');
+
+  const ahorroEl = document.getElementById('ahorro-escala-msg');
+  if (validos.length >= 2) {
+    const minVHC = Math.min(...validos.map(e => e.valorHoraCapacitacion));
+    const maxVHC = Math.max(...validos.map(e => e.valorHoraCapacitacion));
+    const ahorro = maxVHC > 0 ? ((maxVHC - minVHC) / maxVHC) * 100 : 0;
+    if (ahorro > 0.5) {
+      const mejorEsc = validos.find(e => e.valorHoraCapacitacion === minVHC);
+      ahorroEl.innerHTML = `<div class="ahorro-escala">📉 <strong>Economía de escala:</strong> el escenario ${mejorEsc.letra} tiene un valor hora ${ahorro.toFixed(1)}% menor que el más caro. A mayor volumen, mejor precio unitario.</div>`;
+    } else {
+      ahorroEl.innerHTML = '';
+    }
+  } else {
+    ahorroEl.innerHTML = '';
+  }
 }
 
-// ═══════════════════════════════════════════
-// TABS DEL DESGLOSE
-// ═══════════════════════════════════════════
-function cambiarTab(letra) {
+function renderCronograma(escenarios, params) {
+  const e = escenarios.find(x => x.letra === escenarioCronogramaActual);
+  if (!e || e.vacio) {
+    document.getElementById('gantt-panoramica').innerHTML = '<p style="color:var(--texto-muted); padding:1rem;">Sin datos.</p>';
+    document.getElementById('gantt-semanal').innerHTML = '<p style="color:var(--texto-muted); padding:1rem;">Sin datos.</p>';
+    return;
+  }
+
+  document.getElementById('gantt-panoramica').innerHTML = renderGanttPanoramicaSVG(e);
+  document.getElementById('gantt-semanal').innerHTML = renderGanttSemanalHTML(params);
+}
+
+function renderGanttPanoramicaSVG(e) {
+  const bloquesActivos = e.bloquesHorarios.filter(b => b.grupos > 0);
+  if (bloquesActivos.length === 0) return '<p style="color:var(--texto-muted); padding:1rem;">Asigna grupos a los horarios.</p>';
+
+  const totalSemanas = e.semanasProy;
+  const altoFila = 52;
+  const altoHeader = 30;
+  const anchoLabel = 170;
+  const anchoSVG = Math.max(700, anchoLabel + totalSemanas * 32 + 30);
+  const altoSVG = altoHeader + bloquesActivos.length * altoFila + 20;
+
+  let svg = `<svg viewBox="0 0 ${anchoSVG} ${altoSVG}" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Poppins', Arial; font-size: 11px;">`;
+
+  const anchoZonaSemanas = anchoSVG - anchoLabel - 20;
+  const anchoSemana = anchoZonaSemanas / totalSemanas;
+
+  for (let w = 0; w < totalSemanas; w++) {
+    const x = anchoLabel + w * anchoSemana;
+    svg += `<line x1="${x}" y1="${altoHeader}" x2="${x}" y2="${altoSVG-10}" stroke="#D1D5DB" stroke-width="0.5"/>`;
+    svg += `<text x="${x + anchoSemana/2}" y="${altoHeader - 10}" text-anchor="middle" fill="#6B7280" font-size="10">S${w+1}</text>`;
+  }
+  svg += `<line x1="${anchoLabel + totalSemanas * anchoSemana}" y1="${altoHeader}" x2="${anchoLabel + totalSemanas * anchoSemana}" y2="${altoSVG-10}" stroke="#D1D5DB" stroke-width="0.5"/>`;
+
+  svg += `<text x="10" y="${altoHeader - 10}" fill="#2A2A2A" font-weight="700" font-size="11">HORARIO</text>`;
+  svg += `<text x="${anchoLabel - 10}" y="${altoHeader - 10}" text-anchor="end" fill="#6B7280" font-size="10">${totalSemanas} semanas</text>`;
+
+  bloquesActivos.forEach((b, idx) => {
+    const y = altoHeader + idx * altoFila + 8;
+    const color = '#' + COLORES_H[b.id];
+    const diasTxt = DIAS_ORDEN.filter(d => b.dias[d]).join('-');
+
+    svg += `<text x="10" y="${y + 18}" fill="#2A2A2A" font-weight="700" font-size="12">${b.nombre}</text>`;
+    svg += `<text x="10" y="${y + 34}" fill="#6B7280" font-size="9">${diasTxt} · ${b.cohortes} cohorte${b.cohortes>1?'s':''} · ${b.grupos} grupo${b.grupos>1?'s':''}</text>`;
+
+    for (let c = 0; c < b.ciclos; c++) {
+      const xInicio = anchoLabel + c * b.semanasPorGrupo * anchoSemana;
+      const ancho = b.semanasPorGrupo * anchoSemana - 2;
+      const gruposEnCiclo = Math.min(b.cohortes, b.grupos - c * b.cohortes);
+      const opacity = Math.max(0.6, 0.9 - c*0.08);
+      svg += `<rect x="${xInicio + 1}" y="${y + 5}" width="${ancho}" height="36" fill="${color}" rx="4" opacity="${opacity}"/>`;
+      if (ancho > 55) {
+        const desde = c * b.cohortes + 1;
+        const hasta = c * b.cohortes + gruposEnCiclo;
+        const label = gruposEnCiclo > 1 ? `G${desde}-${hasta}` : `G${desde}`;
+        svg += `<text x="${xInicio + ancho/2}" y="${y + 28}" text-anchor="middle" fill="white" font-weight="700" font-size="11">${label}</text>`;
+      }
+    }
+  });
+
+  svg += `</svg>`;
+  return svg;
+}
+
+function renderGanttSemanalHTML(params) {
+  const horariosConDias = params.horarios.filter(h => h.frecuencia > 0);
+  if (horariosConDias.length === 0) return '<p style="color:var(--texto-muted); padding:1rem;">Marca al menos un día en los horarios.</p>';
+
+  let html = `<div class="semanal-grid">`;
+  html += `<div class="semanal-cell header">Horario</div>`;
+  DIAS_ORDEN.forEach(d => html += `<div class="semanal-cell header">${DIAS_LABELS[d]}</div>`);
+
+  horariosConDias.forEach(h => {
+    html += `<div class="semanal-cell label" style="color:#${COLORES_H[h.id]}">${h.nombre}<br><span style="font-size:0.7rem; color:var(--texto-muted); font-weight:500">${h.cohortes} cohorte${h.cohortes>1?'s':''}</span></div>`;
+    DIAS_ORDEN.forEach(d => {
+      if (h.dias[d]) {
+        const cohortesTxt = h.cohortes === 1 ? 'AM' : h.cohortes === 2 ? 'AM+PM' : `×${h.cohortes}`;
+        html += `<div class="semanal-cell activo h${h.id}">${cohortesTxt}</div>`;
+      } else {
+        html += `<div class="semanal-cell">—</div>`;
+      }
+    });
+  });
+  html += `</div>`;
+  return html;
+}
+
+function verCronograma(letra, btn) {
+  escenarioCronogramaActual = letra;
+  document.querySelectorAll('#cronograma-selector button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (ultimosCalculos) {
+    const e = ultimosCalculos.escenarios.find(x => x.letra === letra);
+    if (e && !e.vacio) {
+      document.getElementById('gantt-panoramica').innerHTML = renderGanttPanoramicaSVG(e);
+    } else {
+      document.getElementById('gantt-panoramica').innerHTML = '<p style="color:var(--texto-muted); padding:1rem;">Sin datos.</p>';
+    }
+  }
+}
+
+function cambiarTab(letra, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
+  btn.classList.add('active');
   document.getElementById(`tab-${letra}`).classList.add('active');
 }
 
-// ═══════════════════════════════════════════
-// COPIAR RESUMEN
-// ═══════════════════════════════════════════
 function copiarResumen() {
   if (!ultimosCalculos) { showToast('Primero calcula', 'error'); return; }
   const { escenarios, params } = ultimosCalculos;
   const validos = escenarios.filter(e => !e.vacio);
-
-  let txt = `COTIZACIÓN HACKEA — ${params.nombreProyecto}\n`;
-  txt += `Cliente: ${params.cliente}\n`;
-  txt += `Fecha: ${fmtFecha(params.fecha)}\n`;
-  txt += `Vigencia: ${params.vigencia} días\n\n`;
-  txt += `Estructura: ${params.horas} hrs síncronas · grupos de ${params.tamGrupo} · `;
-  txt += `clases de ${params.durClase} hrs × ${params.frec} veces/semana · ${params.paralelos} cohortes en paralelo\n\n`;
-
-  validos.forEach(e => {
-    txt += `── ESCENARIO ${e.letra} — ${e.participantes} participantes ──\n`;
-    txt += `  Grupos: ${e.numGrupos} · Duración: ${e.semanasProy} semanas (${e.mesesProy} meses)\n`;
-    txt += `  Valor hora capacitación: ${fmtCLP(e.valorHoraCapacitacion)} por h×participante\n`;
-    txt += `  Costo por participante: ${fmtCLP(e.costoPorPart)}\n`;
-    txt += `  Precio neto: ${fmtCLP(e.precioNeto)}\n`;
-    if (e.ivaMonto > 0) txt += `  + IVA: ${fmtCLP(e.ivaMonto)}\n`;
-    txt += `  INVERSIÓN TOTAL: ${fmtCLP(e.precioFinal)}\n\n`;
+  let texto = `COTIZACIÓN HACKEA — ${params.nombreProyecto}\nCliente: ${params.cliente}\nFecha: ${fmtFecha(params.fecha)}\nVigencia: ${params.vigencia} días\n\n`;
+  texto += `Estructura: ${params.horas} hrs síncronas · grupos de ${params.tamGrupo} · clases de ${params.durClase} hrs\n`;
+  params.horarios.forEach(h => {
+    const dias = DIAS_ORDEN.filter(d => h.dias[d]).join('-');
+    texto += `  ${h.nombre}: ${dias} · ${h.cohortes} cohorte(s) en paralelo\n`;
   });
-
-  navigator.clipboard.writeText(txt).then(
+  texto += `\n`;
+  validos.forEach(e => {
+    texto += `── ESCENARIO ${e.letra} — ${e.participantes} participantes ──\n`;
+    texto += `  Grupos: ${e.sumaAsignados || e.numGruposTotal} · Duración: ${e.semanasProy} semanas (${e.mesesProy} meses)\n`;
+    texto += `  Valor hora capacitación: ${fmtCLP(e.valorHoraCapacitacion)}\n`;
+    texto += `  Costo por participante: ${fmtCLP(e.costoPorPart)}\n`;
+    texto += `  Precio neto: ${fmtCLP(e.precioNeto)}\n`;
+    if (e.ivaMonto > 0) texto += `  + IVA: ${fmtCLP(e.ivaMonto)}\n`;
+    texto += `  INVERSIÓN TOTAL: ${fmtCLP(e.precioFinal)}\n\n`;
+  });
+  navigator.clipboard.writeText(texto).then(
     () => showToast('Resumen copiado al portapapeles', 'success'),
     () => showToast('No se pudo copiar', 'error')
   );
 }
 
-// ═══════════════════════════════════════════
-// IMPRIMIR
-// ═══════════════════════════════════════════
 function imprimirCotizacion() { window.print(); }
 
-// ═══════════════════════════════════════════
-// EXPORTAR A PPTX
-// ═══════════════════════════════════════════
 async function exportarPPTX() {
   if (!ultimosCalculos) { showToast('Primero calcula', 'error'); return; }
   const modo = document.getElementById('escenario-exportar').value;
@@ -1692,29 +1182,23 @@ async function exportarPPTX() {
   try {
     showToast('Generando propuesta...', '');
     const pptx = new PptxGenJS();
-    pptx.layout = 'LAYOUT_WIDE'; // 13.33" x 7.5"
+    pptx.layout = 'LAYOUT_WIDE';
     pptx.title = `Propuesta Hackea — ${params.nombreProyecto}`;
     pptx.company = 'Hackea';
     pptx.subject = 'Propuesta de ejecución de formación';
     pptx.author = 'Hackea';
 
-    // Construcción de slides
     slidePortada(pptx, params, modo);
-    slideSobreHackea(pptx, params);
+    slideSobreHackea(pptx);
     slideVisionGeneral(pptx, params, escenarios, modo);
-    slideEstructura(pptx, params, escenarios, modo);
-    slideEquipo(pptx, params, escenarios, modo);
-    if (modo === 'comparada') {
-      slideComparativa(pptx, params, escenarios);
-    } else {
-      const e = escenarios.find(x => x.letra === modo);
-      slideInversion(pptx, params, e);
-    }
+    slideCronograma(pptx, params, escenarios, modo);
+    slideEquipo(pptx, params);
+    if (modo === 'comparada') slideComparativa(pptx, params, escenarios);
+    else slideInversion(pptx, params, escenarios.find(x => x.letra === modo));
     slideIndicadores(pptx, params, escenarios, modo);
     slideCondiciones(pptx, params);
     slideCierre(pptx);
 
-    // Nombre del archivo
     const fechaStr = (params.fecha || new Date().toISOString().slice(0,10)).replace(/-/g,'');
     const clienteSlug = params.cliente.replace(/[^a-zA-Z0-9]/g,'_').substring(0,30) || 'cliente';
     const modoStr = modo === 'comparada' ? 'comparada' : `esc${modo}`;
@@ -1728,167 +1212,49 @@ async function exportarPPTX() {
   }
 }
 
-// ═══════════════════════════════════════════
-// HELPERS PPTX — elementos decorativos Hackea
-// ═══════════════════════════════════════════
 function decoracionFondoClaro(slide, fondoColor) {
-  // Fondo
   slide.background = { color: fondoColor || HACKEA.superficie };
-
-  // Círculo decorativo grande superior izquierdo (outline azul)
-  slide.addShape('ellipse', {
-    x: -0.8, y: -0.8, w: 1.8, h: 1.8,
-    fill: { type: 'none' },
-    line: { color: HACKEA.azul, width: 2, transparency: 60 }
-  });
-  // Círculo relleno pequeño superior izquierdo
-  slide.addShape('ellipse', {
-    x: 0.6, y: 0.6, w: 0.3, h: 0.3,
-    fill: { color: HACKEA.azul, transparency: 70 },
-    line: { color: HACKEA.azul, width: 0 }
-  });
-
-  // Arcos concéntricos inferior izquierdo (con círculos outline grandes cortados por el borde)
-  slide.addShape('ellipse', {
-    x: -1.2, y: 6.3, w: 2.4, h: 2.4,
-    fill: { type: 'none' },
-    line: { color: HACKEA.negro, width: 2 }
-  });
-  slide.addShape('ellipse', {
-    x: -0.6, y: 6.9, w: 1.2, h: 1.2,
-    fill: { type: 'none' },
-    line: { color: HACKEA.azul, width: 2 }
-  });
-  slide.addShape('ellipse', {
-    x: -0.15, y: 7.35, w: 0.3, h: 0.3,
-    fill: { color: HACKEA.azul },
-    line: { color: HACKEA.azul, width: 0 }
-  });
-
-  // Círculos decorativos esquina inferior derecha
-  slide.addShape('ellipse', {
-    x: 12.8, y: 6.6, w: 0.4, h: 0.4,
-    fill: { color: HACKEA.azul, transparency: 50 },
-    line: { color: HACKEA.azul, width: 0 }
-  });
-  slide.addShape('ellipse', {
-    x: 12.5, y: 7.1, w: 0.25, h: 0.25,
-    fill: { type: 'none' },
-    line: { color: HACKEA.azul, width: 1.5 }
-  });
+  slide.addShape('ellipse', { x: -0.8, y: -0.8, w: 1.8, h: 1.8, fill: { type:'none' }, line: { color: HACKEA.azul, width: 2, transparency: 60 } });
+  slide.addShape('ellipse', { x: 0.6, y: 0.6, w: 0.3, h: 0.3, fill: { color: HACKEA.azul, transparency: 70 }, line: { color: HACKEA.azul, width: 0 } });
+  slide.addShape('ellipse', { x: -1.2, y: 6.3, w: 2.4, h: 2.4, fill: { type:'none' }, line: { color: HACKEA.negro, width: 2 } });
+  slide.addShape('ellipse', { x: -0.6, y: 6.9, w: 1.2, h: 1.2, fill: { type:'none' }, line: { color: HACKEA.azul, width: 2 } });
+  slide.addShape('ellipse', { x: -0.15, y: 7.35, w: 0.3, h: 0.3, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
+  slide.addShape('ellipse', { x: 12.8, y: 6.6, w: 0.4, h: 0.4, fill: { color: HACKEA.azul, transparency: 50 }, line: { color: HACKEA.azul, width: 0 } });
+  slide.addShape('ellipse', { x: 12.5, y: 7.1, w: 0.25, h: 0.25, fill: { type:'none' }, line: { color: HACKEA.azul, width: 1.5 } });
 }
 
 function logoHackea(slide, x, y, tamano = 1) {
-  // Ícono diana
   const tam = 0.35 * tamano;
-  slide.addShape('ellipse', {
-    x: x, y: y + 0.05, w: tam, h: tam,
-    fill: { type: 'none' },
-    line: { color: HACKEA.negro, width: 1.5 }
-  });
-  slide.addShape('ellipse', {
-    x: x + tam*0.3, y: y + 0.05 + tam*0.3, w: tam*0.4, h: tam*0.4,
-    fill: { type: 'none' },
-    line: { color: HACKEA.azul, width: 1.5 }
-  });
-  slide.addShape('ellipse', {
-    x: x + tam*0.4, y: y + 0.05 + tam*0.4, w: tam*0.2, h: tam*0.2,
-    fill: { color: HACKEA.azul },
-    line: { color: HACKEA.azul, width: 0 }
-  });
-  // Texto HACK-EA
+  slide.addShape('ellipse', { x: x, y: y + 0.05, w: tam, h: tam, fill: { type:'none' }, line: { color: HACKEA.negro, width: 1.5 } });
+  slide.addShape('ellipse', { x: x + tam*0.3, y: y + 0.05 + tam*0.3, w: tam*0.4, h: tam*0.4, fill: { type:'none' }, line: { color: HACKEA.azul, width: 1.5 } });
+  slide.addShape('ellipse', { x: x + tam*0.4, y: y + 0.05 + tam*0.4, w: tam*0.2, h: tam*0.2, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
   slide.addText([
     { text: 'HACK', options: { color: HACKEA.negro, bold: true } },
     { text: 'EA', options: { color: HACKEA.azul, bold: true } }
-  ], {
-    x: x + tam + 0.1, y: y, w: 1.8*tamano, h: 0.5*tamano,
-    fontFace: HACKEA.fontTitulo, fontSize: 20 * tamano,
-    valign: 'middle'
-  });
+  ], { x: x + tam + 0.1, y: y, w: 1.8*tamano, h: 0.5*tamano, fontFace: HACKEA.fontTitulo, fontSize: 20 * tamano, valign: 'middle' });
 }
 
 function lineaVerticalAzul(slide, x, y, h) {
-  slide.addShape('rect', {
-    x: x, y: y, w: 0.04, h: h,
-    fill: { color: HACKEA.azul },
-    line: { color: HACKEA.azul, width: 0 }
-  });
+  slide.addShape('rect', { x: x, y: y, w: 0.04, h: h, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
 }
 
-// ═══════════════════════════════════════════
-// SLIDE 1 — PORTADA
-// ═══════════════════════════════════════════
 function slidePortada(pptx, params, modo) {
   const s = pptx.addSlide();
   s.background = { color: HACKEA.fondo };
+  s.addShape('ellipse', { x: 11.5, y: -1.5, w: 3.5, h: 3.5, fill: { type:'none' }, line: { color: HACKEA.azul, width: 3, transparency: 40 } });
+  s.addShape('ellipse', { x: 12.3, y: 0.3, w: 0.8, h: 0.8, fill: { color: HACKEA.azul, transparency: 30 }, line: { color: HACKEA.azul, width: 0 } });
+  s.addShape('ellipse', { x: 10.8, y: 1.2, w: 0.3, h: 0.3, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
+  s.addShape('ellipse', { x: -2.5, y: 5, w: 4.5, h: 4.5, fill: { type:'none' }, line: { color: HACKEA.negro, width: 3 } });
+  s.addShape('ellipse', { x: -1.5, y: 6, w: 2.5, h: 2.5, fill: { type:'none' }, line: { color: HACKEA.azul, width: 3 } });
+  s.addShape('ellipse', { x: -0.6, y: 6.9, w: 0.7, h: 0.7, fill: { type:'none' }, line: { color: HACKEA.negro, width: 2 } });
+  s.addShape('ellipse', { x: -0.25, y: 7.25, w: 0.35, h: 0.35, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
 
-  // Círculos grandes decorativos (esquina superior derecha)
-  s.addShape('ellipse', {
-    x: 11.5, y: -1.5, w: 3.5, h: 3.5,
-    fill: { type: 'none' },
-    line: { color: HACKEA.azul, width: 3, transparency: 40 }
-  });
-  s.addShape('ellipse', {
-    x: 12.3, y: 0.3, w: 0.8, h: 0.8,
-    fill: { color: HACKEA.azul, transparency: 30 },
-    line: { color: HACKEA.azul, width: 0 }
-  });
-  s.addShape('ellipse', {
-    x: 10.8, y: 1.2, w: 0.3, h: 0.3,
-    fill: { color: HACKEA.azul },
-    line: { color: HACKEA.azul, width: 0 }
-  });
-
-  // Arcos diana inferior izquierdo (varios círculos)
-  s.addShape('ellipse', {
-    x: -2.5, y: 5, w: 4.5, h: 4.5,
-    fill: { type: 'none' },
-    line: { color: HACKEA.negro, width: 3 }
-  });
-  s.addShape('ellipse', {
-    x: -1.5, y: 6, w: 2.5, h: 2.5,
-    fill: { type: 'none' },
-    line: { color: HACKEA.azul, width: 3 }
-  });
-  s.addShape('ellipse', {
-    x: -0.6, y: 6.9, w: 0.7, h: 0.7,
-    fill: { type: 'none' },
-    line: { color: HACKEA.negro, width: 2 }
-  });
-  s.addShape('ellipse', {
-    x: -0.25, y: 7.25, w: 0.35, h: 0.35,
-    fill: { color: HACKEA.azul },
-    line: { color: HACKEA.azul, width: 0 }
-  });
-
-  // Logo grande arriba izquierda
   logoHackea(s, 0.6, 0.6, 1.4);
-
-  // Línea vertical azul decorativa
   lineaVerticalAzul(s, 0.7, 2.8, 1.2);
+  s.addText('PROPUESTA COMERCIAL', { x: 1.0, y: 2.85, w: 5, h: 0.35, fontFace: HACKEA.fontTitulo, fontSize: 11, bold: true, color: HACKEA.azul, charSpacing: 3 });
+  s.addText('Propuesta de\nEjecución de Formación', { x: 1.0, y: 3.2, w: 11, h: 1.8, fontFace: HACKEA.fontTitulo, fontSize: 48, bold: true, color: HACKEA.textoPrincipal, lineSpacingMultiple: 1.05 });
+  s.addText(params.nombreProyecto, { x: 1.0, y: 5.2, w: 11, h: 0.6, fontFace: HACKEA.fontTitulo, fontSize: 24, bold: true, color: HACKEA.azul });
 
-  // Etiqueta pequeña
-  s.addText('PROPUESTA COMERCIAL', {
-    x: 1.0, y: 2.85, w: 5, h: 0.35,
-    fontFace: HACKEA.fontTitulo, fontSize: 11, bold: true,
-    color: HACKEA.azul, charSpacing: 3
-  });
-
-  // Título principal
-  s.addText('Propuesta de\nEjecución de Formación', {
-    x: 1.0, y: 3.2, w: 11, h: 1.8,
-    fontFace: HACKEA.fontTitulo, fontSize: 48, bold: true,
-    color: HACKEA.textoPrincipal, lineSpacingMultiple: 1.05
-  });
-
-  // Nombre del proyecto
-  s.addText(params.nombreProyecto, {
-    x: 1.0, y: 5.2, w: 11, h: 0.6,
-    fontFace: HACKEA.fontTitulo, fontSize: 24, bold: true,
-    color: HACKEA.azul
-  });
-
-  // Cliente y fecha
   const modoTxt = modo === 'comparada' ? ' · Escenarios comparados' : ` · Escenario ${modo}`;
   s.addText([
     { text: 'Cliente: ', options: { bold: true } },
@@ -1896,106 +1262,47 @@ function slidePortada(pptx, params, modo) {
     { text: '   ·   ', options: { color: HACKEA.textoMuted } },
     { text: fmtFecha(params.fecha), options: { bold: true } },
     { text: modoTxt, options: { color: HACKEA.textoMuted, fontSize: 13 } }
-  ], {
-    x: 1.0, y: 5.9, w: 11, h: 0.4,
-    fontFace: HACKEA.fontCuerpo, fontSize: 15,
-    color: HACKEA.textoCuerpo
-  });
+  ], { x: 1.0, y: 5.9, w: 11, h: 0.4, fontFace: HACKEA.fontCuerpo, fontSize: 15, color: HACKEA.textoCuerpo });
 
-  // Footer portada
-  s.addText('info@hackea.pro', {
-    x: 10.5, y: 7.0, w: 2.5, h: 0.3,
-    fontFace: HACKEA.fontTitulo, fontSize: 11, bold: true,
-    color: HACKEA.azul, align: 'right'
-  });
+  s.addText('info@hackea.pro', { x: 10.5, y: 7.0, w: 2.5, h: 0.3, fontFace: HACKEA.fontTitulo, fontSize: 11, bold: true, color: HACKEA.azul, align: 'right' });
 }
 
-// ═══════════════════════════════════════════
-// SLIDE 2 — SOBRE HACKEA
-// ═══════════════════════════════════════════
-function slideSobreHackea(pptx, params) {
+function slideSobreHackea(pptx) {
   const s = pptx.addSlide();
   decoracionFondoClaro(s, HACKEA.superficie);
-
   logoHackea(s, 11.3, 0.35, 0.75);
-
-  // Título
   lineaVerticalAzul(s, 0.7, 0.6, 0.8);
-  s.addText('Sobre Hackea', {
-    x: 0.95, y: 0.55, w: 8, h: 0.9,
-    fontFace: HACKEA.fontTitulo, fontSize: 36, bold: true,
-    color: HACKEA.textoPrincipal
-  });
+  s.addText('Sobre Hackea', { x: 0.95, y: 0.55, w: 8, h: 0.9, fontFace: HACKEA.fontTitulo, fontSize: 36, bold: true, color: HACKEA.textoPrincipal });
+  s.addText('Somos una productora chilena de e-learning con equipo distribuido en Chile, México, España, Venezuela, Colombia y Argentina. Combinamos diseño instruccional experto, tecnología educativa de punta y ejecución de formación sincrónica a gran escala para entregar experiencias de aprendizaje de alto impacto.', { x: 0.95, y: 1.8, w: 11.4, h: 1.5, fontFace: HACKEA.fontCuerpo, fontSize: 16, color: HACKEA.textoCuerpo, lineSpacingMultiple: 1.35 });
 
-  // Descripción principal
-  s.addText(
-    'Somos una productora chilena de e-learning con equipo distribuido en Chile, México, España, Venezuela, Colombia y Argentina. Combinamos diseño instruccional experto, tecnología educativa de punta y ejecución de formación sincrónica a gran escala para entregar experiencias de aprendizaje de alto impacto.',
-    {
-      x: 0.95, y: 1.8, w: 11.4, h: 1.5,
-      fontFace: HACKEA.fontCuerpo, fontSize: 16,
-      color: HACKEA.textoCuerpo, lineSpacingMultiple: 1.35
-    }
-  );
-
-  // Tres pilares
   const pilares = [
     { titulo: 'Diseño instruccional', desc: 'Arquitectura pedagógica basada en objetivos de aprendizaje y audiencias reales.' },
     { titulo: 'Tecnología educativa', desc: 'Integración de plataformas LMS, herramientas interactivas e IA aplicada al aprendizaje.' },
     { titulo: 'Ejecución a escala', desc: 'Formación sincrónica para cientos o miles de participantes con cobertura multi-país.' }
   ];
-
   pilares.forEach((p, i) => {
     const x = 0.95 + i * 4.1;
-    // Círculo índice
-    s.addShape('ellipse', {
-      x: x, y: 4.1, w: 0.6, h: 0.6,
-      fill: { color: HACKEA.azul },
-      line: { color: HACKEA.azul, width: 0 }
-    });
-    s.addText(`0${i+1}`, {
-      x: x, y: 4.12, w: 0.6, h: 0.56,
-      fontFace: HACKEA.fontTitulo, fontSize: 14, bold: true,
-      color: HACKEA.blanco, align: 'center', valign: 'middle'
-    });
-    // Título
-    s.addText(p.titulo, {
-      x: x, y: 4.85, w: 3.9, h: 0.5,
-      fontFace: HACKEA.fontTitulo, fontSize: 18, bold: true,
-      color: HACKEA.textoPrincipal
-    });
-    // Descripción
-    s.addText(p.desc, {
-      x: x, y: 5.4, w: 3.9, h: 1.4,
-      fontFace: HACKEA.fontCuerpo, fontSize: 13,
-      color: HACKEA.textoCuerpo, lineSpacingMultiple: 1.35
-    });
+    s.addShape('ellipse', { x: x, y: 4.1, w: 0.6, h: 0.6, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
+    s.addText(`0${i+1}`, { x: x, y: 4.12, w: 0.6, h: 0.56, fontFace: HACKEA.fontTitulo, fontSize: 14, bold: true, color: HACKEA.blanco, align: 'center', valign: 'middle' });
+    s.addText(p.titulo, { x: x, y: 4.85, w: 3.9, h: 0.5, fontFace: HACKEA.fontTitulo, fontSize: 18, bold: true, color: HACKEA.textoPrincipal });
+    s.addText(p.desc, { x: x, y: 5.4, w: 3.9, h: 1.4, fontFace: HACKEA.fontCuerpo, fontSize: 13, color: HACKEA.textoCuerpo, lineSpacingMultiple: 1.35 });
   });
 }
 
-// ═══════════════════════════════════════════
-// SLIDE 3 — VISIÓN GENERAL
-// ═══════════════════════════════════════════
 function slideVisionGeneral(pptx, params, escenarios, modo) {
   const s = pptx.addSlide();
   decoracionFondoClaro(s, HACKEA.blanco);
-
   logoHackea(s, 11.3, 0.35, 0.75);
-
   lineaVerticalAzul(s, 0.7, 0.6, 0.8);
-  s.addText('Visión general del proyecto', {
-    x: 0.95, y: 0.55, w: 10, h: 0.9,
-    fontFace: HACKEA.fontTitulo, fontSize: 32, bold: true,
-    color: HACKEA.textoPrincipal
-  });
+  s.addText('Visión general del proyecto', { x: 0.95, y: 0.55, w: 10, h: 0.9, fontFace: HACKEA.fontTitulo, fontSize: 32, bold: true, color: HACKEA.textoPrincipal });
 
-  // Para modo comparada: mostrar rango. Para modo individual: mostrar datos de ese escenario.
   let tarjetas;
   if (modo === 'comparada') {
     const validos = escenarios.filter(e => !e.vacio);
     const minP = Math.min(...validos.map(e => e.participantes));
     const maxP = Math.max(...validos.map(e => e.participantes));
-    const minG = Math.min(...validos.map(e => e.numGrupos));
-    const maxG = Math.max(...validos.map(e => e.numGrupos));
+    const minG = Math.min(...validos.map(e => e.sumaAsignados || e.numGruposTotal));
+    const maxG = Math.max(...validos.map(e => e.sumaAsignados || e.numGruposTotal));
     const minM = Math.min(...validos.map(e => e.mesesProy));
     const maxM = Math.max(...validos.map(e => e.mesesProy));
     tarjetas = [
@@ -2008,140 +1315,139 @@ function slideVisionGeneral(pptx, params, escenarios, modo) {
     const e = escenarios.find(x => x.letra === modo);
     tarjetas = [
       { label: 'Horas síncronas', valor: `${params.horas}`, sub: 'por participante' },
-      { label: 'Participantes', valor: `${e.participantes.toLocaleString('es-CL')}`, sub: `${e.numGrupos} grupos de ${params.tamGrupo}` },
-      { label: 'Cohortes en paralelo', valor: `${params.paralelos}`, sub: `${params.frec} veces por semana` },
+      { label: 'Participantes', valor: `${e.participantes.toLocaleString('es-CL')}`, sub: `${e.sumaAsignados || e.numGruposTotal} grupos de ${params.tamGrupo}` },
+      { label: 'Horarios', valor: `${params.horarios.length}`, sub: `${params.horarios.length > 1 ? 'rutinas distintas' : 'rutina única'}` },
       { label: 'Duración', valor: `${e.mesesProy} meses`, sub: `${e.semanasProy} semanas` }
     ];
   }
 
   tarjetas.forEach((t, i) => {
     const x = 0.95 + i * 3.05;
-    // Tarjeta
-    s.addShape('rect', {
-      x: x, y: 1.95, w: 2.85, h: 2,
-      fill: { color: HACKEA.fondo },
-      line: { color: HACKEA.azul, width: 1, transparency: 70 }
-    });
-    // Valor grande
-    s.addText(t.valor, {
-      x: x, y: 2.15, w: 2.85, h: 1.1,
-      fontFace: HACKEA.fontTitulo, fontSize: 42, bold: true,
-      color: HACKEA.azul, align: 'center', valign: 'middle'
-    });
-    // Etiqueta
-    s.addText(t.label, {
-      x: x, y: 3.25, w: 2.85, h: 0.3,
-      fontFace: HACKEA.fontTitulo, fontSize: 12, bold: true,
-      color: HACKEA.textoPrincipal, align: 'center',
-      charSpacing: 1
-    });
-    // Sub
-    s.addText(t.sub, {
-      x: x, y: 3.55, w: 2.85, h: 0.3,
-      fontFace: HACKEA.fontCuerpo, fontSize: 10,
-      color: HACKEA.textoMuted, align: 'center'
-    });
+    s.addShape('rect', { x: x, y: 1.95, w: 2.85, h: 2, fill: { color: HACKEA.fondo }, line: { color: HACKEA.azul, width: 1, transparency: 70 } });
+    s.addText(t.valor, { x: x, y: 2.15, w: 2.85, h: 1.1, fontFace: HACKEA.fontTitulo, fontSize: 42, bold: true, color: HACKEA.azul, align: 'center', valign: 'middle' });
+    s.addText(t.label, { x: x, y: 3.25, w: 2.85, h: 0.3, fontFace: HACKEA.fontTitulo, fontSize: 12, bold: true, color: HACKEA.textoPrincipal, align: 'center', charSpacing: 1 });
+    s.addText(t.sub, { x: x, y: 3.55, w: 2.85, h: 0.3, fontFace: HACKEA.fontCuerpo, fontSize: 10, color: HACKEA.textoMuted, align: 'center' });
   });
 
-  // Descripción
   const desc = modo === 'comparada'
     ? `Propuesta de ejecución de formación sincrónica en modalidad online para ${params.cliente}. Se presentan tres escenarios con distintos volúmenes de participantes para dimensionar la inversión según el alcance definitivo del programa.`
-    : `Propuesta de ejecución de formación sincrónica en modalidad online para ${params.cliente}. El programa considera ${escenarios.find(e => e.letra === modo).participantes.toLocaleString('es-CL')} participantes organizados en grupos de ${params.tamGrupo} personas, con clases de ${params.durClase} horas ${params.frec} veces por semana.`;
-
-  s.addText(desc, {
-    x: 0.95, y: 4.3, w: 11.4, h: 1.5,
-    fontFace: HACKEA.fontCuerpo, fontSize: 14,
-    color: HACKEA.textoCuerpo, lineSpacingMultiple: 1.45
-  });
+    : `Propuesta de ejecución de formación sincrónica en modalidad online para ${params.cliente}. El programa considera ${escenarios.find(e => e.letra === modo).participantes.toLocaleString('es-CL')} participantes organizados en grupos de ${params.tamGrupo} personas, con clases de ${params.durClase} horas distribuidas según los horarios definidos.`;
+  s.addText(desc, { x: 0.95, y: 4.3, w: 11.4, h: 1.5, fontFace: HACKEA.fontCuerpo, fontSize: 14, color: HACKEA.textoCuerpo, lineSpacingMultiple: 1.45 });
 }
 
-// ═══════════════════════════════════════════
-// SLIDE 4 — ESTRUCTURA DE LA FORMACIÓN
-// ═══════════════════════════════════════════
-function slideEstructura(pptx, params, escenarios, modo) {
+function slideCronograma(pptx, params, escenarios, modo) {
   const s = pptx.addSlide();
   decoracionFondoClaro(s, HACKEA.superficie);
-
   logoHackea(s, 11.3, 0.35, 0.75);
-
   lineaVerticalAzul(s, 0.7, 0.6, 0.8);
-  s.addText('Estructura de la formación', {
-    x: 0.95, y: 0.55, w: 10, h: 0.9,
-    fontFace: HACKEA.fontTitulo, fontSize: 32, bold: true,
-    color: HACKEA.textoPrincipal
-  });
+  s.addText('Cronograma del proyecto', { x: 0.95, y: 0.55, w: 10, h: 0.9, fontFace: HACKEA.fontTitulo, fontSize: 32, bold: true, color: HACKEA.textoPrincipal });
 
-  const items = [
-    ['Modalidad', 'Sincrónica online vía Zoom u otra plataforma acordada'],
-    ['Duración por clase', `${params.durClase} hora${params.durClase !== 1 ? 's' : ''} por sesión`],
-    ['Frecuencia semanal', `${params.frec} sesiones por semana`],
-    ['Horas totales', `${params.horas} horas síncronas por participante`],
-    ['Sesiones por grupo', `${params.clasesPorGrupo} sesiones distribuidas en ${params.semanasPorGrupo} semanas`],
-    ['Tamaño de grupo', `${params.tamGrupo} personas en promedio por grupo`],
-    ['Cohortes en paralelo', `${params.paralelos} grupos corriendo simultáneamente`]
-  ];
+  const escMostrar = modo === 'comparada'
+    ? escenarios.filter(e => !e.vacio).sort((a,b) => a.participantes - b.participantes)[0]
+    : escenarios.find(x => x.letra === modo);
+  if (!escMostrar) return;
 
-  items.forEach((item, i) => {
-    const y = 1.9 + i * 0.6;
-    // Punto azul
-    s.addShape('ellipse', {
-      x: 1.0, y: y + 0.12, w: 0.18, h: 0.18,
-      fill: { color: HACKEA.azul },
-      line: { color: HACKEA.azul, width: 0 }
-    });
-    // Etiqueta
-    s.addText(item[0], {
-      x: 1.35, y: y, w: 3.2, h: 0.45,
-      fontFace: HACKEA.fontTitulo, fontSize: 14, bold: true,
-      color: HACKEA.textoPrincipal, valign: 'middle'
-    });
-    // Valor
-    s.addText(item[1], {
-      x: 4.6, y: y, w: 8, h: 0.45,
-      fontFace: HACKEA.fontCuerpo, fontSize: 14,
-      color: HACKEA.textoCuerpo, valign: 'middle'
-    });
-  });
+  const subtitulo = modo === 'comparada'
+    ? `Visualización del escenario ${escMostrar.letra} — la estructura se mantiene en los demás escenarios`
+    : `Escenario ${escMostrar.letra} · ${escMostrar.participantes.toLocaleString('es-CL')} participantes`;
+  s.addText(subtitulo, { x: 0.95, y: 1.35, w: 11, h: 0.3, fontFace: HACKEA.fontCuerpo, fontSize: 12, italic: true, color: HACKEA.textoMuted });
 
-  // Nota al pie
-  s.addText(
-    'La distribución puede ajustarse según disponibilidad horaria de los participantes (bloques AM/PM) y capacidad del equipo docente.',
-    {
-      x: 0.95, y: 6.4, w: 11.4, h: 0.5,
-      fontFace: HACKEA.fontCuerpo, fontSize: 11, italic: true,
-      color: HACKEA.textoMuted
+  s.addText('Vista panorámica · duración en semanas', { x: 0.95, y: 1.75, w: 8, h: 0.3, fontFace: HACKEA.fontTitulo, fontSize: 12, bold: true, color: HACKEA.azul });
+
+  const bloquesActivos = escMostrar.bloquesHorarios.filter(b => b.grupos > 0);
+  const totalSemanas = escMostrar.semanasProy;
+  const panX = 0.95, panY = 2.1, panW = 11.4, panH = 2.3;
+  const labelW = 2.2;
+  const chartX = panX + labelW;
+  const chartW = panW - labelW;
+  const semanaW = chartW / totalSemanas;
+
+  for (let w = 0; w < totalSemanas; w++) {
+    const x = chartX + w * semanaW;
+    if (totalSemanas <= 20 || w % Math.ceil(totalSemanas/15) === 0) {
+      s.addText(`S${w+1}`, { x: x, y: panY, w: semanaW, h: 0.2, fontFace: HACKEA.fontCuerpo, fontSize: 7, color: HACKEA.textoMuted, align: 'center' });
     }
-  );
+    if (w > 0) s.addShape('line', { x: x, y: panY + 0.25, w: 0, h: panH - 0.3, line: { color: HACKEA.borde, width: 0.5 } });
+  }
+
+  const filaH = Math.min(0.55, (panH - 0.3) / Math.max(1, bloquesActivos.length));
+  bloquesActivos.forEach((b, idx) => {
+    const yFila = panY + 0.3 + idx * filaH;
+    const color = COLORES_H[b.id];
+    const diasTxt = DIAS_ORDEN.filter(d => b.dias[d]).join('-');
+    s.addText(b.nombre, { x: panX, y: yFila, w: labelW - 0.1, h: 0.2, fontFace: HACKEA.fontTitulo, fontSize: 9, bold: true, color: HACKEA.textoPrincipal });
+    s.addText(`${diasTxt} · ${b.cohortes}c · ${b.grupos}g`, { x: panX, y: yFila + 0.2, w: labelW - 0.1, h: 0.18, fontFace: HACKEA.fontCuerpo, fontSize: 7, color: HACKEA.textoMuted });
+
+    for (let c = 0; c < b.ciclos; c++) {
+      const xInicio = chartX + c * b.semanasPorGrupo * semanaW;
+      const ancho = b.semanasPorGrupo * semanaW - 0.02;
+      const gruposEnCiclo = Math.min(b.cohortes, b.grupos - c * b.cohortes);
+      s.addShape('rect', { x: xInicio + 0.01, y: yFila + 0.05, w: Math.max(0.05, ancho), h: filaH - 0.15, fill: { color: color, transparency: c * 5 }, line: { color: color, width: 0 } });
+      if (ancho > 0.5) {
+        const desde = c * b.cohortes + 1;
+        const hasta = c * b.cohortes + gruposEnCiclo;
+        const lbl = gruposEnCiclo > 1 ? `G${desde}-${hasta}` : `G${desde}`;
+        s.addText(lbl, { x: xInicio + 0.01, y: yFila + 0.05, w: ancho, h: filaH - 0.15, fontFace: HACKEA.fontTitulo, fontSize: 9, bold: true, color: HACKEA.blanco, align: 'center', valign: 'middle' });
+      }
+    }
+  });
+
+  s.addText('Vista semanal · días de operación', { x: 0.95, y: 4.65, w: 8, h: 0.3, fontFace: HACKEA.fontTitulo, fontSize: 12, bold: true, color: HACKEA.azul });
+
+  const horariosActivos = params.horarios.filter(h => h.frecuencia > 0);
+  const semX = 0.95, semY = 5.0;
+  const colLabel = 1.8;
+  const colDia = (11.4 - colLabel) / 6;
+  const rowH = 0.45;
+
+  s.addShape('rect', { x: semX, y: semY, w: colLabel, h: rowH, fill: { color: HACKEA.textoPrincipal }, line: { color: HACKEA.textoPrincipal, width: 0 } });
+  s.addText('HORARIO', { x: semX, y: semY, w: colLabel, h: rowH, fontFace: HACKEA.fontTitulo, fontSize: 9, bold: true, color: HACKEA.blanco, align: 'center', valign: 'middle', charSpacing: 2 });
+  DIAS_ORDEN.forEach((d, i) => {
+    const x = semX + colLabel + i * colDia;
+    s.addShape('rect', { x: x, y: semY, w: colDia, h: rowH, fill: { color: HACKEA.textoPrincipal }, line: { color: HACKEA.textoPrincipal, width: 0 } });
+    s.addText(DIAS_LABELS[d], { x: x, y: semY, w: colDia, h: rowH, fontFace: HACKEA.fontTitulo, fontSize: 9, bold: true, color: HACKEA.blanco, align: 'center', valign: 'middle' });
+  });
+
+  horariosActivos.forEach((h, idx) => {
+    const y = semY + (idx+1) * rowH;
+    const color = COLORES_H[h.id];
+    s.addText([
+      { text: h.nombre, options: { bold: true, color: color } },
+      { text: `\n${h.cohortes} cohorte${h.cohortes>1?'s':''}`, options: { color: HACKEA.textoMuted, fontSize: 7 } }
+    ], { x: semX, y: y, w: colLabel, h: rowH, fontFace: HACKEA.fontTitulo, fontSize: 10, valign: 'middle' });
+
+    DIAS_ORDEN.forEach((d, i) => {
+      const x = semX + colLabel + i * colDia;
+      if (h.dias[d]) {
+        s.addShape('rect', { x: x + 0.02, y: y + 0.04, w: colDia - 0.04, h: rowH - 0.08, fill: { color: color }, line: { color: color, width: 0 } });
+        const cohortesTxt = h.cohortes === 1 ? 'AM' : h.cohortes === 2 ? 'AM+PM' : `×${h.cohortes}`;
+        s.addText(cohortesTxt, { x: x, y: y, w: colDia, h: rowH, fontFace: HACKEA.fontTitulo, fontSize: 10, bold: true, color: HACKEA.blanco, align: 'center', valign: 'middle' });
+      } else {
+        s.addShape('rect', { x: x + 0.02, y: y + 0.04, w: colDia - 0.04, h: rowH - 0.08, fill: { color: HACKEA.blanco }, line: { color: HACKEA.borde, width: 0.5 } });
+        s.addText('—', { x: x, y: y, w: colDia, h: rowH, fontFace: HACKEA.fontCuerpo, fontSize: 10, color: HACKEA.textoMuted, align: 'center', valign: 'middle' });
+      }
+    });
+  });
 }
 
-// ═══════════════════════════════════════════
-// SLIDE 5 — EQUIPO
-// ═══════════════════════════════════════════
-function slideEquipo(pptx, params, escenarios, modo) {
+function slideEquipo(pptx, params) {
   const s = pptx.addSlide();
   decoracionFondoClaro(s, HACKEA.blanco);
-
   logoHackea(s, 11.3, 0.35, 0.75);
-
   lineaVerticalAzul(s, 0.7, 0.6, 0.8);
-  s.addText('Equipo asignado al proyecto', {
-    x: 0.95, y: 0.55, w: 10, h: 0.9,
-    fontFace: HACKEA.fontTitulo, fontSize: 32, bold: true,
-    color: HACKEA.textoPrincipal
-  });
+  s.addText('Equipo asignado al proyecto', { x: 0.95, y: 0.55, w: 10, h: 0.9, fontFace: HACKEA.fontTitulo, fontSize: 32, bold: true, color: HACKEA.textoPrincipal });
 
-  // Armar lista de roles
   const roles = [];
   roles.push({
     rol: 'Relator(es)',
     desc: 'Conducción de las sesiones sincrónicas, interacción con participantes y entrega de contenidos.',
-    detalle: 'Uno asignado por grupo'
+    detalle: params.relatorModo === 'por-grupo' ? 'Uno asignado por grupo' : `${params.nRelatoresFijos} relator(es) asignados al proyecto`
   });
   if (params.incluyeAyudante) {
     roles.push({
       rol: 'Ayudante(s)',
       desc: 'Apoyo pedagógico en sala, gestión del chat, soporte a participantes y retroalimentación.',
-      detalle: params.ayudanteModo === 'por-grupo' ? 'Uno por grupo' : `${params.nAyudantesFijos} asignado(s) al proyecto`
+      detalle: params.ayudanteModo === 'por-grupo' ? 'Uno por grupo' : `${params.nAyudantesFijos} ayudante(s) asignado(s)`
     });
   }
   if (params.nCoord > 0) {
@@ -2161,68 +1467,28 @@ function slideEquipo(pptx, params, escenarios, modo) {
 
   roles.forEach((r, i) => {
     const y = 1.9 + i * 1.15;
-
-    // Rectángulo contenedor
-    s.addShape('rect', {
-      x: 0.95, y: y, w: 11.4, h: 0.95,
-      fill: { color: HACKEA.fondo, transparency: 50 },
-      line: { color: HACKEA.borde, width: 0 }
-    });
-    // Línea vertical azul izquierda
-    s.addShape('rect', {
-      x: 0.95, y: y, w: 0.06, h: 0.95,
-      fill: { color: HACKEA.azul },
-      line: { color: HACKEA.azul, width: 0 }
-    });
-    // Rol
-    s.addText(r.rol, {
-      x: 1.2, y: y + 0.1, w: 3.5, h: 0.35,
-      fontFace: HACKEA.fontTitulo, fontSize: 15, bold: true,
-      color: HACKEA.textoPrincipal
-    });
-    // Detalle
-    s.addText(r.detalle, {
-      x: 1.2, y: y + 0.48, w: 3.5, h: 0.3,
-      fontFace: HACKEA.fontCuerpo, fontSize: 10, italic: true,
-      color: HACKEA.azul
-    });
-    // Descripción
-    s.addText(r.desc, {
-      x: 4.9, y: y + 0.15, w: 7.4, h: 0.7,
-      fontFace: HACKEA.fontCuerpo, fontSize: 12,
-      color: HACKEA.textoCuerpo, valign: 'middle', lineSpacingMultiple: 1.3
-    });
+    s.addShape('rect', { x: 0.95, y: y, w: 11.4, h: 0.95, fill: { color: HACKEA.fondo, transparency: 50 }, line: { color: HACKEA.borde, width: 0 } });
+    s.addShape('rect', { x: 0.95, y: y, w: 0.06, h: 0.95, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
+    s.addText(r.rol, { x: 1.2, y: y + 0.1, w: 3.5, h: 0.35, fontFace: HACKEA.fontTitulo, fontSize: 15, bold: true, color: HACKEA.textoPrincipal });
+    s.addText(r.detalle, { x: 1.2, y: y + 0.48, w: 3.5, h: 0.3, fontFace: HACKEA.fontCuerpo, fontSize: 10, italic: true, color: HACKEA.azul });
+    s.addText(r.desc, { x: 4.9, y: y + 0.15, w: 7.4, h: 0.7, fontFace: HACKEA.fontCuerpo, fontSize: 12, color: HACKEA.textoCuerpo, valign: 'middle', lineSpacingMultiple: 1.3 });
   });
 }
 
-// ═══════════════════════════════════════════
-// SLIDE 6A — INVERSIÓN (1 escenario)
-// ═══════════════════════════════════════════
 function slideInversion(pptx, params, e) {
   const s = pptx.addSlide();
   decoracionFondoClaro(s, HACKEA.superficie);
-
   logoHackea(s, 11.3, 0.35, 0.75);
-
   lineaVerticalAzul(s, 0.7, 0.6, 0.8);
-  s.addText('Inversión', {
-    x: 0.95, y: 0.55, w: 8, h: 0.9,
-    fontFace: HACKEA.fontTitulo, fontSize: 32, bold: true,
-    color: HACKEA.textoPrincipal
-  });
-  s.addText(`Escenario ${e.letra} · ${e.participantes.toLocaleString('es-CL')} participantes`, {
-    x: 0.95, y: 1.35, w: 10, h: 0.35,
-    fontFace: HACKEA.fontTitulo, fontSize: 14, bold: true,
-    color: HACKEA.azul
-  });
+  s.addText('Inversión', { x: 0.95, y: 0.55, w: 8, h: 0.9, fontFace: HACKEA.fontTitulo, fontSize: 32, bold: true, color: HACKEA.textoPrincipal });
+  s.addText(`Escenario ${e.letra} · ${e.participantes.toLocaleString('es-CL')} participantes`, { x: 0.95, y: 1.35, w: 10, h: 0.35, fontFace: HACKEA.fontTitulo, fontSize: 14, bold: true, color: HACKEA.azul });
 
-  // Tabla de inversión
   const rows = [
-    [{ text: 'Categoría', options: { bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, align: 'left' } },
-     { text: 'Detalle', options: { bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, align: 'left' } },
+    [{ text: 'Categoría', options: { bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco } },
+     { text: 'Detalle', options: { bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco } },
      { text: 'Monto (CLP)', options: { bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, align: 'right' } }],
     [{ text: 'Ejecución docente', options: { bold: true } },
-     'Relatores' + (params.incluyeAyudante ? ' y ayudantes' : '') + ` para ${e.numGrupos} grupos`,
+     'Relatores' + (params.incluyeAyudante ? ' y ayudantes' : '') + ` para ${e.sumaAsignados || e.numGruposTotal} grupos`,
      { text: fmtCLP(e.ejecucionDocenteCliente), options: { align: 'right' } }],
     [{ text: 'Coordinación y gestión', options: { bold: true } },
      `Coordinación${params.incluyeAdmin ? ' y seguimiento administrativo' : ''} durante el proyecto`,
@@ -2239,18 +1505,13 @@ function slideInversion(pptx, params, e) {
   ];
 
   if (e.ivaMonto > 0) {
-    rows.push(
-      [{ text: `IVA (${params.iva}%) sobre desarrollo de contenido`, options: { bold: false } },
-       '',
-       { text: fmtCLP(e.ivaMonto), options: { align: 'right' } }]
-    );
-    rows.push(
-      [{ text: 'INVERSIÓN TOTAL', options: { bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, fontFace: HACKEA.fontTitulo, fontSize: 14 } },
-       { text: '', options: { fill: { color: HACKEA.azul } } },
-       { text: fmtCLP(e.precioFinal), options: { align: 'right', bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, fontFace: HACKEA.fontTitulo, fontSize: 14 } }]
-    );
+    rows.push([{ text: `IVA (${params.iva}%) sobre desarrollo de contenido` }, '', { text: fmtCLP(e.ivaMonto), options: { align: 'right' } }]);
+    rows.push([
+      { text: 'INVERSIÓN TOTAL', options: { bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, fontFace: HACKEA.fontTitulo, fontSize: 14 } },
+      { text: '', options: { fill: { color: HACKEA.azul } } },
+      { text: fmtCLP(e.precioFinal), options: { align: 'right', bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, fontFace: HACKEA.fontTitulo, fontSize: 14 } }
+    ]);
   } else {
-    // Sin IVA: el precio neto YA es el total, renombrar
     rows[rows.length - 1] = [
       { text: 'INVERSIÓN TOTAL', options: { bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, fontFace: HACKEA.fontTitulo, fontSize: 14 } },
       { text: 'Servicio exento de IVA', options: { fill: { color: HACKEA.azul }, color: HACKEA.blanco, italic: true, fontSize: 11 } },
@@ -2258,492 +1519,204 @@ function slideInversion(pptx, params, e) {
     ];
   }
 
-  s.addTable(rows, {
-    x: 0.95, y: 1.9, w: 11.4,
-    colW: [3.3, 5.1, 3.0],
-    rowH: 0.55,
-    fontFace: HACKEA.fontCuerpo, fontSize: 12, color: HACKEA.textoCuerpo,
-    border: { type: 'solid', pt: 0.5, color: 'D1D5DB' }
-  });
+  s.addTable(rows, { x: 0.95, y: 1.9, w: 11.4, colW: [3.3, 5.1, 3.0], rowH: 0.55, fontFace: HACKEA.fontCuerpo, fontSize: 12, color: HACKEA.textoCuerpo, border: { type: 'solid', pt: 0.5, color: HACKEA.borde } });
 
-  // Nota al pie
   s.addText(
     `Valores expresados en pesos chilenos (CLP). ${e.ivaMonto > 0 ? 'IVA aplicado únicamente sobre el ítem de desarrollo de contenido; el resto del servicio está exento por corresponder a capacitación.' : 'Servicio exento de IVA por corresponder a capacitación.'}`,
-    {
-      x: 0.95, y: 6.8, w: 11.4, h: 0.4,
-      fontFace: HACKEA.fontCuerpo, fontSize: 10, italic: true,
-      color: HACKEA.textoMuted
-    }
+    { x: 0.95, y: 6.8, w: 11.4, h: 0.4, fontFace: HACKEA.fontCuerpo, fontSize: 10, italic: true, color: HACKEA.textoMuted }
   );
 }
 
-// ═══════════════════════════════════════════
-// SLIDE 6B — COMPARATIVA (3 escenarios)
-// ═══════════════════════════════════════════
 function slideComparativa(pptx, params, escenarios) {
   const s = pptx.addSlide();
   decoracionFondoClaro(s, HACKEA.superficie);
-
   logoHackea(s, 11.3, 0.35, 0.75);
-
   lineaVerticalAzul(s, 0.7, 0.6, 0.8);
-  s.addText('Inversión · Escenarios comparados', {
-    x: 0.95, y: 0.55, w: 11, h: 0.9,
-    fontFace: HACKEA.fontTitulo, fontSize: 30, bold: true,
-    color: HACKEA.textoPrincipal
-  });
+  s.addText('Inversión · Escenarios comparados', { x: 0.95, y: 0.55, w: 11, h: 0.9, fontFace: HACKEA.fontTitulo, fontSize: 30, bold: true, color: HACKEA.textoPrincipal });
 
   const validos = escenarios.filter(e => !e.vacio);
-
-  // Tabla comparativa
   const header = [
     { text: 'Escenario', options: { bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco } },
-    ...validos.map(e => ({
-      text: `Escenario ${e.letra}`,
-      options: { bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, align: 'center' }
-    }))
+    ...validos.map(e => ({ text: `Escenario ${e.letra}`, options: { bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, align: 'center' } }))
   ];
 
   const filas = [
     header,
-    [
-      { text: 'Participantes', options: { bold: true } },
-      ...validos.map(e => ({ text: e.participantes.toLocaleString('es-CL'), options: { align: 'center' } }))
-    ],
-    [
-      { text: 'N° de grupos', options: { bold: true } },
-      ...validos.map(e => ({ text: String(e.numGrupos), options: { align: 'center' } }))
-    ],
-    [
-      { text: 'Duración proyecto', options: { bold: true } },
-      ...validos.map(e => ({ text: `${e.mesesProy} meses`, options: { align: 'center' } }))
-    ],
-    [
-      { text: 'Ejecución docente', options: { bold: true, fill: { color: HACKEA.fondo } } },
-      ...validos.map(e => ({ text: fmtCLP(e.ejecucionDocenteCliente), options: { align: 'right', fill: { color: HACKEA.fondo } } }))
-    ],
-    [
-      { text: 'Coordinación y gestión', options: { bold: true, fill: { color: HACKEA.fondo } } },
-      ...validos.map(e => ({ text: fmtCLP(e.coordGestionCliente), options: { align: 'right', fill: { color: HACKEA.fondo } } }))
-    ],
-    [
-      { text: 'Desarrollo de contenido', options: { bold: true, fill: { color: HACKEA.fondo } } },
-      ...validos.map(e => ({ text: fmtCLP(e.desarrolloContCliente), options: { align: 'right', fill: { color: HACKEA.fondo } } }))
-    ],
-    [
-      { text: 'Plataformas y tecnología', options: { bold: true, fill: { color: HACKEA.fondo } } },
-      ...validos.map(e => ({ text: fmtCLP(e.plataformasTechCliente), options: { align: 'right', fill: { color: HACKEA.fondo } } }))
-    ],
-    [
-      { text: 'Precio neto', options: { bold: true, fill: { color: HACKEA.azulClaro }, fontFace: HACKEA.fontTitulo } },
-      ...validos.map(e => ({
-        text: fmtCLP(e.precioNeto),
-        options: { align: 'right', bold: true, fill: { color: HACKEA.azulClaro }, fontFace: HACKEA.fontTitulo }
-      }))
-    ]
+    [{ text: 'Participantes', options: { bold: true } }, ...validos.map(e => ({ text: e.participantes.toLocaleString('es-CL'), options: { align: 'center' } }))],
+    [{ text: 'N° de grupos', options: { bold: true } }, ...validos.map(e => ({ text: String(e.sumaAsignados || e.numGruposTotal), options: { align: 'center' } }))],
+    [{ text: 'Duración proyecto', options: { bold: true } }, ...validos.map(e => ({ text: `${e.mesesProy} meses`, options: { align: 'center' } }))],
+    [{ text: 'Ejecución docente', options: { bold: true, fill: { color: HACKEA.fondo } } }, ...validos.map(e => ({ text: fmtCLP(e.ejecucionDocenteCliente), options: { align: 'right', fill: { color: HACKEA.fondo } } }))],
+    [{ text: 'Coordinación y gestión', options: { bold: true, fill: { color: HACKEA.fondo } } }, ...validos.map(e => ({ text: fmtCLP(e.coordGestionCliente), options: { align: 'right', fill: { color: HACKEA.fondo } } }))],
+    [{ text: 'Desarrollo de contenido', options: { bold: true, fill: { color: HACKEA.fondo } } }, ...validos.map(e => ({ text: fmtCLP(e.desarrolloContCliente), options: { align: 'right', fill: { color: HACKEA.fondo } } }))],
+    [{ text: 'Plataformas y tecnología', options: { bold: true, fill: { color: HACKEA.fondo } } }, ...validos.map(e => ({ text: fmtCLP(e.plataformasTechCliente), options: { align: 'right', fill: { color: HACKEA.fondo } } }))],
+    [{ text: 'Precio neto', options: { bold: true, fill: { color: HACKEA.azulClaro }, fontFace: HACKEA.fontTitulo } }, ...validos.map(e => ({ text: fmtCLP(e.precioNeto), options: { align: 'right', bold: true, fill: { color: HACKEA.azulClaro }, fontFace: HACKEA.fontTitulo } }))]
   ];
 
   if (validos.some(e => e.ivaMonto > 0)) {
-    filas.push([
-      { text: `IVA (${params.iva}%)`, options: { bold: false } },
-      ...validos.map(e => ({ text: fmtCLP(e.ivaMonto), options: { align: 'right' } }))
-    ]);
+    filas.push([{ text: `IVA (${params.iva}%)` }, ...validos.map(e => ({ text: fmtCLP(e.ivaMonto), options: { align: 'right' } }))]);
   }
+  filas.push([{ text: 'INVERSIÓN TOTAL', options: { bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, fontFace: HACKEA.fontTitulo, fontSize: 13 } }, ...validos.map(e => ({ text: fmtCLP(e.precioFinal), options: { align: 'right', bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, fontFace: HACKEA.fontTitulo, fontSize: 13 } }))]);
+  filas.push([{ text: '★ Valor hora capacitación', options: { bold: true, fill: { color: HACKEA.negro }, color: HACKEA.blanco, fontFace: HACKEA.fontTitulo } }, ...validos.map(e => ({ text: fmtCLP(e.valorHoraCapacitacion), options: { align: 'right', bold: true, fill: { color: HACKEA.negro }, color: HACKEA.blanco, fontFace: HACKEA.fontTitulo } }))]);
 
-  filas.push([
-    {
-      text: 'INVERSIÓN TOTAL',
-      options: { bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, fontFace: HACKEA.fontTitulo, fontSize: 13 }
-    },
-    ...validos.map(e => ({
-      text: fmtCLP(e.precioFinal),
-      options: { align: 'right', bold: true, fill: { color: HACKEA.azul }, color: HACKEA.blanco, fontFace: HACKEA.fontTitulo, fontSize: 13 }
-    }))
-  ]);
-
-  filas.push([
-    { text: '★ Valor hora capacitación', options: { bold: true, fill: { color: HACKEA.negro }, color: HACKEA.blanco, fontFace: HACKEA.fontTitulo } },
-    ...validos.map(e => ({
-      text: fmtCLP(e.valorHoraCapacitacion),
-      options: { align: 'right', bold: true, fill: { color: HACKEA.negro }, color: HACKEA.blanco, fontFace: HACKEA.fontTitulo }
-    }))
-  ]);
-
-  // Ancho de columnas: etiqueta más ancha, resto equitativo
   const colsW = [3.4];
   const restante = 11.4 - 3.4;
   for (let i = 0; i < validos.length; i++) colsW.push(restante / validos.length);
 
-  s.addTable(filas, {
-    x: 0.95, y: 1.6, w: 11.4,
-    colW: colsW,
-    rowH: 0.4,
-    fontFace: HACKEA.fontCuerpo, fontSize: 11, color: HACKEA.textoCuerpo,
-    border: { type: 'solid', pt: 0.5, color: 'D1D5DB' }
-  });
-
-  s.addText(
-    'Valores en pesos chilenos (CLP). Los valores y la duración del proyecto escalan con el número de participantes, pero el valor hora capacitación tiende a bajar con volumen.',
-    {
-      x: 0.95, y: 6.8, w: 11.4, h: 0.4,
-      fontFace: HACKEA.fontCuerpo, fontSize: 10, italic: true,
-      color: HACKEA.textoMuted
-    }
-  );
+  s.addTable(filas, { x: 0.95, y: 1.6, w: 11.4, colW: colsW, rowH: 0.4, fontFace: HACKEA.fontCuerpo, fontSize: 11, color: HACKEA.textoCuerpo, border: { type: 'solid', pt: 0.5, color: HACKEA.borde } });
+  s.addText('Valores en pesos chilenos (CLP). A mayor volumen, mejor valor hora capacitación (economía de escala).', { x: 0.95, y: 6.8, w: 11.4, h: 0.4, fontFace: HACKEA.fontCuerpo, fontSize: 10, italic: true, color: HACKEA.textoMuted });
 }
 
-// ═══════════════════════════════════════════
-// SLIDE 7 — INDICADORES CLAVE
-// ═══════════════════════════════════════════
 function slideIndicadores(pptx, params, escenarios, modo) {
   const s = pptx.addSlide();
   decoracionFondoClaro(s, HACKEA.blanco);
-
   logoHackea(s, 11.3, 0.35, 0.75);
-
   lineaVerticalAzul(s, 0.7, 0.6, 0.8);
-  s.addText('Indicadores clave', {
-    x: 0.95, y: 0.55, w: 10, h: 0.9,
-    fontFace: HACKEA.fontTitulo, fontSize: 32, bold: true,
-    color: HACKEA.textoPrincipal
-  });
+  s.addText('Indicadores clave', { x: 0.95, y: 0.55, w: 10, h: 0.9, fontFace: HACKEA.fontTitulo, fontSize: 32, bold: true, color: HACKEA.textoPrincipal });
 
   if (modo === 'comparada') {
-    s.addText('Comparativa por escenario', {
-      x: 0.95, y: 1.35, w: 10, h: 0.35,
-      fontFace: HACKEA.fontTitulo, fontSize: 14,
-      color: HACKEA.textoMuted
-    });
-
+    s.addText('Comparativa por escenario', { x: 0.95, y: 1.35, w: 10, h: 0.35, fontFace: HACKEA.fontTitulo, fontSize: 14, color: HACKEA.textoMuted });
     const validos = escenarios.filter(e => !e.vacio);
     const cardW = 11.4 / validos.length - 0.1;
-
     validos.forEach((e, i) => {
       const x = 0.95 + i * (cardW + 0.1);
-
-      // Card
-      s.addShape('rect', {
-        x: x, y: 2.0, w: cardW, h: 4.8,
-        fill: { color: HACKEA.fondo },
-        line: { color: HACKEA.azul, width: 1, transparency: 60 }
-      });
-      // Header azul
-      s.addShape('rect', {
-        x: x, y: 2.0, w: cardW, h: 0.7,
-        fill: { color: HACKEA.azul },
-        line: { color: HACKEA.azul, width: 0 }
-      });
-      s.addText(`Escenario ${e.letra}`, {
-        x: x, y: 2.0, w: cardW, h: 0.7,
-        fontFace: HACKEA.fontTitulo, fontSize: 18, bold: true,
-        color: HACKEA.blanco, align: 'center', valign: 'middle'
-      });
-
-      // KPI principal
-      s.addText('VALOR HORA CAPACITACIÓN', {
-        x: x, y: 2.9, w: cardW, h: 0.3,
-        fontFace: HACKEA.fontTitulo, fontSize: 9, bold: true,
-        color: HACKEA.textoMuted, align: 'center', charSpacing: 2
-      });
-      s.addText(fmtCLP(e.valorHoraCapacitacion), {
-        x: x, y: 3.2, w: cardW, h: 0.8,
-        fontFace: HACKEA.fontTitulo, fontSize: 28, bold: true,
-        color: HACKEA.azul, align: 'center', valign: 'middle'
-      });
-      s.addText('por hora × participante', {
-        x: x, y: 4.0, w: cardW, h: 0.25,
-        fontFace: HACKEA.fontCuerpo, fontSize: 9, italic: true,
-        color: HACKEA.textoMuted, align: 'center'
-      });
-
-      // Separador
-      s.addShape('rect', {
-        x: x + 0.3, y: 4.4, w: cardW - 0.6, h: 0.02,
-        fill: { color: HACKEA.borde },
-        line: { color: HACKEA.borde, width: 0 }
-      });
-
-      // Otros KPIs
-      s.addText('Costo por participante', {
-        x: x, y: 4.55, w: cardW, h: 0.25,
-        fontFace: HACKEA.fontCuerpo, fontSize: 10,
-        color: HACKEA.textoMuted, align: 'center'
-      });
-      s.addText(fmtCLP(e.costoPorPart), {
-        x: x, y: 4.8, w: cardW, h: 0.4,
-        fontFace: HACKEA.fontTitulo, fontSize: 16, bold: true,
-        color: HACKEA.textoPrincipal, align: 'center'
-      });
-
-      s.addText('Inversión total', {
-        x: x, y: 5.4, w: cardW, h: 0.25,
-        fontFace: HACKEA.fontCuerpo, fontSize: 10,
-        color: HACKEA.textoMuted, align: 'center'
-      });
-      s.addText(fmtCLP(e.precioFinal), {
-        x: x, y: 5.65, w: cardW, h: 0.4,
-        fontFace: HACKEA.fontTitulo, fontSize: 14, bold: true,
-        color: HACKEA.textoPrincipal, align: 'center'
-      });
-
-      s.addText(`${e.participantes.toLocaleString('es-CL')} personas · ${e.mesesProy} meses`, {
-        x: x, y: 6.15, w: cardW, h: 0.3,
-        fontFace: HACKEA.fontCuerpo, fontSize: 9, italic: true,
-        color: HACKEA.textoMuted, align: 'center'
-      });
+      s.addShape('rect', { x: x, y: 2.0, w: cardW, h: 4.8, fill: { color: HACKEA.fondo }, line: { color: HACKEA.azul, width: 1, transparency: 60 } });
+      s.addShape('rect', { x: x, y: 2.0, w: cardW, h: 0.7, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
+      s.addText(`Escenario ${e.letra}`, { x: x, y: 2.0, w: cardW, h: 0.7, fontFace: HACKEA.fontTitulo, fontSize: 18, bold: true, color: HACKEA.blanco, align: 'center', valign: 'middle' });
+      s.addText('VALOR HORA CAPACITACIÓN', { x: x, y: 2.9, w: cardW, h: 0.3, fontFace: HACKEA.fontTitulo, fontSize: 9, bold: true, color: HACKEA.textoMuted, align: 'center', charSpacing: 2 });
+      s.addText(fmtCLP(e.valorHoraCapacitacion), { x: x, y: 3.2, w: cardW, h: 0.8, fontFace: HACKEA.fontTitulo, fontSize: 28, bold: true, color: HACKEA.azul, align: 'center', valign: 'middle' });
+      s.addText('por hora × participante', { x: x, y: 4.0, w: cardW, h: 0.25, fontFace: HACKEA.fontCuerpo, fontSize: 9, italic: true, color: HACKEA.textoMuted, align: 'center' });
+      s.addShape('rect', { x: x + 0.3, y: 4.4, w: cardW - 0.6, h: 0.02, fill: { color: HACKEA.borde }, line: { color: HACKEA.borde, width: 0 } });
+      s.addText('Costo por participante', { x: x, y: 4.55, w: cardW, h: 0.25, fontFace: HACKEA.fontCuerpo, fontSize: 10, color: HACKEA.textoMuted, align: 'center' });
+      s.addText(fmtCLP(e.costoPorPart), { x: x, y: 4.8, w: cardW, h: 0.4, fontFace: HACKEA.fontTitulo, fontSize: 16, bold: true, color: HACKEA.textoPrincipal, align: 'center' });
+      s.addText('Inversión total', { x: x, y: 5.4, w: cardW, h: 0.25, fontFace: HACKEA.fontCuerpo, fontSize: 10, color: HACKEA.textoMuted, align: 'center' });
+      s.addText(fmtCLP(e.precioFinal), { x: x, y: 5.65, w: cardW, h: 0.4, fontFace: HACKEA.fontTitulo, fontSize: 14, bold: true, color: HACKEA.textoPrincipal, align: 'center' });
+      s.addText(`${e.participantes.toLocaleString('es-CL')} personas · ${e.mesesProy} meses`, { x: x, y: 6.15, w: cardW, h: 0.3, fontFace: HACKEA.fontCuerpo, fontSize: 9, italic: true, color: HACKEA.textoMuted, align: 'center' });
     });
-
   } else {
     const e = escenarios.find(x => x.letra === modo);
-    s.addText(`Escenario ${e.letra} · ${e.participantes.toLocaleString('es-CL')} participantes`, {
-      x: 0.95, y: 1.35, w: 10, h: 0.35,
-      fontFace: HACKEA.fontTitulo, fontSize: 14,
-      color: HACKEA.textoMuted
-    });
-
-    // KPI destacado grande
-    s.addShape('rect', {
-      x: 0.95, y: 2.0, w: 11.4, h: 2.2,
-      fill: { color: HACKEA.azul },
-      line: { color: HACKEA.azul, width: 0 }
-    });
-    s.addText('VALOR HORA CAPACITACIÓN', {
-      x: 0.95, y: 2.2, w: 11.4, h: 0.4,
-      fontFace: HACKEA.fontTitulo, fontSize: 14, bold: true,
-      color: HACKEA.blanco, align: 'center', charSpacing: 4
-    });
-    s.addText(fmtCLP(e.valorHoraCapacitacion), {
-      x: 0.95, y: 2.6, w: 11.4, h: 1.2,
-      fontFace: HACKEA.fontTitulo, fontSize: 72, bold: true,
-      color: HACKEA.blanco, align: 'center', valign: 'middle'
-    });
-    s.addText('por hora sincrónica por participante', {
-      x: 0.95, y: 3.8, w: 11.4, h: 0.3,
-      fontFace: HACKEA.fontCuerpo, fontSize: 13, italic: true,
-      color: HACKEA.blanco, align: 'center'
-    });
-
-    // Dos KPIs secundarios
-    [
-      { label: 'Costo por participante', valor: fmtCLP(e.costoPorPart), x: 0.95 },
-      { label: 'Inversión total', valor: fmtCLP(e.precioFinal), x: 6.75 }
-    ].forEach(kpi => {
-      s.addShape('rect', {
-        x: kpi.x, y: 4.5, w: 5.6, h: 2,
-        fill: { color: HACKEA.fondo },
-        line: { color: HACKEA.azul, width: 1, transparency: 70 }
-      });
-      s.addText(kpi.label, {
-        x: kpi.x, y: 4.7, w: 5.6, h: 0.4,
-        fontFace: HACKEA.fontTitulo, fontSize: 12, bold: true,
-        color: HACKEA.textoMuted, align: 'center', charSpacing: 2
-      });
-      s.addText(kpi.valor, {
-        x: kpi.x, y: 5.1, w: 5.6, h: 1.2,
-        fontFace: HACKEA.fontTitulo, fontSize: 36, bold: true,
-        color: HACKEA.textoPrincipal, align: 'center', valign: 'middle'
-      });
+    s.addText(`Escenario ${e.letra} · ${e.participantes.toLocaleString('es-CL')} participantes`, { x: 0.95, y: 1.35, w: 10, h: 0.35, fontFace: HACKEA.fontTitulo, fontSize: 14, color: HACKEA.textoMuted });
+    s.addShape('rect', { x: 0.95, y: 2.0, w: 11.4, h: 2.2, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
+    s.addText('VALOR HORA CAPACITACIÓN', { x: 0.95, y: 2.2, w: 11.4, h: 0.4, fontFace: HACKEA.fontTitulo, fontSize: 14, bold: true, color: HACKEA.blanco, align: 'center', charSpacing: 4 });
+    s.addText(fmtCLP(e.valorHoraCapacitacion), { x: 0.95, y: 2.6, w: 11.4, h: 1.2, fontFace: HACKEA.fontTitulo, fontSize: 72, bold: true, color: HACKEA.blanco, align: 'center', valign: 'middle' });
+    s.addText('por hora sincrónica por participante', { x: 0.95, y: 3.8, w: 11.4, h: 0.3, fontFace: HACKEA.fontCuerpo, fontSize: 13, italic: true, color: HACKEA.blanco, align: 'center' });
+    [{ label: 'Costo por participante', valor: fmtCLP(e.costoPorPart), x: 0.95 }, { label: 'Inversión total', valor: fmtCLP(e.precioFinal), x: 6.75 }].forEach(kpi => {
+      s.addShape('rect', { x: kpi.x, y: 4.5, w: 5.6, h: 2, fill: { color: HACKEA.fondo }, line: { color: HACKEA.azul, width: 1, transparency: 70 } });
+      s.addText(kpi.label, { x: kpi.x, y: 4.7, w: 5.6, h: 0.4, fontFace: HACKEA.fontTitulo, fontSize: 12, bold: true, color: HACKEA.textoMuted, align: 'center', charSpacing: 2 });
+      s.addText(kpi.valor, { x: kpi.x, y: 5.1, w: 5.6, h: 1.2, fontFace: HACKEA.fontTitulo, fontSize: 36, bold: true, color: HACKEA.textoPrincipal, align: 'center', valign: 'middle' });
     });
   }
 }
 
-// ═══════════════════════════════════════════
-// SLIDE 8 — CONDICIONES COMERCIALES
-// ═══════════════════════════════════════════
 function slideCondiciones(pptx, params) {
   const s = pptx.addSlide();
   decoracionFondoClaro(s, HACKEA.superficie);
-
   logoHackea(s, 11.3, 0.35, 0.75);
-
   lineaVerticalAzul(s, 0.7, 0.6, 0.8);
-  s.addText('Condiciones comerciales', {
-    x: 0.95, y: 0.55, w: 10, h: 0.9,
-    fontFace: HACKEA.fontTitulo, fontSize: 32, bold: true,
-    color: HACKEA.textoPrincipal
-  });
+  s.addText('Condiciones comerciales', { x: 0.95, y: 0.55, w: 10, h: 0.9, fontFace: HACKEA.fontTitulo, fontSize: 32, bold: true, color: HACKEA.textoPrincipal });
 
-  // Info destacada: vigencia
-  s.addShape('rect', {
-    x: 0.95, y: 1.8, w: 5.5, h: 1.3,
-    fill: { color: HACKEA.azul },
-    line: { color: HACKEA.azul, width: 0 }
-  });
-  s.addText('VIGENCIA DE LA PROPUESTA', {
-    x: 1.1, y: 1.95, w: 5.2, h: 0.3,
-    fontFace: HACKEA.fontTitulo, fontSize: 11, bold: true,
-    color: HACKEA.blanco, charSpacing: 2
-  });
-  s.addText(`${params.vigencia} días`, {
-    x: 1.1, y: 2.3, w: 5.2, h: 0.7,
-    fontFace: HACKEA.fontTitulo, fontSize: 36, bold: true,
-    color: HACKEA.blanco
-  });
-
-  // Info destacada: desde la fecha
-  s.addShape('rect', {
-    x: 6.85, y: 1.8, w: 5.5, h: 1.3,
-    fill: { color: HACKEA.fondo },
-    line: { color: HACKEA.azul, width: 1, transparency: 60 }
-  });
-  s.addText('FECHA DE LA PROPUESTA', {
-    x: 7.0, y: 1.95, w: 5.2, h: 0.3,
-    fontFace: HACKEA.fontTitulo, fontSize: 11, bold: true,
-    color: HACKEA.azul, charSpacing: 2
-  });
-  s.addText(fmtFecha(params.fecha), {
-    x: 7.0, y: 2.3, w: 5.2, h: 0.7,
-    fontFace: HACKEA.fontTitulo, fontSize: 22, bold: true,
-    color: HACKEA.textoPrincipal
-  });
-
-  // Detalle de condiciones
-  s.addText('Términos y alcance', {
-    x: 0.95, y: 3.35, w: 11.4, h: 0.4,
-    fontFace: HACKEA.fontTitulo, fontSize: 16, bold: true,
-    color: HACKEA.azul
-  });
-
-  s.addText(params.condiciones || '(Sin condiciones especificadas)', {
-    x: 0.95, y: 3.85, w: 11.4, h: 3,
-    fontFace: HACKEA.fontCuerpo, fontSize: 13,
-    color: HACKEA.textoCuerpo, lineSpacingMultiple: 1.5
-  });
+  s.addShape('rect', { x: 0.95, y: 1.8, w: 5.5, h: 1.3, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
+  s.addText('VIGENCIA DE LA PROPUESTA', { x: 1.1, y: 1.95, w: 5.2, h: 0.3, fontFace: HACKEA.fontTitulo, fontSize: 11, bold: true, color: HACKEA.blanco, charSpacing: 2 });
+  s.addText(`${params.vigencia} días`, { x: 1.1, y: 2.3, w: 5.2, h: 0.7, fontFace: HACKEA.fontTitulo, fontSize: 36, bold: true, color: HACKEA.blanco });
+  s.addShape('rect', { x: 6.85, y: 1.8, w: 5.5, h: 1.3, fill: { color: HACKEA.fondo }, line: { color: HACKEA.azul, width: 1, transparency: 60 } });
+  s.addText('FECHA DE LA PROPUESTA', { x: 7.0, y: 1.95, w: 5.2, h: 0.3, fontFace: HACKEA.fontTitulo, fontSize: 11, bold: true, color: HACKEA.azul, charSpacing: 2 });
+  s.addText(fmtFecha(params.fecha), { x: 7.0, y: 2.3, w: 5.2, h: 0.7, fontFace: HACKEA.fontTitulo, fontSize: 22, bold: true, color: HACKEA.textoPrincipal });
+  s.addText('Términos y alcance', { x: 0.95, y: 3.35, w: 11.4, h: 0.4, fontFace: HACKEA.fontTitulo, fontSize: 16, bold: true, color: HACKEA.azul });
+  s.addText(params.condiciones || '(Sin condiciones especificadas)', { x: 0.95, y: 3.85, w: 11.4, h: 3, fontFace: HACKEA.fontCuerpo, fontSize: 13, color: HACKEA.textoCuerpo, lineSpacingMultiple: 1.5 });
 }
 
-// ═══════════════════════════════════════════
-// SLIDE 9 — CIERRE
-// ═══════════════════════════════════════════
 function slideCierre(pptx) {
   const s = pptx.addSlide();
   s.background = { color: HACKEA.textoPrincipal };
+  s.addShape('ellipse', { x: -2.5, y: -2.5, w: 6, h: 6, fill: { type:'none' }, line: { color: HACKEA.azul, width: 3, transparency: 60 } });
+  s.addShape('ellipse', { x: 11, y: 5, w: 3.5, h: 3.5, fill: { type:'none' }, line: { color: HACKEA.azul, width: 3, transparency: 40 } });
+  s.addShape('ellipse', { x: 12.5, y: 6.5, w: 0.8, h: 0.8, fill: { color: HACKEA.azul, transparency: 30 }, line: { color: HACKEA.azul, width: 0 } });
+  s.addShape('ellipse', { x: 1.8, y: 2.5, w: 0.3, h: 0.3, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
 
-  // Círculos decorativos grandes
-  s.addShape('ellipse', {
-    x: -2.5, y: -2.5, w: 6, h: 6,
-    fill: { type: 'none' },
-    line: { color: HACKEA.azul, width: 3, transparency: 60 }
-  });
-  s.addShape('ellipse', {
-    x: 11, y: 5, w: 3.5, h: 3.5,
-    fill: { type: 'none' },
-    line: { color: HACKEA.azul, width: 3, transparency: 40 }
-  });
-  s.addShape('ellipse', {
-    x: 12.5, y: 6.5, w: 0.8, h: 0.8,
-    fill: { color: HACKEA.azul, transparency: 30 },
-    line: { color: HACKEA.azul, width: 0 }
-  });
-  s.addShape('ellipse', {
-    x: 1.8, y: 2.5, w: 0.3, h: 0.3,
-    fill: { color: HACKEA.azul },
-    line: { color: HACKEA.azul, width: 0 }
-  });
-
-  // Logo en blanco para fondo oscuro
   const tam = 0.45;
-  s.addShape('ellipse', {
-    x: 0.6, y: 0.55, w: tam, h: tam,
-    fill: { type: 'none' },
-    line: { color: HACKEA.blanco, width: 1.5 }
+  s.addShape('ellipse', { x: 0.6, y: 0.55, w: tam, h: tam, fill: { type:'none' }, line: { color: HACKEA.blanco, width: 1.5 } });
+  s.addShape('ellipse', { x: 0.6 + tam*0.3, y: 0.55 + tam*0.3, w: tam*0.4, h: tam*0.4, fill: { type:'none' }, line: { color: HACKEA.azul, width: 1.5 } });
+  s.addShape('ellipse', { x: 0.6 + tam*0.4, y: 0.55 + tam*0.4, w: tam*0.2, h: tam*0.2, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
+  s.addText([{ text: 'HACK', options: { color: HACKEA.blanco, bold: true } }, { text: 'EA', options: { color: HACKEA.azul, bold: true } }], { x: 1.15, y: 0.5, w: 2.5, h: 0.6, fontFace: HACKEA.fontTitulo, fontSize: 26, valign: 'middle' });
+
+  s.addShape('rect', { x: 0.7, y: 3.0, w: 0.06, h: 1.3, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
+  s.addText('Conversemos', { x: 1.0, y: 2.9, w: 12, h: 1.5, fontFace: HACKEA.fontTitulo, fontSize: 80, bold: true, color: HACKEA.blanco });
+  s.addText('Estamos disponibles para revisar esta propuesta, ajustar alcance y coordinar los próximos pasos.', { x: 1.0, y: 4.5, w: 11, h: 0.8, fontFace: HACKEA.fontCuerpo, fontSize: 18, color: 'CCCCCC', lineSpacingMultiple: 1.4 });
+  s.addText('CONTACTO', { x: 1.0, y: 5.8, w: 11, h: 0.3, fontFace: HACKEA.fontTitulo, fontSize: 11, bold: true, color: HACKEA.azul, charSpacing: 4 });
+  s.addText('info@hackea.pro', { x: 1.0, y: 6.1, w: 11, h: 0.7, fontFace: HACKEA.fontTitulo, fontSize: 36, bold: true, color: HACKEA.blanco });
+}
+
+function setupToggles() {
+  document.getElementById('incluye-ayudante').addEventListener('change', e => { document.getElementById('grupo-ayudante').classList.toggle('oculto', !e.target.checked); calcular(); });
+  document.getElementById('incluye-admin').addEventListener('change', e => { document.getElementById('grupo-admin').classList.toggle('oculto', !e.target.checked); calcular(); });
+  document.getElementById('fact-separada').addEventListener('change', e => { document.getElementById('grupo-iva').classList.toggle('oculto', !e.target.checked); calcular(); });
+  document.getElementById('h2-activo').addEventListener('change', e => { document.getElementById('bloque-h2').classList.toggle('oculto', !e.target.checked); autoRebalancearDistribucion(); calcular(); });
+  document.getElementById('h3-activo').addEventListener('change', e => { document.getElementById('bloque-h3').classList.toggle('oculto', !e.target.checked); autoRebalancearDistribucion(); calcular(); });
+
+  document.querySelectorAll('input[name="ayudante-modo"]').forEach(r => {
+    r.addEventListener('change', e => { document.getElementById('n-ayudantes-fijos').style.display = e.target.value === 'fijo' ? 'block' : 'none'; calcular(); });
   });
-  s.addShape('ellipse', {
-    x: 0.6 + tam*0.3, y: 0.55 + tam*0.3, w: tam*0.4, h: tam*0.4,
-    fill: { type: 'none' },
-    line: { color: HACKEA.azul, width: 1.5 }
+  document.querySelectorAll('input[name="relator-modo"]').forEach(r => {
+    r.addEventListener('change', e => { document.getElementById('n-relatores-fijos').style.display = e.target.value === 'fijo' ? 'block' : 'none'; calcular(); });
   });
-  s.addShape('ellipse', {
-    x: 0.6 + tam*0.4, y: 0.55 + tam*0.4, w: tam*0.2, h: tam*0.2,
-    fill: { color: HACKEA.azul },
-    line: { color: HACKEA.azul, width: 0 }
+  document.querySelectorAll('input[name="modalidad-relator"]').forEach(r => {
+    r.addEventListener('change', e => {
+      document.getElementById('bloque-relator-hora').classList.toggle('oculto', e.target.value !== 'por-hora');
+      document.getElementById('bloque-relator-mensual').classList.toggle('oculto', e.target.value !== 'mensual');
+      calcular();
+    });
   });
-  s.addText([
-    { text: 'HACK', options: { color: HACKEA.blanco, bold: true } },
-    { text: 'EA', options: { color: HACKEA.azul, bold: true } }
-  ], {
-    x: 1.15, y: 0.5, w: 2.5, h: 0.6,
-    fontFace: HACKEA.fontTitulo, fontSize: 26, valign: 'middle'
+  document.querySelectorAll('input[name="modalidad-ayudante"]').forEach(r => {
+    r.addEventListener('change', e => {
+      document.getElementById('bloque-ayudante-hora').classList.toggle('oculto', e.target.value !== 'por-hora');
+      document.getElementById('bloque-ayudante-mensual').classList.toggle('oculto', e.target.value !== 'mensual');
+      calcular();
+    });
   });
 
-  // Línea vertical azul
-  s.addShape('rect', {
-    x: 0.7, y: 3.0, w: 0.06, h: 1.3,
-    fill: { color: HACKEA.azul },
-    line: { color: HACKEA.azul, width: 0 }
+  // Selectores de cronograma y tabs (delegación)
+  document.querySelectorAll('#cronograma-selector button').forEach(b => {
+    b.addEventListener('click', () => verCronograma(b.dataset.letra, b));
   });
-
-  // Frase destacada
-  s.addText('Conversemos', {
-    x: 1.0, y: 2.9, w: 12, h: 1.5,
-    fontFace: HACKEA.fontTitulo, fontSize: 80, bold: true,
-    color: HACKEA.blanco
-  });
-
-  s.addText('Estamos disponibles para revisar esta propuesta, ajustar alcance y coordinar los próximos pasos.', {
-    x: 1.0, y: 4.5, w: 11, h: 0.8,
-    fontFace: HACKEA.fontCuerpo, fontSize: 18,
-    color: 'CCCCCC', lineSpacingMultiple: 1.4
-  });
-
-  // Contacto
-  s.addText('CONTACTO', {
-    x: 1.0, y: 5.8, w: 11, h: 0.3,
-    fontFace: HACKEA.fontTitulo, fontSize: 11, bold: true,
-    color: HACKEA.azul, charSpacing: 4
-  });
-  s.addText('info@hackea.pro', {
-    x: 1.0, y: 6.1, w: 11, h: 0.7,
-    fontFace: HACKEA.fontTitulo, fontSize: 36, bold: true,
-    color: HACKEA.blanco
+  document.querySelectorAll('.desglose-tabs .tab-btn').forEach(b => {
+    b.addEventListener('click', () => cambiarTab(b.dataset.letra, b));
   });
 }
 
-// ═══════════════════════════════════════════
-// TOGGLES CONDICIONALES
-// ═══════════════════════════════════════════
-function setupToggles() {
-  // Ayudante
-  document.getElementById('incluye-ayudante').addEventListener('change', e => {
-    document.getElementById('grupo-ayudante').classList.toggle('oculto', !e.target.checked);
-    calcular();
-  });
+function autoRebalancearDistribucion() {
+  ['A','B','C'].forEach(letra => {
+    const participantes = num(`part-${letra}`);
+    const tamGrupo = num('tam-grupo') || 1;
+    const total = Math.ceil(participantes / tamGrupo);
 
-  // Admin
-  document.getElementById('incluye-admin').addEventListener('change', e => {
-    document.getElementById('grupo-admin').classList.toggle('oculto', !e.target.checked);
-    calcular();
-  });
+    const activos = [1];
+    if (bool('h2-activo')) activos.push(2);
+    if (bool('h3-activo')) activos.push(3);
 
-  // Facturación separada
-  document.getElementById('fact-separada').addEventListener('change', e => {
-    document.getElementById('grupo-iva').classList.toggle('oculto', !e.target.checked);
-    calcular();
-  });
+    const porHorario = Math.floor(total / activos.length);
+    const resto = total - porHorario * activos.length;
 
-  // Modo de ayudante
-  document.querySelectorAll('input[name="ayudante-modo"]').forEach(r => {
-    r.addEventListener('change', e => {
-      const fijo = document.getElementById('n-ayudantes-fijos');
-      fijo.style.display = e.target.value === 'fijo' ? 'block' : 'none';
-      calcular();
+    activos.forEach((h, idx) => {
+      const extra = idx < resto ? 1 : 0;
+      const el = document.getElementById(`g-${letra}-${h}`);
+      if (el) el.value = porHorario + extra;
+    });
+    [1,2,3].forEach(h => {
+      if (!activos.includes(h)) {
+        const el = document.getElementById(`g-${letra}-${h}`);
+        if (el) el.value = 0;
+      }
     });
   });
 }
 
-// ═══════════════════════════════════════════
-// INICIALIZACIÓN
-// ═══════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', () => {
-  // Fecha default = hoy
   document.getElementById('fecha-propuesta').value = new Date().toISOString().slice(0,10);
-
-  // Listeners de inputs → recalcular en vivo
   document.querySelectorAll('.sidebar input, .sidebar select, .sidebar textarea').forEach(el => {
     el.addEventListener('input', calcular);
     el.addEventListener('change', calcular);
   });
-
   setupToggles();
+  autoRebalancearDistribucion();
   calcular();
 });
 </script>
