@@ -72,6 +72,7 @@ main { max-width: 1600px; margin: 0 auto; padding: 2rem; display: grid; grid-tem
 .campo textarea { resize: vertical; min-height: 80px; font-size: 0.85rem; }
 .campo input:focus, .campo select:focus, .campo textarea:focus { outline: none; border-color: var(--azul); background: var(--blanco); }
 .campo-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.campo-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
 
 .toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; padding: 0.5rem 0.65rem; background: var(--superficie); border-radius: var(--radio); border: 1px solid var(--borde); }
 .toggle-row label { font-size: 0.85rem; color: var(--texto-principal); font-weight: 500; margin: 0; cursor: pointer; flex: 1; }
@@ -409,9 +410,20 @@ footer strong { color: var(--azul); }
 
     <section>
       <h3>🎯 VHC objetivo (opcional)</h3>
-      <div class="campo">
-        <label>Valor hora capacitación objetivo <span class="hint">(CLP · si el cliente fija un precio)</span></label>
-        <input type="number" id="vhc-objetivo" placeholder="Ej: 5000" min="0">
+      <p class="hint-seccion">Si el cliente fija un precio, ingresa el VHC objetivo para cada escenario. Déjalo en 0 para calcular desde costos.</p>
+      <div class="campo-grid-3">
+        <div class="campo">
+          <label style="color:var(--azul);font-weight:600">Esc A</label>
+          <input type="number" id="vhc-objetivo-A" placeholder="0" min="0">
+        </div>
+        <div class="campo">
+          <label style="color:var(--azul);font-weight:600">Esc B</label>
+          <input type="number" id="vhc-objetivo-B" placeholder="0" min="0">
+        </div>
+        <div class="campo">
+          <label style="color:var(--azul);font-weight:600">Esc C</label>
+          <input type="number" id="vhc-objetivo-C" placeholder="0" min="0">
+        </div>
       </div>
     </section>
 
@@ -752,7 +764,6 @@ function calcular() {
 
   const contingencia = num('contingencia');
   const margen = num('margen');
-  const vhcObjetivo = num('vhc-objetivo');
 
   const escenarios = ['A','B','C'].map(letra => {
     const participantes = num(`part-${letra}`);
@@ -840,6 +851,7 @@ function calcular() {
 
     // MODO CÁLCULO: si VHC objetivo > 0, el precio lo fija el VHC.
     // Si VHC objetivo = 0 (o sin participantes), usamos el modelo costos + margen.
+    const vhcObjetivo = num(`vhc-objetivo-${letra}`);
     let precioNeto, margenMonto, margenEfectivoPct, modoPrecio;
     if (vhcObjetivo > 0 && horas > 0 && participantes > 0) {
       modoPrecio = 'objetivo';
@@ -891,7 +903,7 @@ function calcular() {
       subtotalBruto, contingenciaMonto, costoTotalBruto, margenMonto, margenEfectivoPct, modoPrecio,
       precioNeto, baseIva, ivaMonto, precioFinal,
       valorHoraCapacitacion, costoPorPart,
-      alertaMargen
+      alertaMargen, vhcObjetivo
     };
   });
 
@@ -904,7 +916,7 @@ function calcular() {
     sueldoCoord, nCoord, mesesExtra,
     incluyeAdmin, sueldoAdmin, nAdmin,
     devMaterial, nZoom, costoZoom, costoTools, otrosGastos,
-    contingencia, margen, vhcObjetivo,
+    contingencia, margen,
     nombreProyecto: txt('nombre-proyecto') || 'Proyecto sin nombre',
     cliente: txt('nombre-cliente') || 'Cliente',
     fecha: txt('fecha-propuesta'),
@@ -1194,7 +1206,7 @@ function renderDesglose(escenarios, params) {
 
     html += `<tr class="subtotal"><td colspan="3">= Costo total del proyecto (bruto)</td><td class="num">${fmtCLP(e.costoTotalBruto)}</td></tr>`;
     html += filaMargen;
-    html += `<tr class="total"><td colspan="3">PRECIO NETO AL CLIENTE${e.modoPrecio === 'objetivo' ? ` · VHC ${fmtCLP(params.vhcObjetivo)}/h×p` : ''}</td><td class="num">${fmtCLP(e.precioNeto)}</td></tr>`;
+    html += `<tr class="total"><td colspan="3">PRECIO NETO AL CLIENTE${e.modoPrecio === 'objetivo' ? ` · VHC ${fmtCLP(e.vhcObjetivo)}/h×p` : ''}</td><td class="num">${fmtCLP(e.precioNeto)}</td></tr>`;
     if (e.ivaMonto > 0) {
       html += `<tr class="subtotal"><td colspan="3">+ IVA (${params.iva}%) sobre desarrollo de contenido</td><td class="num">${fmtCLP(e.ivaMonto)}</td></tr>`;
       html += `<tr class="total"><td colspan="3">PRECIO TOTAL CON IVA</td><td class="num">${fmtCLP(e.precioFinal)}</td></tr>`;
