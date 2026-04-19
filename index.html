@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --blue:#0090F8;--blue-light:#e6f4ff;--blue-mid:#b3deff;
+  --blue:#0090F8;--blue-light:#e6f4ff;--blue-mid:#b3deff;--blue-dark:#006FC4;
   --text:#2A2A2A;--body:#404040;--bg:#EBECF0;--surface:#F3F3F3;
   --white:#FFFFFF;--muted:#888;--border:#d4d6db;
 }
@@ -74,9 +74,9 @@ header::before{
 /* ── TOOLS GRID ── */
 .tools{
   display:grid;
-  grid-template-columns:repeat(2,minmax(340px,480px));
+  grid-template-columns:repeat(3,minmax(320px,1fr));
   gap:24px;
-  max-width:1100px;
+  max-width:1280px;
   margin:0 auto;
   padding:0 32px 32px;
   flex:1;
@@ -116,6 +116,30 @@ header::before{
 
 .tool-card-top.alt{
   background:linear-gradient(135deg,#2A2A2A 0%,#404040 100%);
+}
+
+/* NUEVA VARIANTE CELESTE CLARA para el Cotizador */
+.tool-card-top.light{
+  background:linear-gradient(135deg,#E5F3FE 0%,#B3DEFF 100%);
+}
+.tool-card-top.light::before{
+  border-color:rgba(0,144,248,.12);
+}
+.tool-card-top.light::after{
+  border-color:rgba(0,144,248,.08);
+}
+.tool-card-top.light .tool-badge{
+  background:rgba(0,144,248,.15);
+  color:var(--blue-dark);
+}
+.tool-card-top.light .tool-name{
+  color:var(--text);
+}
+.tool-card-top.light .tool-tagline{
+  color:var(--body);
+}
+.tool-card-top.light .tool-icon{
+  filter:drop-shadow(0 4px 8px rgba(0,144,248,.2));
 }
 
 .tool-icon{
@@ -231,6 +255,10 @@ footer{
   text-transform:uppercase;letter-spacing:1.5px;
 }
 
+/* Responsive: 2 columnas en pantallas medianas, 1 en móvil */
+@media(max-width:1100px){
+  .tools{grid-template-columns:repeat(2,minmax(320px,480px));}
+}
 @media(max-width:768px){
   header{padding:16px 20px;}
   .hero{padding:40px 20px 32px;}
@@ -273,7 +301,7 @@ footer{
 <div class="hero">
   <div class="hero-eyebrow">🎯 Herramientas de gestión e-learning</div>
   <h1 class="hero-title">Produce mejor.<br><span>Cotiza con precisión.</span></h1>
-  <p class="hero-sub">Herramientas diseñadas para el equipo de Hackea. Calcula costos, estima tiempos y planifica proyectos considerando el equipo distribuido en 6 países.</p>
+  <p class="hero-sub">Herramientas diseñadas para el equipo de Hackea. Calcula costos, estima tiempos, planifica proyectos y cotiza formación sincrónica considerando el equipo distribuido en 6 países.</p>
   <p class="hero-note">Acceso directo sin instalación · Siempre actualizado</p>
 
   <svg class="deco-wrap" width="120" height="80" viewBox="0 0 120 80">
@@ -342,11 +370,37 @@ footer{
     </div>
   </div>
 
+  <!-- COTIZADOR DE FORMACIÓN -->
+  <div class="tool-card">
+    <div class="tool-card-top light">
+      <div class="tool-badge">Disponible · v1.0</div>
+      <div class="tool-icon">🎯</div>
+      <div class="tool-name">Cotizador de Formación</div>
+      <div class="tool-tagline">Cotiza ejecución de formación sincrónica y genera PPTX editable</div>
+    </div>
+    <div class="tool-card-body">
+      <ul class="tool-features">
+        <li><div class="feat-dot">👥</div>Escenarios A/B/C de participantes con distribución por horarios</li>
+        <li><div class="feat-dot">📅</div>Hasta 3 horarios en paralelo con cronograma Gantt automático</li>
+        <li><div class="feat-dot">💼</div>Relatores y ayudantes por hora o mensual con retención honorarios</li>
+        <li><div class="feat-dot">🎯</div>Modo precio objetivo (VHC) con cálculo de margen efectivo</li>
+        <li><div class="feat-dot">🎨</div>Exporta propuesta PPTX editable con identidad Hackea</li>
+      </ul>
+      <div class="tool-meta">
+        <span class="tool-tag">Sincrónica</span>
+        <span class="tool-tag">SENCE</span>
+        <span class="tool-tag">Gantt</span>
+        <span class="tool-tag">PPTX</span>
+        <span class="tool-tag">Chile 2026</span>
+      </div>
+      <a href="cotizador-formacion.html" class="tool-btn">→ Abrir Cotizador</a>
+    </div>
+  </div>
 
 </div>
 
 <!-- NOTA HACKEA.PRO -->
-<div style="max-width:1100px;margin:0 auto 48px;padding:0 32px">
+<div style="max-width:1280px;margin:0 auto 48px;padding:0 32px">
   <div style="background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:20px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
     <div style="font-size:22px">🌐</div>
     <div style="flex:1">
@@ -361,4 +415,11 @@ footer{
 <footer>
   <div class="footer-logo">HACK<span>EA</span></div>
   <div class="footer-links">
-    <a href="/cdn-cgi/l/email-protection#fe97909891be969f9d959b9fd08e8c91"><span class="__cf_email__" data-cfemail="abc2c5cdc4ebc3cac8c0ceca85dbd9c4">[email&#160;
+    <a href="/cdn-cgi/l/email-protection#fe97909891be969f9d959b9fd08e8c91"><span class="__cf_email__" data-cfemail="abc2c5cdc4ebc3cac8c0ceca85dbd9c4">[email&#160;protected]</span></a>
+    <a href="https://www.hackea.pro" target="_blank">hackea.pro</a>
+  </div>
+  <div class="footer-copy">© 2026 Hackea · Uso interno</div>
+</footer>
+
+</body>
+</html>
