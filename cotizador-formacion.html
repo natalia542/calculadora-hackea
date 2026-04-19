@@ -101,6 +101,13 @@ main { max-width: 1600px; margin: 0 auto; padding: 2rem; display: grid; grid-tem
 .horario-titulo.h3 { color: var(--azul-h3); }
 .horario-card input[type="text"] { flex: 1; font-size: 0.85rem; padding: 0.3rem 0.5rem; }
 
+.horario-duracion { font-size: 0.75rem; color: var(--texto-muted); padding: 0.4rem 0.5rem; background: var(--blanco); border-radius: var(--radio); margin-top: 0.4rem; border-left: 3px solid transparent; line-height: 1.5; display: none; }
+.horario-duracion.visible { display: block; }
+.horario-card.h1 .horario-duracion { border-left-color: var(--azul); }
+.horario-card.h2 .horario-duracion { border-left-color: var(--azul-h2); }
+.horario-card.h3 .horario-duracion { border-left-color: var(--azul-h3); }
+.horario-duracion strong { color: var(--texto-principal); }
+
 .dias-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.25rem; margin-bottom: 0.5rem; }
 .dia-chk { padding: 0.4rem 0; text-align: center; border: 1px solid var(--borde); border-radius: var(--radio); cursor: pointer; font-size: 0.8rem; font-weight: 600; background: var(--blanco); transition: all 0.15s; display: block; }
 .dia-chk input { display: none; }
@@ -293,6 +300,7 @@ footer strong { color: var(--azul); }
           <label class="dia-chk"><input type="checkbox" id="h1-d-S">S</label>
         </div>
         <div class="campo"><label>Cohortes en paralelo <span class="hint">AM=1, AM+PM=2, etc.</span></label><input type="number" id="h1-cohortes" value="2" min="1"></div>
+        <div class="horario-duracion" id="h1-duracion"></div>
       </div>
 
       <div class="toggle-row">
@@ -314,6 +322,7 @@ footer strong { color: var(--azul); }
             <label class="dia-chk"><input type="checkbox" id="h2-d-S">S</label>
           </div>
           <div class="campo"><label>Cohortes en paralelo</label><input type="number" id="h2-cohortes" value="2" min="1"></div>
+          <div class="horario-duracion" id="h2-duracion"></div>
         </div>
       </div>
 
@@ -336,6 +345,7 @@ footer strong { color: var(--azul); }
             <label class="dia-chk"><input type="checkbox" id="h3-d-S" checked>S</label>
           </div>
           <div class="campo"><label>Cohortes en paralelo</label><input type="number" id="h3-cohortes" value="1" min="1"></div>
+          <div class="horario-duracion" id="h3-duracion"></div>
         </div>
       </div>
     </section>
@@ -527,6 +537,47 @@ footer strong { color: var(--azul); }
 • Forma de pago: 50% al inicio del proyecto, 50% contra entrega
 • Incluye: ejecución docente, coordinación, plataformas, material
 • No incluye: movilización, material impreso, certificación externa</textarea>
+      </div>
+    </section>
+
+    <section>
+      <h3>✏️ Contenido del PPTX</h3>
+      <p class="hint-seccion">Personaliza los textos que aparecerán en la propuesta.</p>
+
+      <div class="campo">
+        <label>Requerimiento del cliente <span class="hint">(qué nos están pidiendo)</span></label>
+        <textarea id="req-cliente" rows="3" placeholder="Ej: Capacitar a 600 profesionales del sector público en fundamentos de ciberseguridad...">Capacitar a nuestros participantes en los fundamentos necesarios para el desarrollo de competencias específicas, con una experiencia de aprendizaje significativa, activa y de alto impacto.</textarea>
+      </div>
+
+      <div class="campo">
+        <label>Nuestra propuesta de valor <span class="hint">(un diferencial por línea · aparece como bullets)</span></label>
+        <textarea id="propuesta-valor" rows="10">Selección exhaustiva de relatores que incluye clases de prueba y validación pedagógica previa
+Seguimiento constante a participantes: grupos de WhatsApp, avisos previos a cada clase y contacto directo durante todo el programa
+Protocolo de alerta temprana: si una participante falta a dos clases seguidas, activamos un seguimiento personalizado
+Reportabilidad integral de proceso (asistencia) y de resultados (evaluaciones)
+Equipo docente con modalidad de relator y ayudante para acompañamiento pedagógico cercano
+Ceremonia de término online como cierre significativo del programa
+Envío de certificados de aprobación y participación según los requerimientos del cliente
+Reunión semanal de seguimiento del proyecto con la contraparte del cliente
+Entrega de material interactivo del curso para consulta post término</textarea>
+      </div>
+
+      <div class="campo">
+        <label>Lo que SÍ incluye el servicio <span class="hint">(un ítem por línea)</span></label>
+        <textarea id="si-incluye" rows="5">Diseño instruccional y material del curso
+Ejecución docente sincrónica (relatores y ayudantes según corresponda)
+Coordinación integral del proyecto y reportabilidad
+Plataforma Zoom con licencias y herramientas digitales de apoyo
+Certificados de aprobación y participación
+Ceremonia de término online</textarea>
+      </div>
+
+      <div class="campo">
+        <label>Lo que NO incluye <span class="hint">(un ítem por línea)</span></label>
+        <textarea id="no-incluye" rows="4">Selección de participantes (a cargo del cliente)
+Movilización ni viáticos
+Material impreso
+Certificación externa o acreditación SENCE</textarea>
       </div>
     </section>
 
@@ -840,7 +891,11 @@ function calcular() {
     cliente: txt('nombre-cliente') || 'Cliente',
     fecha: txt('fecha-propuesta'),
     vigencia: num('vigencia-dias'),
-    condiciones: txt('condiciones-texto')
+    condiciones: txt('condiciones-texto'),
+    reqCliente: txt('req-cliente'),
+    propuestaValor: txt('propuesta-valor'),
+    siIncluye: txt('si-incluye'),
+    noIncluye: txt('no-incluye')
   };
 
   ultimosCalculos = { escenarios, params };
@@ -848,6 +903,59 @@ function calcular() {
   actualizarSumasDistribucion(escenarios);
   actualizarJornadaRelator(escenarios, params);
   actualizarJornadaAyudante(escenarios, params);
+  actualizarInfoHorarios(escenarios, params);
+}
+
+function actualizarInfoHorarios(escenarios, params) {
+  // Muestra en cada tarjeta de horario cuántas semanas/meses dura ese bloque
+  // (el más demandante entre los escenarios válidos es el que determina la duración del proyecto)
+  const validos = escenarios.filter(e => !e.vacio);
+
+  [1, 2, 3].forEach(hId => {
+    const el = document.getElementById(`h${hId}-duracion`);
+    if (!el) return;
+
+    const horario = params.horarios.find(h => h.id === hId);
+    if (!horario) { el.className = 'horario-duracion'; el.innerHTML = ''; return; }
+
+    if (horario.frecuencia === 0) {
+      el.className = 'horario-duracion visible';
+      el.innerHTML = `⚠️ <em>Sin días marcados</em>`;
+      return;
+    }
+
+    if (validos.length === 0) {
+      el.className = 'horario-duracion visible';
+      el.innerHTML = `<strong>${horario.frecuencia} días/sem</strong> · Asigna grupos en los escenarios para ver duración`;
+      return;
+    }
+
+    // Para cada escenario válido, calcular la duración de este horario
+    const rangos = validos.map(e => {
+      const bloque = e.bloquesHorarios.find(b => b.id === hId);
+      if (!bloque || bloque.grupos === 0) return { letra: e.letra, vacio: true };
+      const mesesBloque = Math.max(1, Math.ceil(bloque.semanasBloque / 4));
+      return {
+        letra: e.letra,
+        grupos: bloque.grupos,
+        ciclos: bloque.ciclos,
+        semanasPorGrupo: bloque.semanasPorGrupo,
+        semanasBloque: bloque.semanasBloque,
+        mesesBloque
+      };
+    });
+
+    let html = `<strong>${horario.frecuencia} días/sem · ${horario.cohortes} cohorte${horario.cohortes>1?'s':''} en paralelo</strong>`;
+    rangos.forEach(r => {
+      if (r.vacio) {
+        html += `<br><span style="opacity:0.5">Esc ${r.letra}: sin grupos asignados</span>`;
+      } else {
+        html += `<br><strong>Esc ${r.letra}:</strong> ${r.grupos} grupos · ${r.ciclos} ciclo${r.ciclos>1?'s':''} · <strong>${r.semanasBloque} sem (${r.mesesBloque} m)</strong>`;
+      }
+    });
+    el.className = 'horario-duracion visible';
+    el.innerHTML = html;
+  });
 }
 
 function actualizarSumasDistribucion(escenarios) {
@@ -989,13 +1097,13 @@ function renderDesglose(escenarios, params) {
     if (e.vacio) { div.innerHTML = `<p style="color:var(--texto-muted); padding: 1rem;">Sin datos.</p>`; return; }
 
     const retPct = params.retencion.toFixed(2);
-    const base = e.subtotalBruto;
+    const base = e.precioNeto; // % sobre el precio al cliente
 
-    // Helper: formatea monto bruto con % sobre subtotal del proyecto
+    // Helper: formatea monto bruto con % sobre precio al cliente
     const cellBruto = (v) => {
       if (base <= 0) return `<strong>${fmtCLP(v)}</strong>`;
       const pct = (v / base) * 100;
-      return `<strong>${fmtCLP(v)}</strong><div style="font-size:0.72rem; color:var(--texto-muted); font-weight:400; margin-top:2px;">${pct.toFixed(1)}% del proyecto</div>`;
+      return `<strong>${fmtCLP(v)}</strong><div style="font-size:0.72rem; color:var(--texto-muted); font-weight:400; margin-top:2px;">${pct.toFixed(1)}% del total cliente</div>`;
     };
 
     let detalleRelator, montoLiqRelator;
@@ -1046,7 +1154,7 @@ function renderDesglose(escenarios, params) {
     html += `<tr class="subtotal-cat"><td colspan="3">→ Subtotal plataformas y tecnología</td><td class="num">${cellBruto(e.plataformasTech)}</td></tr>`;
 
     // Totales
-    html += `<tr class="subtotal"><td colspan="3">Subtotal costos brutos (100% del proyecto)</td><td class="num">${fmtCLP(e.subtotalBruto)}</td></tr>`;
+    html += `<tr class="subtotal"><td colspan="3">Subtotal costos brutos (antes de contingencia y margen)</td><td class="num">${fmtCLP(e.subtotalBruto)}</td></tr>`;
     html += `<tr class="subtotal"><td colspan="3">+ Contingencia (${params.contingencia}%)</td><td class="num">${fmtCLP(e.contingenciaMonto)}</td></tr>`;
     html += `<tr class="subtotal"><td colspan="3">= Costo total del proyecto (bruto)</td><td class="num">${fmtCLP(e.costoTotalBruto)}</td></tr>`;
     html += `<tr class="margen"><td colspan="3">+ Margen / utilidad (${params.margen}%) — no se muestra al cliente</td><td class="num">${fmtCLP(e.margenMonto)}</td></tr>`;
@@ -1261,9 +1369,12 @@ async function exportarPPTX() {
 
     slidePortada(pptx, params, modo);
     slideSobreHackea(pptx);
+    slideRequerimiento(pptx, params);
     slideVisionGeneral(pptx, params, escenarios, modo);
     slideCronograma(pptx, params, escenarios, modo);
+    slidePropuestaValor(pptx, params);
     slideEquipo(pptx, params);
+    slideAlcance(pptx, params);
     // Slide "Inversión" individual deshabilitado a pedido del usuario — el precio total se muestra en "Indicadores".
     if (modo === 'comparada') slideComparativa(pptx, params, escenarios);
     slideIndicadores(pptx, params, escenarios, modo);
@@ -1344,19 +1455,19 @@ function slideSobreHackea(pptx) {
   logoHackea(s, 11.3, 0.35, 0.75);
   lineaVerticalAzul(s, 0.7, 0.6, 0.8);
   s.addText('Sobre Hackea', { x: 0.95, y: 0.55, w: 8, h: 0.9, fontFace: HACKEA.fontTitulo, fontSize: 36, bold: true, color: HACKEA.textoPrincipal });
-  s.addText('Somos una productora chilena de e-learning con equipo distribuido en Chile, México, España, Venezuela, Colombia y Argentina. Combinamos diseño instruccional experto, tecnología educativa de punta y ejecución de formación sincrónica a gran escala para entregar experiencias de aprendizaje de alto impacto.', { x: 0.95, y: 1.8, w: 11.4, h: 1.5, fontFace: HACKEA.fontCuerpo, fontSize: 16, color: HACKEA.textoCuerpo, lineSpacingMultiple: 1.35 });
+  s.addText('Desde 2022 trabajamos en la ejecución de programas de formación boutique en modalidades e-learning sincrónica, presencial e híbrida, y en el desarrollo de contenido digitalizado e-learning para ejecuciones asincrónicas. Combinamos diseño instruccional experto, tecnología educativa y un acompañamiento cercano a cada participante para entregar experiencias de aprendizaje de alto impacto.', { x: 0.95, y: 1.8, w: 11.4, h: 1.7, fontFace: HACKEA.fontCuerpo, fontSize: 15, color: HACKEA.textoCuerpo, lineSpacingMultiple: 1.4 });
 
   const pilares = [
-    { titulo: 'Diseño instruccional', desc: 'Arquitectura pedagógica basada en objetivos de aprendizaje y audiencias reales.' },
-    { titulo: 'Tecnología educativa', desc: 'Integración de plataformas LMS, herramientas interactivas e IA aplicada al aprendizaje.' },
-    { titulo: 'Ejecución a escala', desc: 'Formación sincrónica para cientos o miles de participantes con cobertura multi-país.' }
+    { titulo: 'Formación sincrónica', desc: 'Ejecución de programas boutique en modalidad online, presencial e híbrida, con foco en aprendizaje activo.' },
+    { titulo: 'Contenido digital', desc: 'Diseño y desarrollo de experiencias e-learning asincrónicas: módulos interactivos, video, gamificación.' },
+    { titulo: 'Acompañamiento cercano', desc: 'Seguimiento activo a cada participante, reportabilidad integral y ceremonia de cierre con identidad del cliente.' }
   ];
   pilares.forEach((p, i) => {
     const x = 0.95 + i * 4.1;
     s.addShape('ellipse', { x: x, y: 4.1, w: 0.6, h: 0.6, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
     s.addText(`0${i+1}`, { x: x, y: 4.12, w: 0.6, h: 0.56, fontFace: HACKEA.fontTitulo, fontSize: 14, bold: true, color: HACKEA.blanco, align: 'center', valign: 'middle' });
     s.addText(p.titulo, { x: x, y: 4.85, w: 3.9, h: 0.5, fontFace: HACKEA.fontTitulo, fontSize: 18, bold: true, color: HACKEA.textoPrincipal });
-    s.addText(p.desc, { x: x, y: 5.4, w: 3.9, h: 1.4, fontFace: HACKEA.fontCuerpo, fontSize: 13, color: HACKEA.textoCuerpo, lineSpacingMultiple: 1.35 });
+    s.addText(p.desc, { x: x, y: 5.4, w: 3.9, h: 1.6, fontFace: HACKEA.fontCuerpo, fontSize: 13, color: HACKEA.textoCuerpo, lineSpacingMultiple: 1.35 });
   });
 }
 
@@ -1544,6 +1655,131 @@ function slideEquipo(pptx, params) {
     s.addText(r.detalle, { x: 1.2, y: y + 0.48, w: 3.5, h: 0.3, fontFace: HACKEA.fontCuerpo, fontSize: 10, italic: true, color: HACKEA.azul });
     s.addText(r.desc, { x: 4.9, y: y + 0.15, w: 7.4, h: 0.7, fontFace: HACKEA.fontCuerpo, fontSize: 12, color: HACKEA.textoCuerpo, valign: 'middle', lineSpacingMultiple: 1.3 });
   });
+}
+
+// Helper: parsea líneas del textarea (quita vacías y prefijos de bullet)
+function parseLines(texto) {
+  if (!texto) return [];
+  return texto.split('\n').map(l => l.replace(/^[\-\•\*\s]+/, '').trim()).filter(l => l.length > 0);
+}
+
+// ═══════════════════════════════════════════
+// SLIDE REQUERIMIENTO DEL CLIENTE
+// ═══════════════════════════════════════════
+function slideRequerimiento(pptx, params) {
+  const s = pptx.addSlide();
+  decoracionFondoClaro(s, HACKEA.blanco);
+  logoHackea(s, 11.3, 0.35, 0.75);
+  lineaVerticalAzul(s, 0.7, 0.6, 0.8);
+
+  s.addText('REQUERIMIENTO', { x: 0.95, y: 0.55, w: 6, h: 0.35, fontFace: HACKEA.fontTitulo, fontSize: 11, bold: true, color: HACKEA.azul, charSpacing: 3 });
+  s.addText(`Lo que nos pide ${params.cliente}`, { x: 0.95, y: 0.95, w: 11, h: 0.9, fontFace: HACKEA.fontTitulo, fontSize: 32, bold: true, color: HACKEA.textoPrincipal });
+
+  // Card grande con la cita del requerimiento
+  s.addShape('rect', { x: 0.95, y: 2.2, w: 11.4, h: 4.3, fill: { color: HACKEA.fondo }, line: { color: HACKEA.borde, width: 0 } });
+  s.addShape('rect', { x: 0.95, y: 2.2, w: 0.1, h: 4.3, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
+
+  // Comilla decorativa
+  s.addText('“', { x: 1.5, y: 2.3, w: 1.5, h: 1.8, fontFace: HACKEA.fontTitulo, fontSize: 140, bold: true, color: HACKEA.azul, align: 'left', valign: 'top' });
+
+  s.addText(params.reqCliente || 'Sin requerimiento especificado', { x: 2.7, y: 2.7, w: 9, h: 3.3, fontFace: HACKEA.fontCuerpo, fontSize: 18, color: HACKEA.textoPrincipal, lineSpacingMultiple: 1.5, italic: true, valign: 'middle' });
+
+  s.addText('— En base a este requerimiento construimos la propuesta que encontrarás a continuación.', { x: 0.95, y: 6.8, w: 11.4, h: 0.3, fontFace: HACKEA.fontCuerpo, fontSize: 11, italic: true, color: HACKEA.textoMuted, align: 'right' });
+}
+
+// ═══════════════════════════════════════════
+// SLIDE PROPUESTA DE VALOR (diferenciales)
+// ═══════════════════════════════════════════
+function slidePropuestaValor(pptx, params) {
+  const diferenciales = parseLines(params.propuestaValor);
+  if (diferenciales.length === 0) return;
+
+  // Si hay más de 6, lo dividimos en 2 slides
+  const maxPorSlide = 6;
+  const slides = [];
+  for (let i = 0; i < diferenciales.length; i += maxPorSlide) {
+    slides.push(diferenciales.slice(i, i + maxPorSlide));
+  }
+
+  slides.forEach((items, slideIdx) => {
+    const s = pptx.addSlide();
+    decoracionFondoClaro(s, HACKEA.superficie);
+    logoHackea(s, 11.3, 0.35, 0.75);
+    lineaVerticalAzul(s, 0.7, 0.6, 0.8);
+
+    const tituloSlide = slides.length > 1 ? `Nuestra propuesta de valor (${slideIdx+1}/${slides.length})` : 'Nuestra propuesta de valor';
+    s.addText('EL DIFERENCIAL HACKEA', { x: 0.95, y: 0.55, w: 6, h: 0.35, fontFace: HACKEA.fontTitulo, fontSize: 11, bold: true, color: HACKEA.azul, charSpacing: 3 });
+    s.addText(tituloSlide, { x: 0.95, y: 0.95, w: 11, h: 0.8, fontFace: HACKEA.fontTitulo, fontSize: 30, bold: true, color: HACKEA.textoPrincipal });
+
+    if (slideIdx === 0) {
+      s.addText('Lo que nos distingue al ejecutar un programa de formación:', { x: 0.95, y: 1.75, w: 11, h: 0.35, fontFace: HACKEA.fontCuerpo, fontSize: 13, italic: true, color: HACKEA.textoMuted });
+    }
+
+    // Layout en 2 columnas
+    const col1Items = items.slice(0, Math.ceil(items.length / 2));
+    const col2Items = items.slice(Math.ceil(items.length / 2));
+    const yInicio = 2.3;
+    const altoItem = 1.35;
+
+    [col1Items, col2Items].forEach((col, cIdx) => {
+      const x = 0.95 + cIdx * 5.85;
+      col.forEach((item, iIdx) => {
+        const y = yInicio + iIdx * altoItem;
+        // Card
+        s.addShape('rect', { x: x, y: y, w: 5.55, h: altoItem - 0.15, fill: { color: HACKEA.blanco }, line: { color: HACKEA.borde, width: 0.5 } });
+        s.addShape('rect', { x: x, y: y, w: 0.08, h: altoItem - 0.15, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
+        // Número/icono
+        s.addShape('ellipse', { x: x + 0.25, y: y + 0.25, w: 0.55, h: 0.55, fill: { color: HACKEA.azulClaro }, line: { color: HACKEA.azul, width: 1 } });
+        const num = cIdx * col1Items.length + iIdx + 1 + slideIdx * maxPorSlide;
+        s.addText(`${String(num).padStart(2, '0')}`, { x: x + 0.25, y: y + 0.26, w: 0.55, h: 0.53, fontFace: HACKEA.fontTitulo, fontSize: 14, bold: true, color: HACKEA.azul, align: 'center', valign: 'middle' });
+        // Texto
+        s.addText(item, { x: x + 0.95, y: y + 0.15, w: 4.5, h: altoItem - 0.35, fontFace: HACKEA.fontCuerpo, fontSize: 12, color: HACKEA.textoCuerpo, valign: 'middle', lineSpacingMultiple: 1.3 });
+      });
+    });
+  });
+}
+
+// ═══════════════════════════════════════════
+// SLIDE ALCANCE (sí incluye / no incluye)
+// ═══════════════════════════════════════════
+function slideAlcance(pptx, params) {
+  const siItems = parseLines(params.siIncluye);
+  const noItems = parseLines(params.noIncluye);
+  if (siItems.length === 0 && noItems.length === 0) return;
+
+  const s = pptx.addSlide();
+  decoracionFondoClaro(s, HACKEA.blanco);
+  logoHackea(s, 11.3, 0.35, 0.75);
+  lineaVerticalAzul(s, 0.7, 0.6, 0.8);
+
+  s.addText('ALCANCE DEL SERVICIO', { x: 0.95, y: 0.55, w: 6, h: 0.35, fontFace: HACKEA.fontTitulo, fontSize: 11, bold: true, color: HACKEA.azul, charSpacing: 3 });
+  s.addText('Qué incluye y qué no', { x: 0.95, y: 0.95, w: 11, h: 0.8, fontFace: HACKEA.fontTitulo, fontSize: 30, bold: true, color: HACKEA.textoPrincipal });
+
+  // Columna SÍ INCLUYE
+  const colSiX = 0.95, colSiW = 5.55;
+  s.addShape('rect', { x: colSiX, y: 1.9, w: colSiW, h: 5, fill: { color: HACKEA.fondo }, line: { color: HACKEA.borde, width: 0 } });
+  s.addShape('rect', { x: colSiX, y: 1.9, w: colSiW, h: 0.7, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
+  s.addText('✓  SÍ INCLUYE', { x: colSiX, y: 1.9, w: colSiW, h: 0.7, fontFace: HACKEA.fontTitulo, fontSize: 16, bold: true, color: HACKEA.blanco, align: 'center', valign: 'middle', charSpacing: 2 });
+
+  siItems.slice(0, 8).forEach((item, i) => {
+    const y = 2.8 + i * 0.5;
+    s.addShape('ellipse', { x: colSiX + 0.3, y: y + 0.08, w: 0.2, h: 0.2, fill: { color: HACKEA.azul }, line: { color: HACKEA.azul, width: 0 } });
+    s.addText(item, { x: colSiX + 0.65, y: y, w: colSiW - 0.85, h: 0.45, fontFace: HACKEA.fontCuerpo, fontSize: 12, color: HACKEA.textoCuerpo, valign: 'middle', lineSpacingMultiple: 1.3 });
+  });
+
+  // Columna NO INCLUYE
+  const colNoX = 6.85, colNoW = 5.55;
+  s.addShape('rect', { x: colNoX, y: 1.9, w: colNoW, h: 5, fill: { color: HACKEA.superficie }, line: { color: HACKEA.borde, width: 1 } });
+  s.addShape('rect', { x: colNoX, y: 1.9, w: colNoW, h: 0.7, fill: { color: HACKEA.textoPrincipal }, line: { color: HACKEA.textoPrincipal, width: 0 } });
+  s.addText('×  NO INCLUYE', { x: colNoX, y: 1.9, w: colNoW, h: 0.7, fontFace: HACKEA.fontTitulo, fontSize: 16, bold: true, color: HACKEA.blanco, align: 'center', valign: 'middle', charSpacing: 2 });
+
+  noItems.slice(0, 8).forEach((item, i) => {
+    const y = 2.8 + i * 0.5;
+    s.addShape('rect', { x: colNoX + 0.3, y: y + 0.15, w: 0.2, h: 0.05, fill: { color: HACKEA.textoMuted }, line: { color: HACKEA.textoMuted, width: 0 } });
+    s.addText(item, { x: colNoX + 0.65, y: y, w: colNoW - 0.85, h: 0.45, fontFace: HACKEA.fontCuerpo, fontSize: 12, color: HACKEA.textoMuted, valign: 'middle', lineSpacingMultiple: 1.3 });
+  });
+
+  s.addText('Cualquier elemento fuera de este alcance puede incorporarse mediante una propuesta complementaria.', { x: 0.95, y: 7.05, w: 11.4, h: 0.3, fontFace: HACKEA.fontCuerpo, fontSize: 11, italic: true, color: HACKEA.textoMuted, align: 'center' });
 }
 
 function slideInversion(pptx, params, e) {
