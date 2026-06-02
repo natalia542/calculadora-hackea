@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hackea — Kit de Herramientas</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#0090F8;--blue-light:#e6f4ff;--blue-mid:#b3deff;--blue-dark:#006FC4;
+  --text:#2A2A2A;--body:#404040;--bg:#EBECF0;--surface:#F3F3F3;
+  --white:#FFFFFF;--muted:#888;--border:#d4d6db;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+
+/* ── HEADER ── */
+header{
+  background:var(--white);
+  border-bottom:3px solid var(--blue);
+  padding:20px 48px;
+  display:flex;align-items:center;gap:16px;
+  box-shadow:0 2px 20px rgba(0,144,248,.08);
+  position:relative;overflow:hidden;
+}
+header::after{
+  content:'';position:absolute;right:-60px;top:-60px;
+  width:200px;height:200px;border-radius:50%;
+  border:30px solid rgba(0,144,248,.05);pointer-events:none;
+}
+header::before{
+  content:'';position:absolute;right:60px;top:-40px;
+  width:120px;height:120px;border-radius:50%;
+  border:20px solid rgba(0,144,248,.04);pointer-events:none;
+}
+.logo{display:flex;align-items:center;gap:12px;}
+.logo-text{font-weight:900;font-size:26px;letter-spacing:-.5px;line-height:1;}
+.logo-text span{color:var(--blue);}
+.header-div{width:2px;height:36px;background:var(--blue);margin:0 8px;}
+.header-sub{font-size:13px;font-weight:600;color:var(--body);}
+.header-tag{margin-left:auto;font-size:11px;color:var(--muted);font-weight:600;}
+
+/* ── HERO ── */
+.hero{
+  text-align:center;
+  padding:64px 32px 48px;
+  position:relative;
+}
+.hero-eyebrow{
+  display:inline-block;
+  background:var(--blue-light);
+  color:var(--blue);
+  font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:1.5px;
+  padding:5px 16px;border-radius:20px;
+  margin-bottom:20px;border:1px solid var(--blue-mid);
+}
+.hero-title{
+  font-size:42px;font-weight:900;
+  color:var(--text);line-height:1.1;
+  margin-bottom:16px;
+}
+.hero-title span{color:var(--blue);}
+.hero-sub{
+  font-size:15px;color:var(--body);
+  max-width:560px;margin:0 auto 8px;
+  line-height:1.7;font-weight:400;
+}
+.hero-note{font-size:12px;color:var(--muted);}
+
+/* ── DECORATIVE ARCS ── */
+.deco-wrap{position:absolute;bottom:0;left:24px;opacity:.12;pointer-events:none;}
+
+/* ── TOOLS GRID ── */
+.tools{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(320px,1fr));
+  gap:24px;
+  max-width:1280px;
+  margin:0 auto;
+  padding:0 32px 32px;
+  flex:1;
+  justify-content:center;
+}
+
+.tool-card{
+  background:var(--white);
+  border-radius:16px;
+  border:1.5px solid var(--border);
+  overflow:hidden;
+  transition:transform .25s, box-shadow .25s, border-color .25s;
+  display:flex;flex-direction:column;
+  position:relative;
+}
+.tool-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 48px rgba(0,144,248,.15);
+  border-color:var(--blue);
+}
+
+.tool-card-top{
+  background:linear-gradient(135deg,#0090F8 0%,#0070d0 100%);
+  padding:32px 28px 28px;
+  position:relative;overflow:hidden;
+}
+.tool-card-top::before{
+  content:'';position:absolute;right:-30px;top:-30px;
+  width:130px;height:130px;border-radius:50%;
+  border:22px solid rgba(255,255,255,.1);
+}
+.tool-card-top::after{
+  content:'';position:absolute;right:40px;top:10px;
+  width:70px;height:70px;border-radius:50%;
+  border:14px solid rgba(255,255,255,.07);
+}
+
+.tool-card-top.alt{
+  background:linear-gradient(135deg,#2A2A2A 0%,#404040 100%);
+}
+
+/* NUEVA VARIANTE CELESTE CLARA para el Cotizador */
+.tool-card-top.light{
+  background:linear-gradient(135deg,#E5F3FE 0%,#B3DEFF 100%);
+}
+.tool-card-top.light::before{
+  border-color:rgba(0,144,248,.12);
+}
+.tool-card-top.light::after{
+  border-color:rgba(0,144,248,.08);
+}
+.tool-card-top.light .tool-badge{
+  background:rgba(0,144,248,.15);
+  color:var(--blue-dark);
+}
+.tool-card-top.light .tool-name{
+  color:var(--text);
+}
+.tool-card-top.light .tool-tagline{
+  color:var(--body);
+}
+.tool-card-top.light .tool-icon{
+  filter:drop-shadow(0 4px 8px rgba(0,144,248,.2));
+}
+
+.tool-icon{
+  font-size:38px;margin-bottom:14px;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));
+}
+.tool-badge{
+  display:inline-block;
+  background:rgba(255,255,255,.2);
+  color:#fff;
+  font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:1px;
+  padding:3px 10px;border-radius:20px;
+  margin-bottom:10px;
+}
+.tool-name{
+  font-size:22px;font-weight:900;color:#fff;
+  line-height:1.1;margin-bottom:6px;
+}
+.tool-tagline{
+  font-size:12px;color:rgba(255,255,255,.8);
+  font-weight:400;line-height:1.5;
+}
+
+.tool-card-body{
+  padding:24px 28px;flex:1;display:flex;flex-direction:column;
+}
+
+.tool-features{
+  list-style:none;margin-bottom:24px;flex:1;
+}
+.tool-features li{
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:12px;color:var(--body);
+  padding:6px 0;border-bottom:1px solid var(--surface);
+  line-height:1.5;
+}
+.tool-features li:last-child{border-bottom:none;}
+.feat-dot{
+  width:18px;height:18px;border-radius:4px;
+  background:var(--blue-light);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;flex-shrink:0;margin-top:1px;
+}
+
+.tool-meta{
+  display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;
+}
+.tool-tag{
+  background:var(--surface);
+  color:var(--muted);
+  font-size:10px;font-weight:700;
+  padding:3px 9px;border-radius:6px;
+  text-transform:uppercase;letter-spacing:.5px;
+}
+
+.tool-btn{
+  display:block;
+  background:var(--blue);
+  color:#fff;
+  text-align:center;
+  padding:13px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:700;font-size:13px;
+  transition:background .2s, transform .1s, box-shadow .2s;
+  letter-spacing:.3px;
+}
+.tool-btn:hover{
+  background:#007ad6;
+  box-shadow:0 6px 20px rgba(0,144,248,.35);
+  transform:translateY(-1px);
+}
+.tool-btn.secondary{
+  background:var(--text);
+}
+.tool-btn.secondary:hover{
+  background:#1a1a1a;
+  box-shadow:0 6px 20px rgba(0,0,0,.2);
+}
+
+/* ── COMING SOON CARD ── */
+.tool-card.coming{opacity:.65;pointer-events:none;}
+.tool-card.coming .tool-card-top{background:linear-gradient(135deg,#95a5a6 0%,#7f8c8d 100%);}
+.coming-label{
+  position:absolute;top:16px;right:16px;
+  background:rgba(255,255,255,.25);color:#fff;
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:1px;padding:3px 9px;border-radius:20px;
+}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--white);
+  border-top:1px solid var(--border);
+  padding:20px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+}
+.footer-logo{font-weight:900;font-size:16px;letter-spacing:-.3px;}
+.footer-logo span{color:var(--blue);}
+.footer-links{display:flex;gap:20px;}
+.footer-links a{font-size:11px;color:var(--muted);text-decoration:none;font-weight:600;}
+.footer-links a:hover{color:var(--blue);}
+.footer-copy{font-size:10px;color:var(--muted);}
+
+/* ── DIVIDER ── */
+.section-divider{
+  text-align:center;padding:8px 32px 32px;
+}
+.section-divider span{
+  font-size:11px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:1.5px;
+}
+
+/* Responsive: 2 columnas en pantallas medianas, 1 en móvil */
+@media(max-width:1100px){
+  .tools{grid-template-columns:repeat(2,minmax(320px,480px));}
+}
+@media(max-width:768px){
+  header{padding:16px 20px;}
+  .hero{padding:40px 20px 32px;}
+  .hero-title{font-size:28px;}
+  .tools{padding:0 16px 40px;grid-template-columns:1fr;}
+  footer{padding:16px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <svg width="36" height="36" viewBox="0 0 38 38" fill="none">
+      <circle cx="19" cy="19" r="17" stroke="#0090F8" stroke-width="2"/>
+      <circle cx="19" cy="19" r="11" stroke="#0090F8" stroke-width="1.5"/>
+      <circle cx="19" cy="19" r="5" stroke="#0090F8" stroke-width="1.5"/>
+      <circle cx="19" cy="19" r="2" fill="#0090F8"/>
+      <line x1="19" y1="2" x2="19" y2="8" stroke="#0090F8" stroke-width="1.5"/>
+      <line x1="19" y1="30" x2="19" y2="36" stroke="#0090F8" stroke-width="1.5"/>
+      <line x1="2" y1="19" x2="8" y2="19" stroke="#0090F8" stroke-width="1.5"/>
+      <line x1="30" y1="19" x2="36" y2="19" stroke="#0090F8" stroke-width="1.5"/>
+    </svg>
+    <div class="logo-text">HACK<span>EA</span></div>
+  </div>
+  <div class="header-div"></div>
+  <div class="header-sub">Kit de Herramientas Interno</div>
+  <div class="header-tag">Uso exclusivo equipo Hackea · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4b22252d240b232a28202e2a653b3924">[email&#160;protected]</a></div>
+
+  <!-- Deco arcs -->
+  <svg style="position:absolute;right:0;top:0;opacity:.04;pointer-events:none" width="180" height="80" viewBox="0 0 180 80">
+    <circle cx="180" cy="40" r="70" stroke="#0090F8" stroke-width="20" fill="none"/>
+    <circle cx="180" cy="40" r="45" stroke="#0090F8" stroke-width="14" fill="none"/>
+    <circle cx="180" cy="40" r="22" stroke="#0090F8" stroke-width="10" fill="none"/>
+  </svg>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">🎯 Herramientas de gestión e-learning</div>
+  <h1 class="hero-title">Produce mejor.<br><span>Cotiza con precisión.</span></h1>
+  <p class="hero-sub">Herramientas diseñadas para el equipo de Hackea. Calcula costos, estima tiempos, planifica proyectos y cotiza formación sincrónica considerando el equipo distribuido en 6 países.</p>
+  <p class="hero-note">Acceso directo sin instalación · Siempre actualizado</p>
+
+  <svg class="deco-wrap" width="120" height="80" viewBox="0 0 120 80">
+    <circle cx="0" cy="80" r="70" stroke="#0090F8" stroke-width="8" fill="none" opacity=".6"/>
+    <circle cx="0" cy="80" r="48" stroke="#0090F8" stroke-width="6" fill="none" opacity=".5"/>
+    <circle cx="0" cy="80" r="28" stroke="#0090F8" stroke-width="5" fill="none" opacity=".4"/>
+    <circle cx="0" cy="80" r="12" fill="#0090F8" opacity=".3"/>
+  </svg>
+</div>
+
+<div class="section-divider"><span>Herramientas disponibles</span></div>
+
+<!-- TOOLS -->
+<div class="tools">
+
+  <!-- CALCULADORA -->
+  <div class="tool-card">
+    <div class="tool-card-top">
+      <div class="tool-badge">Disponible · v2.0</div>
+      <div class="tool-icon">🧮</div>
+      <div class="tool-name">Calculadora de Proyectos</div>
+      <div class="tool-tagline">Estima costos y horas de producción por módulo, recurso y rol</div>
+    </div>
+    <div class="tool-card-body">
+      <ul class="tool-features">
+        <li><div class="feat-dot">👥</div>Configuración de equipo con costo/hora automático (CLP y USD)</li>
+        <li><div class="feat-dot">📦</div>Biblioteca de recursos con benchmarks Chapman Alliance</li>
+        <li><div class="feat-dot">🏗️</div>Constructor de proyecto módulo por módulo con mix de recursos</li>
+        <li><div class="feat-dot">📊</div>Desglose de costos por rol, recurso y módulo</li>
+        <li><div class="feat-dot">💰</div>Precio de venta con margen ajustable por cliente</li>
+      </ul>
+      <div class="tool-meta">
+        <span class="tool-tag">Storyline</span>
+        <span class="tool-tag">Rise 360</span>
+        <span class="tool-tag">HeyGen</span>
+        <span class="tool-tag">Genially</span>
+        <span class="tool-tag">Mindsmith</span>
+      </div>
+      <a href="hackea-calculadora-v2.html" class="tool-btn">→ Abrir Calculadora</a>
+    </div>
+  </div>
+
+  <!-- PLANIFICADOR -->
+  <div class="tool-card">
+    <div class="tool-card-top alt">
+      <div class="tool-badge">Disponible · v1.0</div>
+      <div class="tool-icon">🗓️</div>
+      <div class="tool-name">Planificador de Proyectos</div>
+      <div class="tool-tagline">Estima fechas reales con equipo distribuido, feriados y Gantt</div>
+    </div>
+    <div class="tool-card-body">
+      <ul class="tool-features">
+        <li><div class="feat-dot">🌎</div>Feriados 2026 de Chile, México, España, Venezuela, Colombia y Argentina</li>
+        <li><div class="feat-dot">⏰</div>Zonas horarias en tiempo real y ventanas de overlap del equipo</li>
+        <li><div class="feat-dot">📅</div>Gantt visual con días hábiles, fines de semana y festivos marcados</li>
+        <li><div class="feat-dot">🔗</div>Etapas secuenciales con dependencias y aprobaciones configurables</li>
+        <li><div class="feat-dot">📝</div>Texto automático para cliente con fecha de entrega estimada</li>
+      </ul>
+      <div class="tool-meta">
+        <span class="tool-tag">6 países</span>
+        <span class="tool-tag">Feriados reales</span>
+        <span class="tool-tag">Gantt</span>
+        <span class="tool-tag">Multi-rol</span>
+      </div>
+      <a href="hackea-planificador-v1.html" class="tool-btn secondary">→ Abrir Planificador</a>
+    </div>
+  </div>
+
+  <!-- COTIZADOR DE FORMACIÓN -->
+  <div class="tool-card">
+    <div class="tool-card-top light">
+      <div class="tool-badge">Disponible · v1.0</div>
+      <div class="tool-icon">🎯</div>
+      <div class="tool-name">Cotizador de Formación</div>
+      <div class="tool-tagline">Cotiza ejecución de formación sincrónica y genera PPTX editable</div>
+    </div>
+    <div class="tool-card-body">
+      <ul class="tool-features">
+        <li><div class="feat-dot">👥</div>Escenarios A/B/C de participantes con distribución por horarios</li>
+        <li><div class="feat-dot">📅</div>Hasta 3 horarios en paralelo con cronograma Gantt automático</li>
+        <li><div class="feat-dot">💼</div>Relatores y ayudantes por hora o mensual con retención honorarios</li>
+        <li><div class="feat-dot">🎯</div>Modo precio objetivo (VHC) con cálculo de margen efectivo</li>
+        <li><div class="feat-dot">🎨</div>Exporta propuesta PPTX editable con identidad Hackea</li>
+      </ul>
+      <div class="tool-meta">
+        <span class="tool-tag">Sincrónica</span>
+        <span class="tool-tag">SENCE</span>
+        <span class="tool-tag">Gantt</span>
+        <span class="tool-tag">PPTX</span>
+        <span class="tool-tag">Chile 2026</span>
+      </div>
+      <a href="cotizador-formacion.html" class="tool-btn">→ Abrir Cotizador</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- NOTA HACKEA.PRO -->
+<div style="max-width:1280px;margin:0 auto 48px;padding:0 32px">
+  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:20px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+    <div style="font-size:22px">🌐</div>
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">¿Buscas cotizar con un cliente?</div>
+      <div style="font-size:11px;color:var(--muted)">El cotizador público para clientes estará disponible en el sitio web de Hackea. Allí los clientes podrán armar su propio presupuesto e-learning directamente.</div>
+    </div>
+    <a href="https://www.hackea.pro" target="_blank" style="text-decoration:none;background:var(--text);color:#fff;font-size:11px;font-weight:700;padding:9px 18px;border-radius:8px;white-space:nowrap">→ Ir a hackea.pro</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">HACK<span>EA</span></div>
+  <div class="footer-links">
+    <a href="/cdn-cgi/l/email-protection#fe97909891be969f9d959b9fd08e8c91"><span class="__cf_email__" data-cfemail="abc2c5cdc4ebc3cac8c0ceca85dbd9c4">[email&#160;protected]</span></a>
+    <a href="https://www.hackea.pro" target="_blank">hackea.pro</a>
+  </div>
+  <div class="footer-copy">© 2026 Hackea · Uso interno</div>
+</footer>
+
+</body>
+</html>
